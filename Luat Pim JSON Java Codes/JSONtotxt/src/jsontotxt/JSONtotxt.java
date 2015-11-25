@@ -16,10 +16,14 @@ public class JSONtotxt
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException 
         {
+                JSONObject mainobj = new JSONObject();
+            
+                JSONArray user = new JSONArray();
                 
-		JSONObject obj = new JSONObject();
-                //information for register phase
-		obj.put("Firstname", "Luat");
+                JSONObject obj = new JSONObject();
+                     
+                 //information for register phase
+		obj.put("Firstname","Luat");
                 obj.put("Lastname", "Nguyen");
                 obj.put("Email","120567wolfert@gmail.com");
                 obj.put("Password","iamironman96");
@@ -42,19 +46,22 @@ public class JSONtotxt
 		courses.add("Computer Organization : 5");
 		courses.add("Object-Oriented Programming : 3");
 		obj.put("Course list", courses);
+                user.add(obj);
+                
+                mainobj.put("120567wolfert@gmail.com", user);
              
                 
 		
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 JsonParser jp = new JsonParser();
-                JsonElement je = jp.parse(obj.toJSONString());
+                JsonElement je = jp.parse(mainobj.toJSONString());
                 String prettyJsonString = gson.toJson(je);
  
-		try (FileWriter file = new FileWriter("D:/Users/12056/Desktop/S-Buddy/Java/JSONtotxt/120567wolfert@gmail.com.txt")) 
+		try (FileWriter file = new FileWriter("database.json")) 
                 {
 			file.write(prettyJsonString);
 			System.out.println("Successfully Copied JSON Object to File...");
-			System.out.println("\nJSON Object: " + obj);
+			System.out.println("\nJSON Object: " + mainobj);
 		}
 	}
 }
