@@ -57,7 +57,7 @@ public class JSONtotxt
                 JsonElement je = jp.parse(mainobj.toJSONString());
                 String prettyJsonString = gson.toJson(je);
  
-		try (FileWriter file = new FileWriter("database.json")) 
+		try (FileWriter file = new FileWriter("D:/Users/12056/Desktop/GitHub/SBuddy/Luat Pim JSON Java Codes/database.json")) 
                 {
 			file.write(prettyJsonString);
 			System.out.println("Successfully Copied JSON Object to File...");

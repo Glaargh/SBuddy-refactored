@@ -18,7 +18,7 @@ public class JSONfromtxt
             {
 
                 Object obj = parser.parse(new FileReader(
-                        "D:/Users/12056/Desktop/S-Buddy/Java/JSONtotxt/120567wolfert@gmail.com.txt"));
+                        "D:/Users/12056/Desktop/GitHub/SBuddy/Luat Pim JSON Java Codes/database.json"));
 
                 JSONObject jsonObject = (JSONObject) obj;
 
