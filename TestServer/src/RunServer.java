@@ -7,8 +7,6 @@ public class RunServer {
 		socketFrame.startServer();
 		
 		
-		Client socketFrame2 = new Client();
-		socketFrame2.setVisible(true);
-		socketFrame2.startClient();
+		
 	}
 }
