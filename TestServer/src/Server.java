@@ -4,56 +4,38 @@ import javax.swing.*;
 
 
 public class Server extends JFrame{
-	Socket connection =  null;
-	ServerSocket listenSocket = null;
-	BufferedReader in = null;
-	PrintWriter out = null;
+
+	public static void main(String[] args) throws NumberFormatException, IOException{
+
+		Server socketFrame = new Server();
+		socketFrame.setVisible(false);
+		socketFrame.startServer();
+	}
+	public void startServer() throws IOException{
+		
+			
+			ServerSocket listenSocket = new ServerSocket(50);
+			System.out.println("Port Created: "+ listenSocket.isBound());
+			Socket connection = listenSocket.accept();
 	
-	public void startServer(){
 		
-		
-		int first, second, sum;
-		
-		
-		try{
-			listenSocket = new ServerSocket(4321);
-		}
-		catch(IOException e){
-			System.out.println("Port bezet");
-		}
-		
-		try{
-			connection = listenSocket.accept();
-		}
-		catch(IOException e){
-			System.out.println("Accept failed: 4321");
-			System.exit(-1);
+	
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			PrintWriter out = new PrintWriter(connection.getOutputStream(), true);
+	
+
+		String message = in.readLine();
+		System.out.println(message);
+		if(message != null)
+		{
+			out.println("We have received your message!");
+		}	
+		else 
+		{
+			out.println("Sorry, there is an error.");
 		}
 		
-		try{
-			in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			out = new PrintWriter(connection.getOutputStream(), true);
-		}
-		catch(IOException e){
-			System.out.println("fail");
-		}
-		
-		while(true){
-			try{
-				first = Integer.parseInt(in.readLine());
-				second = Integer.parseInt(in.readLine());
-				
-				sum = first + second;
-				System.out.println(sum);
-				out.println(sum);
-			}
-			catch(IOException e){
-				System.out.println(e);
-			}
-		}
-		
-		
-		
+		listenSocket.close();
 	}
 	
 	
