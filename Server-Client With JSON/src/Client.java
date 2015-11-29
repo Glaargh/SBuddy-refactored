@@ -1,11 +1,18 @@
 import java.io.*;
 import java.net.*;
-public class Client{
+import java.nio.charset.StandardCharsets;
+public class Client extends InputToJson
+{
 	
 	 public static void main(String args[])
 	    {
 		 	Client client = new Client();
-	        client.run();
+	        try {
+				client.run();
+			} catch (InterruptedException e) {
+				// TODO Auto-generatesed catch block
+				e.printStackTrace();
+			}
 	    }
 	
 	
@@ -14,7 +21,7 @@ public class Client{
     BufferedReader in;
     String message;
     Client(){}
-    void run()
+    void run() throws InterruptedException
     {
         try{
             //1. creating a socket to connect to the server
@@ -30,12 +37,24 @@ public class Client{
             BufferedReader userInputBR = new BufferedReader(new InputStreamReader(System.in));
             //3: Communicating with the server
             do{
+            	
                 message = (String)in.readLine();
+                //message to ensure Connection is established.
 				System.out.println("server>" + message);
+				
 				String userInput = userInputBR.readLine();
 				message = userInput;
-				sendMessage(message);
-            }while(!message.equals("bye"));
+				
+				if (message.equals("Submit")&& InputtoJSON()!= null)
+				{//Json String will be send here to the server if "Submit" is entered. At the server it will be saved to a file
+						sendMessage("INCOMING-JSON" + InputtoJSON());
+				}
+				else
+				{sendMessage(message);}
+ 			
+            }while(!message.equals("exit"));
+            
+          
         }
         catch(UnknownHostException unknownHost){
             System.err.println("You are trying to connect to an unknown host!");

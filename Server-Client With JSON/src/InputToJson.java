@@ -1,5 +1,3 @@
-package jsontotxt;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -12,25 +10,25 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-public class JSONtotxt
+public class InputToJson 
 {
-    @SuppressWarnings("unchecked")
-    public static void main(String[] args) throws IOException 
-    {
-        JSONParser parser = new JSONParser();
-        try 
-        {
-            Object x = parser.parse(new FileReader(
-                    "D:/Users/12056/Desktop/GitHub/S-Buddy/Luat Pim JSON Java Codes/database.json"));
 
-            JSONArray ALL = (JSONArray) x;
-            JSONObject mainobj = new JSONObject();
+	
+
+	static String STRING;
+    @SuppressWarnings("unchecked")
+    //This methods return the Input information from the user as a Json String.
+    public static String InputtoJSON() throws IOException  
+    {
+
             JSONArray userinfo = new JSONArray();
             JSONObject obj = new JSONObject();
-            
+            JSONObject mainobj = new JSONObject();
             //fill in your email here instead (you can only use this email once because it will be added into the system)
-            String UserID = "pimdhn@gmail.com";
-            Boolean CheckIfExists = new Boolean(userexists(ALL, UserID));
+            String UserID = "1pimwwwhn@gmail.com";
+            //this is for check if user exist at the end of the server
+            int IDLength = UserID.length();
+
             
             //information for register phase
             obj.put("Firstname", "Pim");
@@ -66,38 +64,14 @@ public class JSONtotxt
             //Here things are added together
             userinfo.add(obj);
             mainobj.put(UserID, userinfo);
-            ALL.add(mainobj);
-
-            // this will check for whether the given email (user) is already in the system, before creating new user.
-            if (CheckIfExists) 
-            {
-                System.out.print("Sorry, but your email already exist in our system");
-            } 
-            else 
-            {
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                JsonParser jp = new JsonParser();
-                JsonElement je = jp.parse(ALL.toJSONString());
-                String prettyJsonString = gson.toJson(je);
-                try (FileWriter file = new FileWriter("D:/Users/12056/Desktop/GitHub/S-Buddy/Luat Pim JSON Java Codes/database.json", false)) 
-                {
-                    file.write(prettyJsonString);
-                    System.out.println("Successfully Copied JSON Object to File...");
-                    System.out.println("\nJSON Object: " + mainobj);
-                }
-            }
-
-        } catch (Exception e) 
-        {
-            e.printStackTrace();
-        }
+            
+            //String yo = mainobj.toJSONString() +"   "+ IDLength;
+            //int foo = Integer.parseInt(yo.substring( yo.lastIndexOf(" ")+1));
+            //System.out.println(foo);
+            
+            return mainobj.toJSONString() +"   "+ IDLength;
 
     }
 
-    private static boolean userexists(JSONArray jsonArray, String usernameToFind) 
-    {//method to find out if the inserted string (email) already exist in the system.
-
-        return jsonArray.toString().contains(usernameToFind);
-    }
 
 }
