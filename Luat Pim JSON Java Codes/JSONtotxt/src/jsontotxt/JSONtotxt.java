@@ -21,7 +21,7 @@ public class JSONtotxt
         try 
         {
             Object x = parser.parse(new FileReader(
-                    "D:/Users/12056/Desktop/GitHub/S-Buddy/Luat Pim JSON Java Codes/database.json"));
+                    "D:/Users/12056/Desktop/GitHub/SBuddy/Luat Pim JSON Java Codes/database.json"));
 
             JSONArray ALL = (JSONArray) x;
             JSONObject mainobj = new JSONObject();
@@ -29,7 +29,7 @@ public class JSONtotxt
             JSONObject obj = new JSONObject();
             
             //fill in your email here instead (you can only use this email once because it will be added into the system)
-            String UserID = "pimdhn@gmail.com";
+            String UserID = "pimdrhn@gmail.com";
             Boolean CheckIfExists = new Boolean(userexists(ALL, UserID));
             
             //information for register phase
@@ -79,7 +79,7 @@ public class JSONtotxt
                 JsonParser jp = new JsonParser();
                 JsonElement je = jp.parse(ALL.toJSONString());
                 String prettyJsonString = gson.toJson(je);
-                try (FileWriter file = new FileWriter("D:/Users/12056/Desktop/GitHub/S-Buddy/Luat Pim JSON Java Codes/database.json", false)) 
+                try (FileWriter file = new FileWriter("D:/Users/12056/Desktop/GitHub/SBuddy/Luat Pim JSON Java Codes/database.json", false)) 
                 {
                     file.write(prettyJsonString);
                     System.out.println("Successfully Copied JSON Object to File...");
