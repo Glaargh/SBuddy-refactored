@@ -20,7 +20,7 @@ public class JSONToFileOnServer {
 		  try 
 	        {
 		 Object x = parser.parse(new FileReader(
-                "D:/Users/12056/Desktop/GitHub/SBuddy/Server-Client With JSON/database.json"));
+                "D:/Users/12056/Desktop/GitHub/S-Buddy/database.json"));
     	 Database = (JSONArray) x;
     	 int IDLength = Integer.parseInt(JsonObject.substring( JsonObject.lastIndexOf(" ")+1));   	 
     	 String JsonObjectFromClient = JsonObject.substring(13, JsonObject.length()- 4 );
@@ -36,7 +36,7 @@ public class JSONToFileOnServer {
          JsonElement je = jp.parse(Database.toJSONString());
          String prettyJsonString = gson.toJson(je);
          
-         try (FileWriter file = new FileWriter("D:/Users/12056/Desktop/GitHub/SBuddy/Server-Client With JSON/database.json", false)) 
+         try (FileWriter file = new FileWriter("D:/Users/12056/Desktop/GitHub/S-Buddy/database.json", false)) 
          {
              file.write(prettyJsonString);
              System.out.println("Successfully Copied JSON Object to File...");
