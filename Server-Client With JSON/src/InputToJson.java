@@ -14,21 +14,18 @@ public class InputToJson
 {
 
 	
-
 	static String STRING;
     @SuppressWarnings("unchecked")
     //This methods return the Input information from the user as a Json String.
     public static String InputtoJSON() throws IOException  
     {
-
             JSONArray userinfo = new JSONArray();
             JSONObject obj = new JSONObject();
             JSONObject mainobj = new JSONObject();
             //fill in your email here instead (you can only use this email once because it will be added into the system)
-            String UserID = "1pimwwwhn@gmail.com";
+            String UserID = "pieemdhn@gmail.com";
             //this is for check if user exist at the end of the server
             int IDLength = UserID.length();
-
             
             //information for register phase
             obj.put("Firstname", "Pim");
@@ -37,38 +34,31 @@ public class InputToJson
             obj.put("Password", "wordpassd1");
             
             //information for profile tab
-            obj.put("Piclink", "https://www.science.unsw.edu.au/files/news/527C868C9284958A22F9E4D448BDDA12.JPG");
-            obj.put("Gender", "Male");
-            obj.put("Age", "18");
-            obj.put("Description", "I love to study with other people!");
+            obj.put("Piclink", "null");
+            obj.put("Gender", "null");
+            obj.put("Age", "null");
+            obj.put("Description", "null");
             obj.put("CountryOfResidence", "The Netherlands");
-            obj.put("CityOfResidence", "Delft");
+            obj.put("CityOfResidence", "null");
             
             //contact information
-            obj.put("Phone", "0647673112");
+            obj.put("Phone", "null");
             
             //career information
-            obj.put("CurrentUniversity", "Technical University of Delft");
-            obj.put("CurrentStudy", "Computer Science");
-            obj.put("StudyPeriod", "2015-2018");
+            obj.put("CurrentUniversity", "null");
+            obj.put("CurrentStudy", "null");
+            obj.put("StudyPeriod", "null");
             
             //Interested courses
             JSONArray courses = new JSONArray();
-            courses.add("Redeneren en Logica : 5");
-            courses.add("Computer Organization : 3");
-            courses.add("Object-Oriented Programming : 3");
-            courses.add("OOP Project : 3");
-            courses.add("Calculus : 3");
+            courses.add(null);
             obj.put("Course list", courses);
             
             //Here things are added together
             userinfo.add(obj);
             mainobj.put(UserID, userinfo);
             
-            //String yo = mainobj.toJSONString() +"   "+ IDLength;
-            //int foo = Integer.parseInt(yo.substring( yo.lastIndexOf(" ")+1));
-            //System.out.println(foo);
-            
+      
             return mainobj.toJSONString() +"   "+ IDLength;
 
     }
