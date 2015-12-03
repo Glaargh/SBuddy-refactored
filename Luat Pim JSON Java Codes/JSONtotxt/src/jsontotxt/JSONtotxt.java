@@ -21,7 +21,7 @@ public class JSONtotxt
         try 
         {
             Object x = parser.parse(new FileReader(
-                    "D:/Users/12056/Desktop/GitHub/SBuddy/Luat Pim JSON Java Codes/database.json"));
+                    "C:/Users/Pim Dhaen/Desktop/SBuddy/Server-Client With JSON/database.json"));
 
             JSONArray ALL = (JSONArray) x;
             JSONObject mainobj = new JSONObject();
@@ -79,7 +79,7 @@ public class JSONtotxt
                 JsonParser jp = new JsonParser();
                 JsonElement je = jp.parse(ALL.toJSONString());
                 String prettyJsonString = gson.toJson(je);
-                try (FileWriter file = new FileWriter("D:/Users/12056/Desktop/GitHub/SBuddy/Luat Pim JSON Java Codes/database.json", false)) 
+                try (FileWriter file = new FileWriter("C:/Users/Pim Dhaen/Desktop/SBuddy/Server-Client With JSON/database.json", false)) 
                 {
                     file.write(prettyJsonString);
                     System.out.println("Successfully Copied JSON Object to File...");

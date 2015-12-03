@@ -2,41 +2,70 @@
   {
     "120567wolfert@gmail.com": [
       {
-        "CountryOfResidence": "The Netherlands",
-        "CurrentStudy": "Computer Science",
         "Piclink": "http://icons.iconarchive.com/icons/aha-soft/free-large-boss/512/Admin-icon.png",
-        "Email": "120567wolfert@gmail.com",
+        "Age": "19",
+        "CurrentStudy": "Computer Science",
         "Description": "Highly motivated student seeking (internship) opportunities in the field of Computer Communications or Artificial Intelligence. Interested in improving and combining leadership, communications skills and interpersonal abilities to positively contribute to an organization\u0027s cooperate, while gaining valuable experience. Value a leadership with strong vision and virtue ethics. Trilingual: fluent in English, Dutch, Vietnamese and a beginner in Chinese.",
-        "Lastname": "Nguyen",
-        "StudyPeriod": "2015-2019",
-        "Gender": "Male",
-        "Firstname": "Luat",
         "Phone": "0633680503",
+        "StudyPeriod": "2015-2019",
+        "CurrentUniversity": "Technical University of Delft",
+        "CountryOfResidence": "The Netherlands",
+        "Password": "iamironman96",
+        "CityOfResidence": "Rotterdam",
+        "Email": "120567wolfert@gmail.com",
+        "Gender": "Male",
+        "Lastname": "Nguyen",
+        "Firstname": "Luat",
         "Course list": [
           "Calculus : 4",
           "Computer Organization : 5",
           "Object-Oriented Programming : 3"
-        ],
-        "CityOfResidence": "Rotterdam",
-        "CurrentUniversity": "Technical University of Delft",
-        "Age": "19",
-        "Password": "iamironman96"
+        ]
       }
     ]
   },
   {
     "pimdhn@gmail.com": [
       {
-        "CountryOfResidence": "The Netherlands",
-        "CurrentStudy": "Computer Science",
         "Piclink": "https://www.science.unsw.edu.au/files/news/527C868C9284958A22F9E4D448BDDA12.JPG",
-        "Email": "pimdhn@gmail.com",
+        "Age": "18",
+        "CurrentStudy": "Computer Science",
         "Description": "I love to study with other people!",
-        "Lastname": "Dhaen",
-        "StudyPeriod": "2015-2018",
-        "Gender": "Male",
-        "Firstname": "Pim",
         "Phone": "0647673112",
+        "StudyPeriod": "2015-2018",
+        "CurrentUniversity": "Technical University of Delft",
+        "CountryOfResidence": "The Netherlands",
+        "Password": "wordpassd1",
+        "CityOfResidence": "Delft",
+        "Email": "pimdhn@gmail.com",
+        "Gender": "Male",
+        "Lastname": "Dhaen",
+        "Firstname": "Pim",
+        "Course list": [
+          "Redeneren en Logica : 5",
+          "Computer Organization : 3",
+          "Object-Oriented Programming : 3",
+          "OOP Project : 3",
+          "Calculus : 3"
+        ]
+      }
+    ]
+  },
+  {
+    "pimdrhn@gmail.com": [
+      {
+        "Piclink": "https://www.science.unsw.edu.au/files/news/527C868C9284958A22F9E4D448BDDA12.JPG",
+        "CurrentStudy": "Computer Science",
+        "Age": "18",
+        "Description": "I love to study with other people!",
+        "Phone": "0647673112",
+        "StudyPeriod": "2015-2018",
+        "CurrentUniversity": "Technical University of Delft",
+        "CountryOfResidence": "The Netherlands",
+        "Password": "wordpassd1",
+        "CityOfResidence": "Delft",
+        "Email": "pimdrhn@gmail.com",
+        "Gender": "Male",
         "Course list": [
           "Redeneren en Logica : 5",
           "Computer Organization : 3",
@@ -44,10 +73,8 @@
           "OOP Project : 3",
           "Calculus : 3"
         ],
-        "CityOfResidence": "Delft",
-        "CurrentUniversity": "Technical University of Delft",
-        "Age": "18",
-        "Password": "wordpassd1"
+        "Firstname": "Pim",
+        "Lastname": "Dhaen"
       }
     ]
   }
