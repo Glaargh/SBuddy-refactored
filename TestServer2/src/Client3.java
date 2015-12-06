@@ -1,15 +1,15 @@
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
-public class Client2 
+public class Client3 
 {
 	//Run the Server class and then the Client Class. Go to re Client Class, fill in your credentials below. 
 	//Type "Login" to login, if you want to login but haven't registered yet it will refuse. 
 	//Type "Register" to create and account, if the entered email is already taken it will refuse. After register you can login.
-	String Firstname = "Jake";
-	String Lastname = "Perrella";
-	String Email = "12345@gmail.com";
-	String Password = "helloworld";
+	String Firstname = "TestName";
+	String Lastname = "TestLastName";
+	String Email = "test";
+	String Password = "testpass";
 	 public static void main(String args[])
 	    {
 		 	Client client = new Client();
@@ -26,7 +26,7 @@ public class Client2
     PrintWriter out;
     BufferedReader in;
     String message;
-    Client2(){}
+    Client3(){}
     void run() throws InterruptedException
     {
         try{

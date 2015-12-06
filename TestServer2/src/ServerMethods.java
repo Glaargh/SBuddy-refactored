@@ -1,9 +1,13 @@
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -11,6 +15,7 @@ import com.google.gson.JsonParser;
 
 public class ServerMethods {
 	
+	@SuppressWarnings("unchecked")
 	public static String Login(String LoginCredentials) 
 	{
 		String loginrespond = null;

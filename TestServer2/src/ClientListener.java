@@ -21,14 +21,28 @@ public class ClientListener implements Runnable {
             in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             sendMessage("Connection successful");
             
-            //4. The two parts communicate via the input and output streams
             do{
                 message = (String)in.readLine();
 				System.out.println("client>" + message);
-				sendMessage(message);
-				if (message.equals("bye"))
-				    sendMessage("bye");
-            }while(!message.equals("bye"));
+				if (message.contains("INCOMING-REGISTER"))
+				{
+
+					sendMessage(ServerMethods.Register(message)); 
+				}
+				else if (message.contains("INCOMING-LOGIN"))
+				{
+
+					sendMessage(ServerMethods.Login(message));
+				}
+				else if(message.equals(message))
+				{sendMessage(message);}
+				
+				
+				if (message.equals("exit"))
+				{
+				    sendMessage("exit");
+				}
+            }while(!message.equals("exit"));
         }
         catch(IOException ioException){
             ioException.printStackTrace();

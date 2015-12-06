@@ -2,14 +2,14 @@ import java.io.*;
 import java.net.*;
 
 import org.json.simple.parser.ParseException;
-public class Server 
+public class Provider 
 {
 	public static void main(String args[])
     {
-		Server server = new Server();
+		Provider provider = new Provider();
         while(true)
         {
-            server.run();
+            provider.run();
         }
     }
     ServerSocket providerSocket;
@@ -17,9 +17,7 @@ public class Server
     PrintWriter out;
     BufferedReader in;
     String message;
-    Server(){}
-    String UglyJson;
-    String PrettyJson;
+    Provider(){}
     void run() 
     {
         try{

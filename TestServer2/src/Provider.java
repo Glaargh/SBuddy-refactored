@@ -1,7 +1,17 @@
 import java.io.*;
 import java.net.*;
-public class Provider{
-    ServerSocket providerSocket;
+public class Provider
+{
+	 public static void main(String args[])
+	    {
+	        Provider server = new Provider();
+	        while(true)
+	        {
+	            server.run();
+	        }
+	    }
+	
+	ServerSocket providerSocket;
     Socket connection = null;
     private ClientListener listener;
     Provider(){}
@@ -35,11 +45,4 @@ public class Provider{
         }  
     }
     
-    public static void main(String args[])
-    {
-        Provider server = new Provider();
-        while(true){
-            server.run();
-        }
-    }
 }
