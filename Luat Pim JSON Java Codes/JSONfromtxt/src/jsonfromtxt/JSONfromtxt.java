@@ -18,8 +18,8 @@ public class JSONfromtxt
         try 
         {
 
-            Object obj = parser.parse(new FileReader(
-                    "D:/Users/12056/Desktop/GitHub/SBuddy/Luat Pim JSON Java Codes/database.json"));
+            Object obj = parser.parse(new FileReader("C:/Users/Pim Dhaen/Desktop/SBuddy/Server-Client With JSON/database.json"));
+    
 
             JSONArray ALL = (JSONArray) obj;
             System.out.println(userexists(ALL, "pimdhn@gmail.com"));
