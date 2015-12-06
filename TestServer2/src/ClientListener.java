@@ -12,8 +12,8 @@ public class ClientListener implements Runnable {
     
     public void run()
     {
-        try{
-           String message;
+        String message;
+    	try{
             
             //3. get Input and Output streams
             out = new PrintWriter(connection.getOutputStream(), true);

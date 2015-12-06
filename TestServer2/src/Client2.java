@@ -18,7 +18,7 @@ public class Client2{
     {
         try{
             //1. creating a socket to connect to the server
-            requestSocket = new Socket("localhost", 2055);
+            requestSocket = new Socket("localhost", 8080);
             System.out.println("Connected to " + requestSocket.getInetAddress() + " on port "
 			          + requestSocket.getPort() + " from port " + requestSocket.getLocalPort() + " of "
 			          + requestSocket.getLocalAddress());

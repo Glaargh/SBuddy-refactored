@@ -13,19 +13,19 @@ public class Client{
     PrintWriter out;
     BufferedReader in;
     String message;
-    //Client(){}
+    Client(){}
     void run()
     {
         try{
             //1. creating a socket to connect to the server
-            requestSocket = new Socket("localhost", 2055);
+            requestSocket = new Socket("localhost", 8080);
             System.out.println("Connected to " + requestSocket.getInetAddress() + " on port "
 			          + requestSocket.getPort() + " from port " + requestSocket.getLocalPort() + " of "
 			          + requestSocket.getLocalAddress());
             //2. get Input and Output streams
             
             out = new PrintWriter(requestSocket.getOutputStream(), true);
-            //out.flush();
+            out.flush();
             in = new BufferedReader(new InputStreamReader(requestSocket.getInputStream()));
             BufferedReader userInputBR = new BufferedReader(new InputStreamReader(System.in));
             //3: Communicating with the server
