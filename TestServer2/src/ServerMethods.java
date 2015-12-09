@@ -14,7 +14,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 public class ServerMethods {
-	
+	//Put your database path under here(Change \ to / if you gonna copy and paste the path)
+static String DatabasePath ="D:/Users/12056/Desktop/GitHub/SBuddy/TestServer2/database.json";	
+
 	@SuppressWarnings("unchecked")
 	public static String Login(String LoginCredentials) 
 	{
@@ -22,8 +24,7 @@ public class ServerMethods {
 		JSONParser parser = new JSONParser();
 		 try 
 	        {
-			  	Object x = parser.parse(new FileReader(
-			  	"D:/Users/12056/Desktop/GitHub/SBuddy/Server-Client With JSON 2 (nieuw)/database.json"));
+			  	Object x = parser.parse(new FileReader(DatabasePath));
 			  	JSONArray Database = (JSONArray) x;
 			  	String[] arr = LoginCredentials.split("          ");  
 			  	String UserID = arr[0].substring(14);
@@ -39,14 +40,15 @@ public class ServerMethods {
 	        } catch (Exception e) {e.printStackTrace();}
 		return loginrespond;
 	}
+	
+	
 	public static String Register(String JsonObject) 
 	{
 		String loginrespond = null;
 		JSONParser parser = new JSONParser();
 		  try 
 	        {
-		 Object x = parser.parse(new FileReader(
-                "D:/Users/12056/Desktop/GitHub/SBuddy/Server-Client With JSON 2 (nieuw)/database.json"));
+		 Object x = parser.parse(new FileReader(DatabasePath));
 		 JSONArray Database = (JSONArray) x;
     	 int IDLength = Integer.parseInt(JsonObject.substring( JsonObject.lastIndexOf(" ")+1));   	 
     	 String JsonObjectFromClient = JsonObject.substring(17, JsonObject.length()- 4 );
@@ -64,7 +66,7 @@ public class ServerMethods {
              JsonElement je = jp.parse(Database.toJSONString());
              String prettyJsonString = gson.toJson(je);
              
-             try (FileWriter file = new FileWriter("D:/Users/12056/Desktop/GitHub/SBuddy/Server-Client With JSON 2 (nieuw)/database.json", false)) 
+             try (FileWriter file = new FileWriter(DatabasePath, false)) 
              {
                  file.write(prettyJsonString);
              }
@@ -75,12 +77,6 @@ public class ServerMethods {
 		  return loginrespond;
 	}
 
-	
-	
-	
-	
-	
-	
 	
 	
     private static boolean StringExist(JSONArray jsonArray, String usernameToFind) 

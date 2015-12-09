@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 public class Client3 
 {
 	//Run the Server class and then the Client Class. Go to re Client Class, fill in your credentials below. 
@@ -10,11 +11,17 @@ public class Client3
 	String Lastname = "TestLastName";
 	String Email = "test";
 	String Password = "testpass";
+	
+	static String HostIP;
+
 	 public static void main(String args[])
-	    {
-		 	Client client = new Client();
+	    {//when create new client also change the name 
+		 	Scanner sc = new Scanner(System.in);
+			System.err.println("Please enter Host IP");
+		 	HostIP = sc.next();
+		 	Client3 client = new Client3();
 	        try {
-				client.run();
+				client.run(HostIP);
 			} catch (InterruptedException e) {
 				// TODO Auto-generatesed catch block
 				e.printStackTrace();
@@ -27,11 +34,12 @@ public class Client3
     BufferedReader in;
     String message;
     Client3(){}
-    void run() throws InterruptedException
+    void run(String IP) throws InterruptedException
     {
         try{
             //1. creating a socket to connect to the server
-            requestSocket = new Socket("localhost", 8080);
+        	System.out.println("Connecting...");
+            requestSocket = new Socket(IP, 8080);
             System.out.println("Connected to " + requestSocket.getInetAddress() + " on port "
 			          + requestSocket.getPort() + " from port " + requestSocket.getLocalPort() + " of "
 			          + requestSocket.getLocalAddress());
@@ -70,6 +78,7 @@ public class Client3
         }
         catch(UnknownHostException unknownHost){
             System.err.println("You are trying to connect to an unknown host!");
+            Client3.main(new String[0]);
         }
         catch(IOException ioException){
             ioException.printStackTrace();

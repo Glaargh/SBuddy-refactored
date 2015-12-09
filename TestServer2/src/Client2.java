@@ -12,7 +12,8 @@ public class Client2
 	String Password = "helloworld";
 	 public static void main(String args[])
 	    {
-		 	Client client = new Client();
+		 	
+		 	Client2 client = new Client2();
 	        try {
 				client.run();
 			} catch (InterruptedException e) {
@@ -31,6 +32,7 @@ public class Client2
     {
         try{
             //1. creating a socket to connect to the server
+        	System.out.println("Connecting...");
             requestSocket = new Socket("localhost", 8080);
             System.out.println("Connected to " + requestSocket.getInetAddress() + " on port "
 			          + requestSocket.getPort() + " from port " + requestSocket.getLocalPort() + " of "
