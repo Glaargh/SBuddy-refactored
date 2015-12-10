@@ -18,7 +18,7 @@ public class ServerMethods {
 		 try 
 	        {
 			  	Object x = parser.parse(new FileReader(
-			  	"D:/Users/12056/Desktop/GitHub/SBuddy/Server-Client With JSON 2 (nieuw)/database.json"));
+			  	"database.json"));
 			  	JSONArray Database = (JSONArray) x;
 			  	String[] arr = LoginCredentials.split("          ");  
 			  	String UserID = arr[0].substring(14);
@@ -41,7 +41,7 @@ public class ServerMethods {
 		  try 
 	        {
 		 Object x = parser.parse(new FileReader(
-                "D:/Users/12056/Desktop/GitHub/SBuddy/Server-Client With JSON 2 (nieuw)/database.json"));
+                "database.json"));
 		 JSONArray Database = (JSONArray) x;
     	 int IDLength = Integer.parseInt(JsonObject.substring( JsonObject.lastIndexOf(" ")+1));   	 
     	 String JsonObjectFromClient = JsonObject.substring(17, JsonObject.length()- 4 );
@@ -59,7 +59,7 @@ public class ServerMethods {
              JsonElement je = jp.parse(Database.toJSONString());
              String prettyJsonString = gson.toJson(je);
              
-             try (FileWriter file = new FileWriter("D:/Users/12056/Desktop/GitHub/SBuddy/Server-Client With JSON 2 (nieuw)/database.json", false)) 
+             try (FileWriter file = new FileWriter("database.json", false)) 
              {
                  file.write(prettyJsonString);
              }
