@@ -15,7 +15,7 @@ import com.google.gson.JsonParser;
 
 public class ServerMethods {
 	//Put your database path under here(Change \ to / if you gonna copy and paste the path)
-static String DatabasePath ="D:/Users/12056/Desktop/GitHub/SBuddy/TestServer2/database.json";	
+static String DatabasePath ="database.json";	
 
 	@SuppressWarnings("unchecked")
 	public static String Login(String LoginCredentials) 
