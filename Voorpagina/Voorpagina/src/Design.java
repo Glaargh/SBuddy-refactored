@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 public class Design extends Application{
 	Label lb_text;
 	Label labels = new Label();
+	Label labelss = new Label();
 	
 	public static void main(String[] args){
 		launch(args);
@@ -27,35 +28,50 @@ public class Design extends Application{
 		
 		lb_text = new Label();
 		labels = new Label();
-		Label labelmin2 = new Label("Email:");
-		TextField email = new TextField ();
+		labelss = new Label();
+		final TextField email = new TextField ();
+		email.setPromptText("Email");
 		HBox hb1 = new HBox();
-		hb1.getChildren().addAll(labelmin2, email);
+		hb1.getChildren().addAll(email);
 		hb1.setSpacing(10);
 		
-		Label labelmin1 = new Label("Password:");
-		TextField password = new TextField ();
+		final TextField password = new TextField ();
+		password.setPromptText("Password");
 		HBox hb2 = new HBox();
-		hb2.getChildren().addAll(labelmin1, password);
+		hb2.getChildren().addAll(password);
 		hb2.setSpacing(10);
 		
 		Button button1 = new Button("Log in");
 		button1.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent args){
-				labels.setText("We are unable to process your request at this time.");
+				labels.setText("Hello " + email.getText() + ". Your password is " + password.getText() + ".");
 			}
 		});
+		
+		button1.getStyleClass().add("my_customLabel");
+		
+		password.getStyleClass().add("topFields");
+		email.getStyleClass().add("topFields");
+		HBox LoginHolder = new HBox();
+		LoginHolder.getChildren().addAll(hb1,hb2,button1);
+		
 		
 		Button button2 = new Button("Forgot your password?");
 		button2.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent args){
-				lb_text.setText("We'll recover your password for you shortly");
+				lb_text.setText("Your password will be sent to your emailaddress shortly.");
 			}
 		});
+		button2.getStyleClass().add("ForgotPassword");
 		
 		Label find = new Label("Find a study buddy");
+		find.getStyleClass().add("find");
 		Label free = new Label("get started - ");
 		Label free2 = new Label("it's free.");	
+		free2.getStyleClass().add("free2bolding");
+		HBox freeholder = new HBox();
+		freeholder.getChildren().addAll(free,free2);
+		freeholder.getStyleClass().add("freeholder");
 		
 		Label label1 = new Label("First name:");
 		TextField firstname = new TextField ();
@@ -81,19 +97,31 @@ public class Design extends Application{
 		hb6.getChildren().addAll(label4, passwords);
 		hb6.setSpacing(10);
 		
-//		Label displaytext = new Label("");
 		Button button3 = new Button("Join now");
 		button3.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent args){
-//				displaytext.setText("I'm sorry, we can't process your application right now.");
+				labelss.setText("We can't process your application at this moment. Please wait.");
 			}
 		});
 		
-		VBox root = new VBox();
-		root.getChildren().addAll(labelLogo,hb1,hb2,button1,labels,button2,lb_text,find,free,free2,hb3,hb4,hb5,hb6,button3);
+		HBox logInfoHolder = new HBox();
+		logInfoHolder.getChildren().addAll(hb3,hb4,hb5,hb6,button3,labelss);
+		hb3.getStyleClass().add("RegInfoContents");
+		hb4.getStyleClass().add("RegInfoContents");
+		hb5.getStyleClass().add("RegInfoContents");
+		hb6.getStyleClass().add("RegInfoContents");
+		button3.getStyleClass().add("RegInfoContents");
+		labelss.getStyleClass().add("RegInfoContents");
 		
-		Scene scenetest = new Scene(root, 700, 700);
+		logInfoHolder.getStyleClass().add("registerBox");
+		
+		VBox root = new VBox();
+		root.getChildren().addAll(labelLogo,LoginHolder,labels,button2,lb_text,find,freeholder,logInfoHolder);
+		
+		Scene scenetest = new Scene(root, 1600, 900);
 		primaryStage.setScene(scenetest);
+		
+		scenetest.getStylesheets().add("Voorpagina.css");
 		
 		primaryStage.show();
 	}
