@@ -20,10 +20,6 @@ public class Provider
         try{
         	//1. creating a server socket
         	providerSocket = new ServerSocket(8080);
-        	System.out.println(Inet4Address.getLocalHost().getHostAddress());
-        	System.out.println(InetAddress.getLocalHost().getHostAddress());
-        	System.out.println(Inet4Address.getLocalHost());
-        	System.out.println(InetAddress.getLocalHost());
         	//2. Wait for connection
         	System.out.println("Waiting for connection");
         }

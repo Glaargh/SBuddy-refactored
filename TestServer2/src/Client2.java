@@ -33,7 +33,7 @@ public class Client2
         try{
             //1. creating a socket to connect to the server
         	System.out.println("Connecting...");
-            requestSocket = new Socket("localhost", 8080);
+            requestSocket = new Socket("145.94.157.164", 8080);
             System.out.println("Connected to " + requestSocket.getInetAddress() + " on port "
 			          + requestSocket.getPort() + " from port " + requestSocket.getLocalPort() + " of "
 			          + requestSocket.getLocalAddress());
