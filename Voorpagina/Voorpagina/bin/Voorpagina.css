@@ -11,11 +11,13 @@
 	-fx-font-weight: bold;
 	-fx-background-color: #33cc33;
 	-fx-text-fill: #595959;
+	-fx-left:200px;
 }
 
 .button:hover{
 	-fx-background-color: #29a329;
 	-fx-text-fill: #404040;
+
 }
 
 .text-field{
@@ -62,6 +64,53 @@
 }
 
 .registerBox{
-/*    -fx-max-width: 600;
-    -fx-max-height: 500; Doesn't work right*/
+	-fx-background-color: #595959;
+}
+.logo{	
+	-fx-font-size: 37;
+}
+#pane{
+    -fx-background-image: url("imageGUI.jpg");
+    -fx-background-repeat: stretch;   
+    -fx-background-size: 1600 700;
+    -fx-background-position: center center;
+    //-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); 
+}
+.firstname{
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+	-fx-text-fill: #33cc33;
+}
+.lastname{
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+	-fx-text-fill: #33cc33;
+}
+.email{
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+	-fx-text-fill: #33cc33;
+}
+.passwd{
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+	-fx-text-fill: #33cc33;
+
+}
+/*
+.first{
+		-fx-padding:50;
+}
+.second{
+		-fx-padding:60;
+}
+.third{
+		-fx-padding:120;
+}
+.fourth{
+		-fx-padding:50;
+}*/
+.lgin{
+	-fx-background-color:#33cc33;
+	
 }
