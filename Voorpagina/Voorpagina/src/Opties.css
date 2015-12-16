@@ -1,0 +1,33 @@
+
+.button{
+	-fx-background-color: #ffff00;
+	-fx-text-fill: #000000;
+}
+
+.button:hover{
+	-fx-background-color: #b2b300;
+	-fx-text-fill: #1a1a1a;
+}
+
+.Background{
+	-fx-background-color: #333333;
+}
+
+.passwoord{
+	-fx-left: 200px;
+}
+.passwoordDisplayLabel{
+	-fx-text-fill: black;
+}
+
+.taalDisplayLabel{
+	-fx-text-fill: black;
+}
+
+.passwoordHoldR{
+	/**-fx-background-color: #0066ff;**/
+	-fx-min-width: 400px;
+	-fx-max-width: 400px;
+	-fx-min-height: 40px;
+	-fx-max-height: 41px;
+}
