@@ -164,10 +164,7 @@ public class Design extends Application {
 		hb6.getChildren().addAll(label4, passwords);
 		hb6.getStyleClass().add("fourth");
 		hb6.setSpacing(15);
-		
-		Pane rootVoorpagina = new Pane();
-		rootVoorpagina.setId("pane");
-		
+
 		/**
 		 * Maken van button om te joinen met placeholderfunctie.
 		 */
@@ -175,13 +172,6 @@ public class Design extends Application {
 		button3.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
 				labelss.setText("We can't process your application at this moment. Please wait.");
-				
-				Scene sceneVoorpagina = new Scene(rootVoorpagina, 1600, 900);
-				primaryStage.setScene(sceneVoorpagina);
-				
-				sceneVoorpagina.getStylesheets().add("ontwerp.css");
-				
-				primaryStage.show();
 			}
 		});
 
@@ -429,7 +419,10 @@ public class Design extends Application {
 		contactinfo.getChildren().addAll(mailbox, phonebox);
 		contactinfo.getStyleClass().add("contactinfoVBox");
 		
-		//PROFILE TAB CODEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+		
+		Pane rootVoorpagina = new Pane();
+		rootVoorpagina.setId("pane");
+		
 		
 		//root.getChildren().add(summary);
 		rootVoorpagina.getChildren().addAll(labellogo, helpout, overzicht, extra, name, desc, summary, summy, career, carinfo, basicinfo, basinfo, contact, contactinfo);
@@ -477,11 +470,11 @@ public class Design extends Application {
 		contactinfo.setLayoutY(550);
 		
 		
-		/*Scene sceneVoorpagina = new Scene(rootVoorpagina, 1600, 900);
+		Scene sceneVoorpagina = new Scene(rootVoorpagina, 1600, 900);
 		primaryStage.setScene(sceneVoorpagina);
 		
 		sceneVoorpagina.getStylesheets().add("ontwerp.css");
 		
-		*/primaryStage.show();
+		primaryStage.show();
 	}
 }
