@@ -1,33 +1,21 @@
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
-public class Client 
+public class Client implements Runnable
 {
-	//Run the Server class and then the Client Class. Go to re Client Class, fill in your credentials below. 
-	//Type "Login" to login, if you want to login but haven't registered yet it will refuse. 
+	//Run the Server class and then the Client Class. Go to re ClientInfo Class, fill in your credentials. 
+	//Type "Login" on the client console to login, if you want to login but haven't registered yet it will refuse. 
 	//Type "Register" to create and account, if the entered email is already taken it will refuse. After register you can login.
-	String Firstname = "Jake";
-	String Lastname = "Perrella";
-	String Email = "12345@gmail.com";
-	String Password = "helloworld";
-	 public static void main(String args[])
-	    {
-		 	Client client = new Client();
-	        try {
-				client.run();
-			} catch (InterruptedException e) {
-				// TODO Auto-generatesed catch block
-				e.printStackTrace();
-			}
-	    }
+
+	
 	
 	
     Socket requestSocket;
-    PrintWriter out;
-    BufferedReader in;
+    static PrintWriter out;
+    static BufferedReader in;
     String message;
     Client(){}
-    void run() throws InterruptedException
+    public void run()
     {
         try{
             //1. creating a socket to connect to the server
@@ -45,14 +33,18 @@ public class Client
             //3: Communicating with the server
             do{
             	
-                message = (String)in.readLine();
+                message = getMessage();
                 //message to ensure Connection is established.
 				System.out.println("server>" + message);
 				
 				String userInput = userInputBR.readLine();
 				message = userInput;
-				
-				if (message.equals("Register"))
+				if(message.contains("CHANGE"))
+				{
+				message= message.substring(message.indexOf(" "));
+				sendMessage("INCOMING-CHANGE " +message);
+				}
+				/*if (message.equals("Register"))
 				{//Json String will be send here to the server if "Submit" is entered. At the server it will be saved to a file
 						sendMessage("INCOMING-REGISTER" + ClientMethods.Register(Firstname, Lastname, Email,Password));
 				}
@@ -61,10 +53,11 @@ public class Client
 						sendMessage("INCOMING-LOGIN" + ClientMethods.Login(Email,Password));
 				}
 				else if(message.equals(message))
-				{sendMessage(message);}
+				*/
+				sendMessage(message);
 	
 
- 			
+ 		
             }while(!message.equals("exit"));
             
           
@@ -87,10 +80,16 @@ public class Client
             }
         }
     }
-    void sendMessage(String msg)
+    public static void sendMessage(String msg)
     {
         out.println(msg);
 		out.flush();
+
+    }
+    public static String getMessage() throws IOException
+    {
+    	String msg = (String)in.readLine();
+    	return msg;
 
     }
    

@@ -29,7 +29,6 @@ public class Provider
         while(true){
         	try{	
         		connection = providerSocket.accept();
-        		System.out.println("Connection received from " + connection.getInetAddress().getHostName());
         		System.out.println("Connected to " + connection.getInetAddress() + " on port "
 			          + connection.getPort() + " FROM port " + connection.getLocalPort() + " of "
 			          + connection.getLocalAddress());

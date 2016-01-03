@@ -1,12 +1,10 @@
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
+
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,9 +13,9 @@ import com.google.gson.JsonParser;
 
 public class ServerMethods {
 	//Put your database path under here(Change \ to / if you gonna copy and paste the path)
-static String DatabasePath ="database.json";	
+static String DatabasePath ="C:/Users/12056/workspace/Copy of TestServer2/database.json";	
 
-	@SuppressWarnings("unchecked")
+static user User = new user(null);
 	public static String Login(String LoginCredentials) 
 	{
 		String loginrespond = null;
@@ -31,11 +29,14 @@ static String DatabasePath ="database.json";
 			  	String Password = arr[1];
 			  	if(StringExist(Database,UserID) && StringExist(Database,Password))
 			  	{
-			  		loginrespond= "Welcome back!";
+			  		User = new user(UserID);
+			  		loginrespond= "Welcome back! " + User.toString();
+
+			  		
 			  	}
 			  	else 
 			  	{
-			  		loginrespond=  "Sorry, your email doesn't exist in our system";
+			  		loginrespond=  "Sorry, your email or password doesn't match. Try again.";
 			  	}
 	        } catch (Exception e) {e.printStackTrace();}
 		return loginrespond;
@@ -76,7 +77,14 @@ static String DatabasePath ="database.json";
 		  
 		  return loginrespond;
 	}
-
+	public static String modify(String modifycommand)
+	{
+		modifycommand = modifycommand.substring(modifycommand.indexOf(" ")).trim();
+		String key = modifycommand.substring(0, modifycommand.indexOf(" ")).trim();
+		String value = modifycommand.substring(modifycommand.indexOf(" ")).trim();
+		user.modify(key,value);
+		return "Successfully changed value";
+	}
 	
 	
     private static boolean StringExist(JSONArray jsonArray, String usernameToFind) 

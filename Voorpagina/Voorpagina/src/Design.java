@@ -229,7 +229,7 @@ public class Design extends Application {
 		/**
 		 * Scene maken en zetten als de scene voor primaryStage.
 		 */
-		Scene scenetest = new Scene(root, 1600, 900);
+		Scene scenetest = new Scene(root, 1800, 1200);
 		primaryStage.setScene(scenetest);
 
 		/**

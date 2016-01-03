@@ -7,10 +7,17 @@
         "Piclink": "http://icons.iconarchive.com/icons/aha-soft/free-large-boss/512/Admin-icon.png",
         "Email": "120567wolfert@gmail.com",
         "Description": "Highly motivated student seeking (internship) opportunities in the field of Computer Communications or Artificial Intelligence. Interested in improving and combining leadership, communications skills and interpersonal abilities to positively contribute to an organization\u0027s cooperate, while gaining valuable experience. Value a leadership with strong vision and virtue ethics. Trilingual: fluent in English, Dutch, Vietnamese and a beginner in Chinese.",
-        "Lastname": "Nguyen",
+        "Placepic": "http://www.tudelft.nl/uploads/RTEmagicC_comp.jpg.jpg",
+        "Lastname": "Lei",
         "StudyPeriod": "2015-2019",
         "Gender": "Male",
         "Firstname": "Luat",
+        "ChatDatabase": {
+          "SBuddybot": [
+            "SBuddybot(zo 8:36PM): Welcome to SBuddy, you have any trouble using this app, please click on \u0027Help\u0027. Happy Study!",
+            "Luat(zo 8:37PM): Hello SBuddybot, are you a real person???"
+          ]
+        },
         "Phone": "0633680503",
         "Course list": [
           "Calculus : 4",
@@ -32,10 +39,16 @@
         "Piclink": "https://www.science.unsw.edu.au/files/news/527C868C9284958A22F9E4D448BDDA12.JPG",
         "Email": "pimdhn@gmail.com",
         "Description": "I love to study with other people!",
+        "Placepic": "http://www.tudelft.nl/uploads/RTEmagicC_comp.jpg.jpg",
         "Lastname": "Dhaen",
         "StudyPeriod": "2015-2018",
         "Gender": "Male",
         "Firstname": "Pim",
+        "ChatDatabase": {
+          "SBuddybot": [
+            "SBuddybot(zo 8:36PM): Welcome to SBuddy, you have any trouble using this app, please click on \u0027Help\u0027. Happy Study!"
+          ]
+        },
         "Phone": "0647673112",
         "Course list": [
           "Redeneren en Logica : 5",
@@ -48,29 +61,6 @@
         "CurrentUniversity": "Technical University of Delft",
         "Age": "18",
         "Password": "wordpassd1"
-      }
-    ]
-  },
-  {
-    "wattt": [
-      {
-        "CountryOfResidence": "The Netherlands",
-        "CurrentStudy": "null",
-        "Piclink": "null",
-        "Email": "wattt",
-        "Description": "null",
-        "Lastname": "",
-        "StudyPeriod": "null",
-        "Gender": "null",
-        "Firstname": "",
-        "Phone": "null",
-        "Course list": [
-          null
-        ],
-        "CityOfResidence": "null",
-        "CurrentUniversity": "null",
-        "Age": "null",
-        "Password": "ddd"
       }
     ]
   }

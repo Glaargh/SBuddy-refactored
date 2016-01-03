@@ -1,5 +1,9 @@
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -33,6 +37,7 @@ public class ClientMethods
             
             //information for profile tab
             obj.put("Piclink", "null");
+            obj.put("Placepic", "null");
             obj.put("Gender", "null");
             obj.put("Age", "null");
             obj.put("Description", "null");
@@ -52,6 +57,18 @@ public class ClientMethods
             courses.add(null);
             obj.put("Course list", courses);
             
+            //chat client
+            JSONObject chat = new JSONObject();
+            String time =  ZonedDateTime.now().format(DateTimeFormatter.ofPattern("E h:ma"));
+            
+            JSONArray SBuddybot = new JSONArray();
+            SBuddybot.add("SBuddybot"+"("+time+"): " +"Welcome to SBuddy, you have any trouble using this app, please click on 'Help'. "
+            		+ "Happy Study!");
+            chat.put("SBuddybot", SBuddybot);
+            obj.put("ChatDatabase", chat);
+            
+            
+            
             //Here things are added together
             userinfo.add(obj);
             mainobj.put(ID, userinfo);
@@ -60,5 +77,5 @@ public class ClientMethods
 
     }
 
-
+    
 }

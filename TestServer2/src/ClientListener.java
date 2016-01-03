@@ -23,7 +23,8 @@ public class ClientListener implements Runnable {
             
             do{
                 message = (String)in.readLine();
-				System.out.println("client>" + message);
+				System.out.println(connection.getInetAddress().getHostName() 
+						+ "> "  + connection.getPort() + "> "   + message);
 				if (message.contains("INCOMING-REGISTER"))
 				{
 
@@ -34,6 +35,11 @@ public class ClientListener implements Runnable {
 
 					sendMessage(ServerMethods.Login(message));
 				}
+		       else if (message.contains("INCOMING-CHANGE"))
+			   {
+
+			     	sendMessage(ServerMethods.modify(message));
+		     	}
 				else if(message.equals(message))
 				{sendMessage(message);}
 				
