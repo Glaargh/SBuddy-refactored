@@ -1,6 +1,7 @@
 import java.io.FileReader;
 import java.io.FileWriter;
-
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -71,6 +72,8 @@ static user User = new user(null);
              {
                  file.write(prettyJsonString);
              }
+             user usr = new user (JsonObjectFromClient.substring(2, 2+IDLength).trim());
+             usr.modify("JoinDate", ZonedDateTime.now().format(DateTimeFormatter.ofPattern("h:m:a:d:M:y")));
     	 		}
     	
 	        } catch (Exception e) {e.printStackTrace();}

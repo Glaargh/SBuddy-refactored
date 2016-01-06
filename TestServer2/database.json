@@ -8,7 +8,7 @@
         "Email": "120567wolfert@gmail.com",
         "Description": "Highly motivated student seeking (internship) opportunities in the field of Computer Communications or Artificial Intelligence. Interested in improving and combining leadership, communications skills and interpersonal abilities to positively contribute to an organization\u0027s cooperate, while gaining valuable experience. Value a leadership with strong vision and virtue ethics. Trilingual: fluent in English, Dutch, Vietnamese and a beginner in Chinese.",
         "Placepic": "http://www.tudelft.nl/uploads/RTEmagicC_comp.jpg.jpg",
-        "Lastname": "Lei",
+        "Lastname": "Nguyen",
         "StudyPeriod": "2015-2019",
         "Gender": "Male",
         "Firstname": "Luat",
@@ -27,6 +27,7 @@
         "CityOfResidence": "Rotterdam",
         "CurrentUniversity": "Technical University of Delft",
         "Age": "19",
+		"JoinDate": "11:54:AM:6:1:2015",
         "Password": "iamironman96"
       }
     ]
@@ -60,6 +61,7 @@
         "CityOfResidence": "Delft",
         "CurrentUniversity": "Technical University of Delft",
         "Age": "18",
+		"JoinDate": "10:53:PM:3:11:2015",
         "Password": "wordpassd1"
       }
     ]

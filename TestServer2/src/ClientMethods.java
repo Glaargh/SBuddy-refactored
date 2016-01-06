@@ -51,7 +51,7 @@ public class ClientMethods
             obj.put("CurrentUniversity", "null");
             obj.put("CurrentStudy", "null");
             obj.put("StudyPeriod", "null");
-            
+            obj.put("JoinDate", "null");
             //Interested courses
             JSONArray courses = new JSONArray();
             courses.add(null);
