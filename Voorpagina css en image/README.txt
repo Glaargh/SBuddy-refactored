@@ -1,1 +1,0 @@
-Put the css and image in your bin folder of project voorpagina for the css to work.
