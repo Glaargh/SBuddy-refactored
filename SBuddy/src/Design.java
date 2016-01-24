@@ -110,7 +110,7 @@ public class Design extends Application {
 		  /* String[] crse = courselist.keySet().toString().substring(1,courselist.keySet().toString().length()-1).split(",");
 		   for (int i =0 ; i<crse.length; i++)
 		   {
-			   crse[i]= crse[i].trim() +"Â¿"+courselist.get(crse[i].trim());
+			   crse[i]= crse[i].trim() +"¿"+courselist.get(crse[i].trim());
 			   System.out.println(crse[i]);
 		   }*/
 			ObservableList<Courses> data = FXCollections.observableArrayList();
@@ -175,7 +175,7 @@ public class Design extends Application {
                 	
                  	String changedValue = t.getNewValue();
                 	try {
-						Client.toServer("INCOMING-COURSECHANGEÂ¿"+changeName+ "Â¿"+ changedValue);						
+						Client.toServer("INCOMING-COURSECHANGE¿"+changeName+ "¿"+ changedValue);						
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -206,7 +206,7 @@ public class Design extends Application {
                 	System.out.println(changedValue);
                 	      
                 	try {
-						Client.toServer("INCOMING-COURSECHANGEÂ¿"+h.getFirstName()+ "Â¿"+ changedValue);						
+						Client.toServer("INCOMING-COURSECHANGE¿"+h.getFirstName()+ "¿"+ changedValue);						
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -251,7 +251,7 @@ public class Design extends Application {
                 	System.out.println("Empty ");
                 }else{
                 	 try {
-     					Client.toServer("INCOMING-COURSECHANGEÂ¿"+addCour+ "Â¿"+ addDesc);
+     					Client.toServer("INCOMING-COURSECHANGE¿"+addCour+ "¿"+ addDesc);
      				} catch (IOException e1) {
      					e1.printStackTrace();
      				}
@@ -284,7 +284,7 @@ public class Design extends Application {
             System.out.println(deleteCourse);
             
             try {
-				Client.toServer("INCOMING-COURSEREMOVEÂ¿"+deleteCourse);
+				Client.toServer("INCOMING-COURSEREMOVE¿"+deleteCourse);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
