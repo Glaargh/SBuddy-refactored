@@ -1,0 +1,143 @@
+.label12{
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+	-fx-background-color: yellow;
+	-fx-text-fill: black;
+	
+}
+.root{
+	-fx-spacing: 10;
+	-fx-background-color: #595959;
+	-fx-padding: 10;
+	-fx-text-fill: black;
+}
+
+.button{
+	-fx-font-family: "Times New Roman";
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+	-fx-background-color: #33cc33;
+	-fx-text-fill: #595959;
+	-fx-left:200px;
+}
+
+.button:hover{
+	-fx-background-color: #29a329;
+	-fx-text-fill: #404040;
+
+}
+
+.text-field{
+	-fx-border-width: 5;
+	/*-fx-border-color: #33cc33;*/
+	-fx-border-color: #0099ff;
+}
+
+.my_customLabel{
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+	-fx-background-color: yellow;
+	-fx-text-fill: black;
+}
+
+.my_customLabel:hover{
+	-fx-background-color: #ffcc00;
+	-fx-text-fill: #1e1e15;
+}
+
+.topFields{
+	-fx-border-width: 4;
+	-fx-border-color: #404040;
+}
+
+.free2bolding{
+	-fx-text-fill: #09FF00;
+	-fx-text-weight: bold;
+}
+
+.freeholder{
+	-fx-font-size: 40;
+}
+
+.find{
+	-fx-font-size: 60;
+}
+
+.RegInfoContents{
+	-fx-font-top: 60;
+}
+
+.ForgotPassword{
+	-fx-text-fill: grey;
+	-fx-background-color: none;
+}
+
+.registerBox{
+	-fx-background-color: transparent;
+}
+
+.registerBox2{
+	-fx-background-color: #b3b3b3;
+}
+
+.logo{	
+	-fx-font-size: 37;
+}
+#pane{
+    -fx-background-image: url("imageGUI.jpg");
+    -fx-background-repeat: stretch;   
+    -fx-background-size: 1600 680;
+    -fx-background-position: center center;
+    /*Was eerst met // uitgecomment, commente niet goed uit */
+    /*-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); */
+}
+.firstname{
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+	/*-fx-text-fill: #33cc33;*/
+	-fx-text-fill: black;
+}
+.lastname{
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+	/*-fx-text-fill: #33cc33;*/
+	-fx-text-fill: black;
+}
+.email{
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+	/*-fx-text-fill: #33cc33;*/
+	-fx-text-fill: black;
+}
+.passwd{
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+	/*-fx-text-fill: #33cc33;*/
+	-fx-text-fill: black;
+
+}
+/*
+.first{
+		-fx-padding:50;
+}
+.second{
+		-fx-padding:60;
+}
+.third{
+		-fx-padding:120;
+}
+.fourth{
+		-fx-padding:50;
+}*/
+.lgin{
+	-fx-background-color:#33cc33;
+	
+}
+.Button3Recolor{
+	-fx-background-color:#ffff00;
+	-fx-text-fill: black;
+}
+.Button3Recolor:hover{
+	-fx-background-color:#b2b300;
+	-fx-text-fill: #1a1a1a;
+}

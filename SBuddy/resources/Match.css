@@ -1,0 +1,284 @@
+.availableLabel{
+	-fx-font-size: 15;
+	-fx-text-fill: #00bfff;
+}
+.popView{
+	-fx-background-color: #959595;
+}
+.but{
+	-fx-font-size: 10;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 10px;
+	-fx-background-color: #959595;
+}
+.but:hover{
+	-fx-background-color: #959595;
+	-fx-cursor: hand;
+}
+.e{
+	-fx-text-fill: white;
+	-fx-font-family: "Verdana";
+	-fx-font-size: 18;
+}
+.courseSearch{
+	-fx-font-size: 15;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 30px;
+	-fx-background-color: #990000
+}
+.courseSearch:hover {
+	-fx-background-color: #959595;
+	-fx-cursor: hand;
+}
+.viewProfile{
+	-fx-font-size: 15;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 35px;
+	-fx-background-color: #990000
+}
+.matchbut{
+	-fx-font-size: 40;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;
+	-fx-background-color: #990000
+	
+}
+
+.matchbut:hover {
+	-fx-background-color: #959595;
+	-fx-cursor: hand;
+}
+.viewProfile:hover{
+	-fx-background-color: #959595;
+	-fx-cursor: hand;
+}
+
+.root{
+	-fx-spacing: 10;
+	-fx-background-color: #ffffff;
+	-fx-padding: 10;
+	-fx-text-fill: white;
+}
+
+.help {
+	-fx-background-color: #636664;
+	-fx-text-fill: white;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+}
+
+.help:hover{
+	-fx-background-color: #959595;
+}
+
+.logout {
+	-fx-background-color: #636664;
+	-fx-text-fill: white;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+}
+
+.logout:hover{
+	-fx-background-color: #959595;
+}
+
+.bovenstuk {
+	-fx-background-color: #636664;
+}
+
+.motto {
+	-fx-text-fill: white;
+}
+	
+.overzicht{
+	-fx-background-color: #434544;	
+}
+
+.fillbox{
+	-fx-background-color: #DCDCDC;
+	-fx-font-size:16;
+	-fx-text-fill: #000000;	
+}
+
+.description{
+	-fx-background-color: #DCDCDC;
+	-fx-font-size:16;
+	-fx-text-fill:#1E90FF;
+	-fx-font-weight: bold;
+}
+
+.profile {
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;
+	-fx-background-color: #434544
+	
+}
+
+.profile:hover {
+	-fx-background-color: #959595;
+}
+
+.courses{
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;
+	-fx-background-color: #434544
+}
+
+.courses:hover{
+	-fx-background-color: #959595;
+}
+
+.match {
+	-fx-font-size: 20;
+	-fx-text-fill: #959595;
+	-fx-min-width: 200px;	
+	-fx-background-color: #b2b300
+	}
+
+.match:hover {
+	-fx-background-color: #959595;
+}
+	
+.message {
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;
+	-fx-background-color: #434544
+}
+
+.message:hover{
+	-fx-background-color: #959595;
+}
+
+.settings{
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;
+	-fx-background-color: #434544
+	}
+	
+.settings:hover{
+	-fx-background-color: #959595;
+}	
+
+.extra {
+	-fx-background-color: #708090;
+	-fx-min-width: 200px;
+	-fx-background-color: #434544
+	}
+
+.expartners {
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;
+	-fx-background-color: #434544
+	
+	}
+
+.expartners:hover{
+	-fx-background-color: #959595;
+}
+	
+.new {
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;
+	-fx-background-color: #434544
+	}
+	
+.new:hover {
+	-fx-background-color: #959595;
+}
+
+.button{
+	/*-fx-background-color: #ffff00;*/
+	-fx-text-fill: #ffffff;
+}
+
+.button:hover{
+	-fx-background-color: #b2b300;
+	-fx-text-fill: #1a1a1a;
+}
+
+.Background{
+	-fx-background-color: #333333;
+}
+
+.text-field{
+	-fx-background-color: #959595;
+	-fx-prompt-text-fill: #000000;
+}
+
+.noResults{
+	-fx-text-fill: #000000;
+}
+
+.combo-box{
+	-fx-background-color: #00bfff;
+	-fx-text-fill: #000000;
+	-fx-prompt-text-fill: #000000;
+}
+
+.combo-box:filled:hover {
+    -fx-background-color: #0093ff;
+    -fx-text-fill: #000000;
+}
+
+.check-box{
+	/*-fx-background-color: #00bfff;*/
+	-fx-text-fill: #ffffff;
+}
+
+.checkboxBox{
+	-fx-background-color: #00bfff;
+	-fx-text-fill: #000000;
+	-fx-padding: 5;
+}
+
+.SearchHolder{
+	-fx-background-color: #ffffff;
+	-fx-text-fill: #000000;
+	-fx-padding: 5;
+}
+
+/*Differentiates between  Selected and Mouseover*/
+.SearchResults:filled:selected:focused, .SearchResult:filled:selected {
+    -fx-background-color: linear-gradient(#328BDB 0%, #207BCF 25%, #1973C9 75%, #0A65BF 100%);
+    -fx-text-fill: white;
+}
+
+/* Coloring differently between even and odd. Doesn't work properly*/
+.SearchResults:even {
+    -fx-background-color: #66ff66;
+}
+
+.SearchResults:odd {
+    -fx-background-color: #33cc33;
+}
+
+.popView{
+	-fx-background-color:  #666666;	
+	-fx-padding: 10;
+	-fx-border-color: #99ff33;
+}
+.butonclose{
+	-fx-background-color: #cc0000;
+	-fx-text-fill: #ffffff;
+}
+.butonclose:hover{
+	-fx-background-color: #ff0000;
+	-fx-text-fill: #bfbfbf;
+}
+
+.LabelPop{
+		-fx-text-fill: white;
+		-fx-background-color: #666666;
+}
+
+.De-Redder{
+	-fx-background-color: #333333;
+}

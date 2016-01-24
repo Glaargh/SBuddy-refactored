@@ -1,0 +1,324 @@
+.fail{
+	-fx-text-fill: white;
+	-fx-font-family: "Verdana";
+	-fx-font-size: 18;
+	-fx-background-color: #b2b300;
+}
+.changeLabel{
+	-fx-text-fill: white;
+	-fx-font-family: "Verdana";
+	-fx-font-size: 18;
+}
+.button{
+	-fx-background-color: #ffff00;
+	-fx-text-fill: #000000;
+}
+
+.button:hover{
+	-fx-background-color: #b2b300;
+	-fx-text-fill: #1a1a1a;
+}
+
+.Background{
+	-fx-background-color: #333333;
+}
+
+.passwoord{
+	-fx-left: 200px;
+}
+.passwoordDisplayLabel{
+	-fx-text-fill: black;
+	-fx-background-color: #00e600;
+}
+
+.taalDisplayLabel{
+	-fx-text-fill: black;
+}
+
+.passwoordHoldR{
+	/**-fx-background-color: #0066ff;**/
+	-fx-min-width: 400px;
+	-fx-max-width: 400px;
+	-fx-min-height: 40px;
+	-fx-max-height: 41px;
+}
+
+/*Van de sidebar */
+.help {
+	-fx-background-color: #636664;
+	-fx-text-fill: white;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+}
+
+.help:hover{
+	-fx-background-color: #b2b300
+}
+
+
+.saveall{
+	-fx-background-color: #373737;
+	-fx-text-fill: white;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size: 15;
+	-fx-font-weight: bold;
+
+}
+
+.saveall:hover{
+	-fx-background-color: #959595;
+	-fx-cursor: hand;
+}
+
+.deleteall{
+	-fx-background-color: #373737;
+	-fx-text-fill: white;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size: 15;
+	-fx-font-weight: bold;
+}
+
+.deleteall:hover{
+	-fx-background-color: #959595;
+	-fx-cursor: hand;
+}
+
+.savedeletebox{
+	-fx-background-color:#373737 ;
+}
+
+.logout {
+	-fx-background-color: #636664;
+	-fx-text-fill: white;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+}
+
+.logout:hover{
+	-fx-background-color: #b2b300
+}
+
+
+
+.bovenstuk {
+	-fx-background-color: #636664;
+
+}
+
+	
+.overzicht{
+	-fx-background-color: #434544;
+	
+}
+
+
+
+.profile {
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;
+	-fx-background-color: #434544
+	
+}
+
+.profile:hover {
+	-fx-background-color: #b2b300
+}
+
+.courses{
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;
+	-fx-background-color: #434544
+
+}
+
+.courses:hover{
+	-fx-background-color: #b2b300
+}
+
+
+.match {
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;	
+	-fx-background-color: #434544
+	}
+
+.match:hover {
+		-fx-background-color: #b2b300
+}
+
+
+.settings{
+
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;	
+	-fx-background-color: #b2b300
+	}
+
+.settings:hover{
+	-fx-background-color: #b2b300
+}	
+	
+	
+.bovennaam {
+	-fx-font-size: 50;
+	-fx-text-fill: #ffffff;
+	-fx-background-color: none;
+	
+	}
+	
+.desci {
+	-fx-font-size:15;
+	-fx-text-fill: #ffffff;
+	-fx-background-color: none;
+	}
+	
+
+.summary {
+	-fx-font-size:30;
+	-fx-text-fill: #ffffff;
+	-fx-background-color: none;
+	
+	}
+	
+.summy {
+	-fx-font-size:15;
+	-fx-text-fill: #ffffff;
+	-fx-background-color: none;
+	}
+	
+.career {
+	-fx-font-size:30;
+	-fx-text-fill:#ffffff;
+	-fx-background-color:#373737;
+	}
+	
+.carinfoVBox {
+	-fx-background-color: #373737;
+
+	}
+	
+.yearbox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	-fx-controle-inner-background: #595959;
+	
+	}
+	
+.curstudybox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	}
+	
+.studyperiodebox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	}
+	
+.universitybox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	}
+	
+.basinfoVBox {
+	-fx-background-color: #373737;
+
+	}
+	
+	
+.basicinfo {
+
+	-fx-font-size:30;
+	-fx-text-fill:#ffffff;
+	-fx-background-color:#373737;
+	}
+	
+.genderbox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	}
+	
+.countrybox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	
+	}
+	
+.citybox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	}
+	
+.contactinfoVBox {
+	-fx-background-color: #373737;
+
+	}
+	
+.contact {
+	-fx-font-size:30;
+	-fx-text-fill:#ffffff;
+	-fx-background-color:#373737;
+	}
+
+.mailbox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	}
+	
+.phonebox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	
+	}
+	
+.yearlabel {
+	-fx-text-fill: #ffffff;
+}
+
+.curslabel {
+	-fx-text-fill: #ffffff;
+}
+
+.studyperlabel {
+	-fx-text-fill: #ffffff;
+}
+
+.genderlabel {
+	-fx-text-fill: #ffffff;
+}
+
+.countrylabel {
+	-fx-text-fill: #ffffff;
+}
+
+.citylabel {
+	-fx-text-fill: #ffffff;
+}
+
+.emaillabel {
+	-fx-text-fill: #ffffff;
+}
+
+.phonelabel {
+	-fx-text-fill: #ffffff;
+}
+
+	
+.unilabel {
+	-fx-text-fill: #ffffff;
+}
+	

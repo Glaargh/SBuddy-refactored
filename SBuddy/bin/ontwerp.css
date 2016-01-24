@@ -1,0 +1,356 @@
+.picuser:hover{
+		-fx-cursor: hand;
+}
+.root{
+	-fx-spacing: 10;
+	-fx-background-color: #373737;
+	-fx-padding: 10;
+	-fx-text-fill: white;
+}
+
+.help {
+	-fx-background-color: #636664;
+	-fx-text-fill: white;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+}
+
+.help:hover{
+	-fx-background-color: #b2b300;
+}
+
+
+
+.logout {
+	-fx-background-color: #636664;
+	-fx-text-fill: white;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+}
+
+.logout:hover{
+	-fx-background-color: #b2b300;
+}
+
+
+
+.bovenstuk {
+	-fx-background-color: #636664;
+
+}
+
+.motto {
+	-fx-text-fill: white;
+
+}
+	
+.overzicht{
+	-fx-background-color: #434544;
+	
+}
+
+.fillbox{
+	-fx-background-color: #DCDCDC;
+	-fx-font-size:16;
+	-fx-text-fill: #000000;
+	
+}
+.description{
+	-fx-background-color: #DCDCDC;
+	-fx-font-size:16;
+	-fx-text-fill:#1E90FF;
+	-fx-font-weight: bold;
+}
+
+
+.profile {
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;
+	-fx-background-color: #b2b300
+}
+
+.profile:hover {
+
+	-fx-background-color: #b2b300;
+}
+
+.courses{
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;
+	-fx-background-color: #434544
+
+}
+
+.courses:hover{
+	-fx-background-color: #b2b300;
+}
+
+
+.match {
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;	
+	-fx-background-color: #434544
+	}
+
+.match:hover {
+	-fx-background-color: #b2b300;
+}
+
+	
+.message {
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;
+	-fx-background-color: #434544
+}
+
+.message:hover{
+	-fx-background-color: #b2b300;
+}
+
+
+.settings{
+
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;
+	-fx-background-color: #434544
+	
+	}
+
+.settings:hover{
+	-fx-background-color: #b2b300;
+}
+
+	
+
+.extra {
+	-fx-background-color: #708090;
+	-fx-min-width: 200px;
+	-fx-background-color: #434544
+	}
+	
+.expartners {
+
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;
+	-fx-background-color: #434544
+	
+	}
+
+.expartners:hover{
+	-fx-background-color: #b2b300;
+}
+
+	
+.new {
+
+	-fx-font-size: 20;
+	-fx-text-fill: #ffffff;
+	-fx-min-width: 200px;
+	-fx-background-color: #434544
+	
+	}
+
+.new:hover {
+	-fx-background-color: #b2b300;
+}
+
+	
+.bovennaam {
+	-fx-font-size: 50;
+	-fx-text-fill: #ffffff;
+	-fx-background-color: none;
+	
+	}
+	
+.desci {
+	-fx-font-size:15;
+	-fx-text-fill: #ffffff;
+	-fx-background-color: none;
+	}
+	
+
+.summary {
+	-fx-font-size:30;
+	-fx-text-fill: #00BFFF;
+	-fx-background-color: none;
+	-fx-font-weight: bold;
+	}
+	
+.summy {
+	-fx-font-size:15;
+	-fx-text-fill: #ffffff;
+	-fx-background-color: none;
+	}
+	
+.career {
+	-fx-font-size:30;
+	-fx-text-fill:#ffffff;
+	-fx-background-color:#373737;
+	}
+	
+.carinfoVBox {
+	-fx-background-color: #373737;
+
+	}
+	
+.yearbox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	-fx-controle-inner-background: #595959;
+	
+	}
+	
+.curstudybox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	}
+	
+.studyperiodebox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	}
+	
+.universitybox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	}
+	
+.basinfoVBox {
+	-fx-background-color: #373737;
+
+	}
+	
+	
+.basicinfo {
+
+	-fx-font-size:30;
+	-fx-text-fill:#ffffff;
+	-fx-background-color:#373737;
+	}
+	
+.genderbox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	}
+.tempGenderbox {
+	-fx-background-color: #ffffff;
+	-fx-text-fill: black;
+	-fx-font-size: 20;
+	}
+	
+.countrybox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	
+	}
+	
+.citybox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	}
+	
+.contactinfoVBox {
+	-fx-background-color: #373737;
+
+	}
+	
+.contact {
+	-fx-font-size:30;
+	-fx-text-fill:#ffffff;
+	-fx-background-color:#373737;
+	}
+
+.mailbox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	}
+	
+.phonebox {
+	-fx-background-color: #373737;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20;
+	
+	}
+	
+.yearlabel {
+	-fx-text-fill: #ffffff;
+}
+
+.curslabel {
+	-fx-text-fill: #00BFFF;
+	-fx-font-weight: bold;
+}
+
+.studyperlabel {
+	-fx-text-fill: #ffffff;
+}
+
+.genderlabel {
+	-fx-text-fill: #ffffff;
+}
+.labelSSS{
+	-fx-text-fill: #ffffff;
+	
+}
+.labelSSS:hover{
+	-fx-cursor: hand;
+}
+.labelqqq{
+	-fx-text-fill: #ffffff;
+	-fx-font-weight: bold;
+	-fx-font-size: 40;
+}
+.labelqqq:hover{
+	-fx-cursor: hand;
+}
+
+.labelSSS1{
+	-fx-text-fill: #ffffff;
+	-fx-font-weight: bold;
+	-fx-font-size: 25;
+}
+.labelSSS4{
+	-fx-text-fill: #ffffff;
+	-fx-font-weight: bold;
+	-fx-font-size: 25;
+}
+.labelSSS1:hover{
+	-fx-cursor: hand;
+}
+
+.countrylabel {
+	-fx-text-fill: #ffffff;
+}
+
+.citylabel {
+	-fx-text-fill: #ffffff;
+}
+
+.emaillabel {
+	-fx-text-fill: #ffffff;
+}
+
+.phonelabel {
+	-fx-text-fill: #ffffff;
+}
+
+	
+.unilabel {
+	-fx-text-fill: #ffffff;
+}

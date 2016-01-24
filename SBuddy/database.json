@@ -1,0 +1,114 @@
+[
+  {
+    "testaccount@gmail.com": [
+      {
+        "CountryOfResidence": "The Netherlands",
+        "CurrentStudy": "Computer Science",
+        "Piclink": "http://i65.tinypic.com/fvecr4.jpg",
+        "Email": "120567wolfert@gmail.com",
+        "Description": "Highly motivated student seeking (internship) opportunities in the field of Computer Communications or Artificial Intelligence. Interested in improving and combining leadership, communications skills and interpersonal abilities to positively contribute to an organization\u0027s cooperate, while gaining valuable experience.",
+        "Placepic": "http://tunews.weblog.tudelft.nl/files/2014/03/StembureauEWI_nieuwsbrief.jpg",
+        "Lastname": "Nguyen",
+        "StudyPeriod": "2015-2019",
+        "Gender": "Male",
+        "Firstname": "Steve",
+        "Phone": "0633680503",
+        "Course list": {
+          "Computer Graphic": "I need help and if you need some money, please contact me.",
+          "Calculus": "***Freshmen Only*** I can offer help for a small fee.",
+          "Computer Organization": "Anyone available on friday and need a study buddy just contact me.",
+          "Lineaire Algebra": "***Second year*** Would you like to have an awesome study buddy? Message me!",
+          "Object Oriented Programming": "***Freshmen Only*** Are you bad at it? You need some help? I\u0027m the right person!"
+        },
+        "CityOfResidence": "Rotterdam",
+        "Available": "true",
+        "CurrentUniversity": "Technical University of Delft",
+        "Age": "20",
+        "JoinDate": "11:54:AM:6:1:2015",
+        "Password": "pass"
+      }
+    ]
+  },
+  {
+    "pimdhn@gmail.com": [
+      {
+        "CountryOfResidence": "The Netherlands",
+        "CurrentStudy": "Computer Science",
+        "Piclink": "http://www.theblaze.com/wp-content/uploads/2011/10/Facebook-no-profile-picture-icon-620x389.jpg",
+        "Email": "pimdhn@gmail.com",
+        "Description": "None",
+        "Placepic": "http://www.tudelft.nl/uploads/RTEmagicC_comp.jpg.jpg",
+        "Lastname": "Dhaen",
+        "StudyPeriod": "2015-2018",
+        "Gender": "Male",
+        "Firstname": "Pim",
+        "Phone": "0647673112",
+        "Course list": {
+          "oop project": "hell yeah good at it:D!",
+          "redeneren en logica": "quite good",
+          "web en database": "pretty good",
+          "computer organisation": "Really need help, please help1",
+          "calculus": "I have a good feeling for it, but could use help"
+        },
+        "CityOfResidence": "Delft",
+        "Available": "true",
+        "CurrentUniversity": "Technical University of Delft",
+        "Age": "18",
+        "JoinDate": "10:53:PM:3:11:2015",
+        "Password": "easy"
+      }
+    ]
+  },
+  {
+    "SteveJobs@gmail.com": [
+      {
+        "CountryOfResidence": "The Netherlands",
+        "CurrentStudy": "Computer Science",
+        "Piclink": "https://d13yacurqjgara.cloudfront.net/users/160522/screenshots/1179084/stevejobs-01_1x.jpg",
+        "Email": "SteveJobs@gmail.com",
+        "Description": "I\u0027m a very interesting person. I want to create my own company and it\u0027s my dream to provides computer to milions of people. Please take a look at my course list and to see what i can offer. Feel free to contact me !!!!",
+        "Placepic": "sad",
+        "Lastname": "Jobless",
+        "StudyPeriod": "1975-1982",
+        "Gender": "Male",
+        "Firstname": "Steve",
+        "Phone": "062131231223",
+        "Course list": {
+          "Calculus": "I\u0027m very good at it so if you need some help you can email me and I\u0027ll see if i can help you"
+        },
+        "CityOfResidence": "Amsterdam",
+        "Available": "false",
+        "CurrentUniversity": "University of Delft",
+        "Age": "58",
+        "JoinDate": "1:19:PM:24:1:2016",
+        "Password": "stevepass"
+      }
+    ]
+  },
+  {
+    "Steveemail@gmail.com": [
+      {
+        "CountryOfResidence": "The Netherlands",
+        "CurrentStudy": "Civil Engineering",
+        "Piclink": "https://cldn0.fiverrcdn.com/fiverr/t_main1/gigs/1071520/original/orange.jpg",
+        "Email": "Steveemail@gmail.com",
+        "Description": "I\u0027m Steve, I\u0027m an exchange student from Taiwan and I\u0027ve been here just for a few years. I currently live in Amsterdam and looking for people who likes  programming so I can work with them. Take a look at my courses and feel free to ask me anything!",
+        "Placepic": "http://i67.tinypic.com/15fje5g.jpg",
+        "Lastname": "Lei",
+        "StudyPeriod": "2015-1019",
+        "Gender": "Male",
+        "Firstname": "Steve",
+        "Phone": "0623666222",
+        "Course list": {
+          "Calculus": "Does anyone have the calculus book edition 7?  Please contact me!"
+        },
+        "CityOfResidence": "Amsterdam",
+        "Available": "true",
+        "CurrentUniversity": "University of Amsterdam",
+        "Age": "22",
+        "JoinDate": "3:48:PM:24:1:2016",
+        "Password": "stevepass"
+      }
+    ]
+  }
+]
