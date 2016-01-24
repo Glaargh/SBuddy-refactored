@@ -1488,6 +1488,1294 @@ public class Design extends Application {
 			sceneeMatchTab.getStylesheets().add("Match.css");
 			primaryStage.show();
 		}
+		
+
+		@SuppressWarnings("deprecation")
+		public void profileTab(final Stage primaryStage, final Scene scenetest, Pane rootProfileTabee,
+				Scene sceneProfileTabee, final Scene sceneMatchTab, Pane rootMatchTab, Pane rootCourseTab,
+				Scene CourseScene) throws IOException {
+			/**
+			 * een button help. De setaction moet gelinkt worden aan een nieuwe
+			 * page, maar welke? (Dario nodig)
+			 */
+			Button help = new Button("Help");
+			help.setMinWidth(90);
+			help.getStyleClass().add("help");
+			help.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent args) {
+					helpTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabee, scenetest, rootProfileTabee,
+							rootCourseTab, CourseScene);
+
+				}
+			});
+			// helpTab(final Stage primaryStage, final Scene sceneMatchTab, Pane
+			// rootMatchTab, Scene sceneProfileTabe,final Scene scenetest, Pane
+			// rootProfileTabe, Pane rootCourseTab, Scene CourseScene,Pane
+			// rootHelp,Scene helpScene){
+
+			/**
+			 * Een button voor logout. De set action moet nog gemaakt worden om
+			 * terug te gaan naar de hoofdpagina? (Dario nodig)
+			 */
+			Button logout = new Button("Log out");
+			logout.setMinWidth(80);
+			logout.getStyleClass().add("logout");
+			logout.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent args) {
+
+					try {
+						start(primaryStage);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+
+			/**
+			 * Een box voor de help en logout buttons (dario nodig)
+			 */
+			HBox helpout = new HBox();
+			helpout.getChildren().addAll(help, logout);
+			helpout.getStyleClass().add("helpoutbox");
+
+			/**
+			 * Een button voor delete all om alle ingevoerde data in de profiletab
+			 * te verwijderen
+			 */
+			Button deleteall = new Button("Delete all");
+			deleteall.setMinSize(70, 30);
+			deleteall.getStyleClass().add("deleteall");
+
+			/**
+			 * Een foto die hooft bij profile button (Dario nodig)
+			 */
+			Image prfoto = new Image(getClass().getResourceAsStream("huisteken.jpg"));
+			ImageView profileimage = new ImageView(prfoto);
+			Button profile = new Button("Profile", profileimage);
+			profile.getStyleClass().add("profile");
+
+			/**
+			 * Een foto die hoort bij course button (Dario nodig)
+			 */
+			Image crfoto = new Image(getClass().getResourceAsStream("courseteken.jpg"));
+			ImageView coursefoto = new ImageView(crfoto);
+			Button courses = new Button("Courses", coursefoto);
+			courses.getStyleClass().add("courses");
+			courses.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent args) {
+					coursesTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabee, scenetest, rootProfileTabee,
+							rootCourseTab, CourseScene);
+				}
+			});
+
+			/**
+			 * Een foto die hoort bij match button (Dario nodig)
+			 */
+			Image mfoto = new Image(getClass().getResourceAsStream("matchteken.jpg"));
+			ImageView matchfoto = new ImageView(mfoto);
+			Button match = new Button("Match", matchfoto);
+			match.getStyleClass().add("match");
+			match.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent args) {
+					// final Stage primaryStage, final Scene sceneMatchTab, Pane
+					// rootMatchTab, Scene sceneProfileTabe
+					matchTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabee, scenetest, rootProfileTabee,
+							rootCourseTab, CourseScene);
+				}
+			});
+
+			/**
+			 * Een foto die hoort bij settings button (dario nodig)
+			 */
+			Image setfoto = new Image(getClass().getResourceAsStream("settingsteken.jpg"));
+			ImageView settingsfoto = new ImageView(setfoto);
+			Button settings = new Button("Settings", settingsfoto);
+			settings.getStyleClass().add("settings");
+			settings.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent args) {
+					// final Stage primaryStage, final Scene sceneMatchTab, Pane
+					// rootMatchTab, Scene sceneProfileTabe
+					settingsTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabee, scenetest, rootProfileTabee,
+							rootCourseTab, CourseScene);
+				}
+			});
+			/**
+			 * Een VBox voor alle buttons links op de pagina (Dario nodig)
+			 */
+			VBox overzicht = new VBox();
+			overzicht.getChildren().addAll(profile, courses, match, settings);
+			overzicht.getStyleClass().add("overzicht");
+			overzicht.setMinHeight(630);
+			/**
+			 * Een textfield waar je je naam in kan voeren DIT MOET Niet een text
+			 * field zijn meer maar een string waar je er op klik komt er text field
+			 * om te veranderen.
+			 */
+
+			String Vorn = Client.toServer("INCOMING-GET Firstname");
+			final Label Voornaam = new Label(Vorn);
+			Voornaam.getStyleClass().add("labelqqq");
+			String Lstn = Client.toServer("INCOMING-GET Lastname");
+			final Label Lastname = new Label(Lstn);
+			Lastname.getStyleClass().add("labelqqq");
+			HBox bovennaam = new HBox();
+			bovennaam.getChildren().addAll(Voornaam, Lastname);
+			bovennaam.getStyleClass().add("bovennaam");
+			bovennaam.setSpacing(8);
+			Voornaam.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+
+				}
+			});
+			Voornaam.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+
+			// Textfield used in pop up is given event listener
+			Voornaam.setOnMouseClicked(e -> {
+				TextField temp = new TextField();
+				temp.getStyleClass().add("fillbox");
+				Label description = new Label("Your firstname \nPress \"Enter\" when finished. ");
+				description.getStyleClass().add("description");
+				Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				Popup pop2 = PopupBuilder.create().content(description)
+						.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				temp.setText(Voornaam.getText());
+				temp.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent args) {
+						// newinfo is variable with edited info
+						String newInfo = temp.getText();
+						if (newInfo.trim().isEmpty()) {
+							Voornaam.setText("None");
+							temp.setText("None");
+							try {
+								Client.toServer("INCOMING-CHANGE Firstname None");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							Voornaam.setText(newInfo);
+							temp.setText(newInfo);
+							try {
+								Client.toServer("INCOMING-CHANGE Firstname " + newInfo);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						pop.hide();
+						pop2.hide();
+					}
+				});
+				pop.show(primaryStage);
+				pop2.show(primaryStage);
+			});
+			Lastname.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+
+				}
+			});
+			Lastname.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+
+			// Textfield used in pop up is given event listener
+			Lastname.setOnMouseClicked(e -> {
+				TextField temp = new TextField();
+				temp.getStyleClass().add("fillbox");
+				Label description = new Label("Your lastname\nPress \"Enter\" when finished. ");
+				description.getStyleClass().add("description");
+				Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				Popup pop2 = PopupBuilder.create().content(description)
+						.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				temp.setText(Lastname.getText());
+				temp.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent args) {
+						// newinfo is variable with edited info
+						String newInfo = temp.getText();
+						if (newInfo.trim().isEmpty()) {
+							Lastname.setText("None");
+							temp.setText("None");
+							try {
+								Client.toServer("INCOMING-CHANGE Lastname None");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							Lastname.setText(newInfo);
+							temp.setText(newInfo);
+							try {
+								Client.toServer("INCOMING-CHANGE Lastname " + newInfo);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						pop.hide();
+						pop2.hide();
+					}
+				});
+				pop.show(primaryStage);
+				pop2.show(primaryStage);
+			});
+
+			/**
+			 * Een textfield waar je een korte beschrijving kan geven over je zelf
+			 * DIT MOET Niet een text field zijn meer maar een string waar je er op
+			 * klik komt er text field om te veranderen.
+			 */
+
+			
+			String programa = Client.toServer("INCOMING-GET CurrentStudy");
+			Label student = new Label("Student " + programa);
+			student.getStyleClass().add("labelSSS4");
+			String univeristy = Client.toServer("INCOMING-GET CurrentUniversity");
+			 Label at = new Label(" at " + univeristy);
+			at.getStyleClass().add("labelSSS4");
+			
+			if(programa.trim().equals("Click to modify"))
+			{
+				student = new Label("Please complete profile page");
+				student.getStyleClass().add("labelSSS4");
+				at = new Label("and relogin to see changes");
+				at.getStyleClass().add("labelSSS4");
+			}
+			VBox desci = new VBox();
+			desci.getChildren().addAll(student, at);
+			desci.getStyleClass().add("desci");
+			desci.setAlignment(Pos.CENTER);
+			desci.setSpacing(5);
+			
+
+			Label summary = new Label("Summary");
+			summary.getStyleClass().add("summary");
+
+			/**
+			 * Een textfield waar je een iets uitgebreidere samenvatting kan geven
+			 * over jezelf
+			 */
+
+			String descr = Client.toServer("INCOMING-GET Description");
+			final Label descriptn = new Label(descr);
+			descriptn.getStyleClass().add("labelSSS1");
+			descriptn.setWrapText(true);
+			HBox summy = new HBox();
+			summy.setMaxWidth(1300);
+			summy.setMinHeight(200);
+			summy.getChildren().addAll(descriptn);
+			summy.setSpacing(10);
+			summy.getStyleClass().add("summy");
+			descriptn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+				}
+			});
+			descriptn.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+
+			// Textfield used in pop up is given event listener
+			descriptn.setOnMouseClicked(e -> {
+				TextField temp = new TextField();
+				temp.getStyleClass().add("fillbox");
+				temp.setMinSize(1300, 100);
+				Label description = new Label(
+						"Tell us about yourself \nWhat do you like? \nWhat are you interested in? \nPress \"Enter\" when finished. ");
+				description.getStyleClass().add("description");
+				Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				Popup pop2 = PopupBuilder.create().content(description)
+						.y(MouseInfo.getPointerInfo().getLocation().getY() + 60)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				temp.setText(descriptn.getText());
+				temp.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent args) {
+						// newinfo is variable with edited info
+						String newInfo = temp.getText();
+						if (newInfo.trim().isEmpty()) {
+							descriptn.setText("None");
+							temp.setText("None");
+							try {
+								Client.toServer("INCOMING-CHANGE Description None");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							descriptn.setText(newInfo);
+							temp.setText(newInfo);
+							try {
+								Client.toServer("INCOMING-CHANGE Description " + newInfo);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						pop.hide();
+						pop2.hide();
+					}
+				});
+				pop.show(primaryStage);
+				pop2.show(primaryStage);
+			});
+			Label career = new Label("Career information");
+			career.getStyleClass().add("summary");
+
+			/**
+			 * Een label en een textfield waar je in kan voeren welke studie je op
+			 * dit moment doet
+			 */
+			Label curs = new Label("Current Study: ");
+			curs.getStyleClass().add("curslabel");
+			String study = Client.toServer("INCOMING-GET CurrentStudy");
+			final Label currentstud = new Label(study);
+			currentstud.getStyleClass().add("labelSSS");
+			HBox curstud = new HBox();
+			curstud.getChildren().addAll(curs, currentstud);
+			curstud.getStyleClass().add("curstudybox");
+			curstud.setSpacing(46);
+			currentstud.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+					currentstud.setScaleX(1.3);
+					currentstud.setScaleY(1.3);
+				}
+			});
+			currentstud.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					currentstud.setScaleX(1);
+					currentstud.setScaleY(1);
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+			
+			
+			// Textfield used in pop up is given event listener
+			currentstud.setOnMouseClicked(e -> {
+				TextField temp = new TextField();
+				temp.getStyleClass().add("fillbox");
+				Label description = new Label(
+						"Your study program in English." + "\nEx: Computer Science \nPress \"Enter\" when finished. ");
+				description.getStyleClass().add("description");
+				Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				Popup pop2 = PopupBuilder.create().content(description)
+						.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				temp.setText(currentstud.getText());
+				temp.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent args) {
+						// newinfo is variable with edited info
+						String newInfo = temp.getText();
+						if (newInfo.trim().isEmpty()) {
+							currentstud.setText("None");
+							temp.setText("None");
+							try {
+								Client.toServer("INCOMING-CHANGE CurrentStudy None");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							currentstud.setText(newInfo);
+							temp.setText(newInfo);
+							try {
+								Client.toServer("INCOMING-CHANGE CurrentStudy " + newInfo);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						pop.hide();
+						pop2.hide();
+					}
+				});
+				pop.show(primaryStage);
+				pop2.show(primaryStage);
+			});
+
+			/**
+			 * Een label en een textfield waar je in kan voeren wat je
+			 * waarschijnlijke studieperiode is
+			 *
+			 *
+			 *
+			 */
+			Label studyper = new Label("Study period: ");
+			studyper.getStyleClass().add("curslabel");
+			String studyp = Client.toServer("INCOMING-GET StudyPeriod");
+			final Label stper = new Label(studyp);
+			stper.getStyleClass().add("labelSSS");
+			HBox stpbox = new HBox();
+			stpbox.getChildren().addAll(studyper, stper);
+			stpbox.getStyleClass().add("genderbox");
+			stpbox.setSpacing(55);
+			stper.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+					stper.setScaleX(1.3);
+					stper.setScaleY(1.3);
+				}
+			});
+			stper.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					stper.setScaleX(1);
+					stper.setScaleY(1);
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+
+			// Textfield used in pop up is given event listener
+			stper.setOnMouseClicked(e -> {
+				TextField temp = new TextField();
+				temp.getStyleClass().add("fillbox");
+				Label description = new Label("Your study period with start year and end year."
+						+ "\nEx: 2013-2016 \nPress \"Enter\" when finished. ");
+				description.getStyleClass().add("description");
+				Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				Popup pop2 = PopupBuilder.create().content(description)
+						.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				temp.setText(stper.getText());
+				temp.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent args) {
+						// newinfo is variable with edited info
+						String newInfo = temp.getText();
+						if (newInfo.trim().isEmpty()) {
+							stper.setText("None");
+							temp.setText("None");
+							try {
+								Client.toServer("INCOMING-CHANGE StudyPeriod None");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							stper.setText(newInfo);
+							temp.setText(newInfo);
+							try {
+								Client.toServer("INCOMING-CHANGE StudyPeriod " + newInfo);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						pop.hide();
+						pop2.hide();
+					}
+				});
+				pop.show(primaryStage);
+				pop2.show(primaryStage);
+			});
+
+			/**
+			 * Een label en een textfield waar je in kan voeren aan welke
+			 * universiteit je op dit moment studeert
+			 */
+			Label university = new Label("Current University: ");
+			university.getStyleClass().add("curslabel");
+			String un = Client.toServer("INCOMING-GET CurrentUniversity");
+			final Label uni = new Label(un);
+			uni.getStyleClass().add("labelSSS");
+			HBox unibox = new HBox();
+			unibox.getChildren().addAll(university, uni);
+			unibox.getStyleClass().add("genderbox");
+			unibox.setSpacing(10);
+			
+			uni.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+					uni.setScaleX(1.3);
+					uni.setScaleY(1.3);
+				}
+			});
+			uni.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					uni.setScaleX(1);
+					uni.setScaleY(1);
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+			
+
+			// Textfield used in pop up is given event listener
+			uni.setOnMouseClicked(e -> {
+				TextField temp = new TextField();
+				temp.getStyleClass().add("fillbox");
+				Label description = new Label("Your full university name in English \nPress \"Enter\" when finished. ");
+				description.getStyleClass().add("description");
+				Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 70).width(0).height(0).build();
+				Popup pop2 = PopupBuilder.create().content(description)
+						.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 70).width(0).height(0).build();
+				temp.setText(uni.getText());
+				temp.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent args) {
+						// newinfo is variable with edited info
+						String newInfo = temp.getText();
+						if (newInfo.trim().isEmpty()) {
+							uni.setText("None");
+							temp.setText("None");
+							try {
+								Client.toServer("INCOMING-CHANGE CurrentUniversity None");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							uni.setText(newInfo);
+							temp.setText(newInfo);
+							try {
+								Client.toServer("INCOMING-CHANGE CurrentUniversity " + newInfo);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						pop.hide();
+						pop2.hide();
+					}
+				});
+				pop.show(primaryStage);
+				pop2.show(primaryStage);
+			});
+
+			Label basicinfo = new Label("Basic information");
+			basicinfo.getStyleClass().add("summary");
+
+			/**
+			 * Een label en een textfield waar je in kan voeren je leeftijd
+			 */
+			Label agelable = new Label("Age :");
+			agelable.getStyleClass().add("curslabel");
+			String ag = Client.toServer("INCOMING-GET Age");
+			final Label age = new Label(ag);
+			age.getStyleClass().add("labelSSS");
+			HBox agebox = new HBox();
+			agebox.getChildren().addAll(agelable, age);
+			agebox.getStyleClass().add("genderbox");
+			agebox.setSpacing(15);
+
+			age.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+					age.setScaleX(1.3);
+					age.setScaleY(1.3);
+				}
+			});
+			age.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					age.setScaleX(1);
+					age.setScaleY(1);
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+
+			// Textfield used in pop up is given event listener
+			age.setOnMouseClicked(e -> {
+				TextField temp = new TextField();
+				temp.getStyleClass().add("fillbox");
+				Label description = new Label("Please fill in you age in numbers \nPress \"Enter\" when finished. ");
+				description.getStyleClass().add("description");
+				Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				Popup pop2 = PopupBuilder.create().content(description)
+						.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				temp.setText(age.getText());
+				temp.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent args) {
+						// newinfo is variable with edited info
+						String newInfo = temp.getText();
+						if (newInfo.trim().isEmpty()) {
+							age.setText("None");
+							temp.setText("None");
+							try {
+								Client.toServer("INCOMING-CHANGE Age None");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							age.setText(newInfo);
+							temp.setText(newInfo);
+							try {
+								Client.toServer("INCOMING-CHANGE Age " + newInfo);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						pop.hide();
+						pop2.hide();
+					}
+				});
+				pop.show(primaryStage);
+				pop2.show(primaryStage);
+			});
+
+			/**
+			 * Een label en een textfield waar je in kan voeren of je een man of een
+			 * vrouw bent
+			 */
+			Label gender = new Label("Gender: ");
+			gender.getStyleClass().add("curslabel");
+			// Info get from server is placed in geslacht label:
+			String userGender = Client.toServer("INCOMING-GET Gender");
+			final Label geslacht = new Label(userGender);
+			geslacht.getStyleClass().add("labelSSS");
+			HBox genbox = new HBox();
+			genbox.getChildren().addAll(gender, geslacht);
+			genbox.getStyleClass().add("genderbox");
+			genbox.setSpacing(15);
+
+			geslacht.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+					geslacht.setScaleX(1.3);
+					geslacht.setScaleY(1.3);
+				}
+			});
+			geslacht.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					geslacht.setScaleX(1);
+					geslacht.setScaleY(1);
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+
+			// Textfield used in pop up is given event listener
+			geslacht.setOnMouseClicked(e -> {
+				TextField temp = new TextField();
+				temp.getStyleClass().add("fillbox");
+				Label description = new Label("Please fill in only: Male/Female \nPress \"Enter\" when finished. ");
+				description.getStyleClass().add("description");
+				Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				Popup pop2 = PopupBuilder.create().content(description)
+						.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				temp.setText(geslacht.getText());
+				temp.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent args) {
+						// newinfo is variable with edited info
+						String newInfo = temp.getText();
+						if (newInfo.trim().isEmpty()) {
+							geslacht.setText("None");
+							temp.setText("None");
+							try {
+								Client.toServer("INCOMING-CHANGE Gender None");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							geslacht.setText(newInfo);
+							temp.setText(newInfo);
+							try {
+								Client.toServer("INCOMING-CHANGE Gender " + newInfo);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						pop.hide();
+						pop2.hide();
+					}
+				});
+				pop.show(primaryStage);
+				pop2.show(primaryStage);
+			});
+
+			/**
+			 * Een label en een textfield waar je in kan voeren waar je vandaan komt
+			 * (land)
+			 */
+			Label country = new Label("Country: ");
+			country.getStyleClass().add("curslabel");
+			// 1)Change inital text field to label:
+			final Label countryof = new Label();
+			String userCountry = Client.toServer("INCOMING-GET CountryOfResidence");
+			// 2)Give it value of user.
+			countryof.setText(userCountry);
+			// 3)Labels of common size can use same style, like City, Country use
+			// labelSSS
+			countryof.getStyleClass().add("labelSSS");
+			HBox countrybox = new HBox();
+			countrybox.getChildren().addAll(country, countryof);
+			countrybox.getStyleClass().add("countrybox");
+			countrybox.setSpacing(11);
+
+			countryof.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+					countryof.setScaleX(1.3);
+					countryof.setScaleY(1.3);
+				}
+			});
+			countryof.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					countryof.setScaleX(1);
+					countryof.setScaleY(1);
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+			countryof.setOnMouseClicked(e -> {
+				TextField temp = new TextField();
+				temp.getStyleClass().add("fillbox");
+				Label description = new Label("Your country name in English  \nPress \"Enter\" when finished. ");
+				description.getStyleClass().add("description");
+				Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				Popup pop2 = PopupBuilder.create().content(description)
+						.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				temp.setText(countryof.getText());
+				temp.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent args) {
+						// newinfo is variable with edited info
+						String newInfo = temp.getText();
+						if (newInfo.trim().isEmpty()) {
+							countryof.setText("None");
+							temp.setText("None");
+							try {
+								Client.toServer("INCOMING-CHANGE CountryOfResidence None");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							countryof.setText(newInfo);
+							temp.setText(newInfo);
+							try {
+								Client.toServer("INCOMING-CHANGE CountryOfResidence " + newInfo);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						pop.hide();
+						pop2.hide();
+					}
+				});
+				pop.show(primaryStage);
+				pop2.show(primaryStage);
+			});
+
+			/**
+			 * Een label en een textfield waar je in kan voeren waar je vandaan komt
+			 * (stad)
+			 */
+			Label city = new Label("City: ");
+			city.getStyleClass().add("curslabel");
+			final Label cit = new Label();
+			String userCity = Client.toServer("INCOMING-GET CityOfResidence");
+			cit.setText(userCity);
+			cit.getStyleClass().add("labelSSS");
+			HBox citybox = new HBox();
+			citybox.getChildren().addAll(city, cit);
+			citybox.getStyleClass().add("citybox");
+			citybox.setSpacing(47);
+
+			cit.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+					cit.setScaleX(1.3);
+					cit.setScaleY(1.3);
+				}
+			});
+			cit.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					cit.setScaleX(1);
+					cit.setScaleY(1);
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+			cit.setOnMouseClicked(e -> {
+				TextField temp = new TextField();
+				temp.getStyleClass().add("fillbox");
+				Label description = new Label("Your city name in English  \nPress \"Enter\" when finished. ");
+				description.getStyleClass().add("description");
+				Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				Popup pop2 = PopupBuilder.create().content(description)
+						.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				temp.setText(cit.getText());
+				temp.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent args) {
+						// newinfo is variable with edited info
+						String newInfo = temp.getText();
+						if (newInfo.trim().isEmpty()) {
+							cit.setText("None");
+							temp.setText("None");
+							try {
+								Client.toServer("INCOMING-CHANGE CityOfResidence None");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							cit.setText(newInfo);
+							temp.setText(newInfo);
+							try {
+								Client.toServer("INCOMING-CHANGE CityOfResidence " + newInfo);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						pop.hide();
+						pop2.hide();
+					}
+				});
+				pop.show(primaryStage);
+				pop2.show(primaryStage);
+			});
+
+			Label contact = new Label("Contact information");
+			contact.getStyleClass().add("summary");
+
+			/**
+			 * Een label en een textfield waar je in kan voeren wat je email adres
+			 * is
+			 */
+			Label eml = new Label("Email: ");
+			eml.getStyleClass().add("curslabel");
+			String el = Client.toServer("INCOMING-GET Email");
+			final Label email = new Label(el);
+			email.getStyleClass().add("labelSSS");
+			HBox mailbox = new HBox();
+			mailbox.getChildren().addAll(eml, email);
+			mailbox.getStyleClass().add("mailbox");
+			mailbox.setSpacing(5);
+			email.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+					email.setScaleX(1.1);
+					email.setScaleY(1.1);
+				}
+			});
+			email.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					email.setScaleX(1);
+					email.setScaleY(1);
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+
+			// Textfield used in pop up is given event listener
+			email.setOnMouseClicked(e -> {
+				TextField temp = new TextField();
+				temp.getStyleClass().add("fillbox");
+				Label description = new Label("Your e-mail address \nPress \"Enter\" when finished. ");
+				description.getStyleClass().add("description");
+				Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				Popup pop2 = PopupBuilder.create().content(description)
+						.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				temp.setText(email.getText());
+				temp.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent args) {
+						// newinfo is variable with edited info
+						String newInfo = temp.getText();
+						if (newInfo.trim().isEmpty()) {
+							email.setText("None");
+							temp.setText("None");
+							try {
+								Client.toServer("INCOMING-CHANGE Email None");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							email.setText(newInfo);
+							temp.setText(newInfo);
+							try {
+								Client.toServer("INCOMING-CHANGE Email " + newInfo);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						pop.hide();
+						pop2.hide();
+					}
+				});
+				pop.show(primaryStage);
+				pop2.show(primaryStage);
+			});
+
+			/**
+			 * Een label en een textfield waar je in kan voeren wat je telefoon
+			 * nummer is
+			 */
+			Label phone = new Label("Tel: ");
+			phone.getStyleClass().add("curslabel");
+			String tel = Client.toServer("INCOMING-GET Phone");
+			final Label phonenumber = new Label(tel);
+			phonenumber.getStyleClass().add("labelSSS");
+			HBox phonebox = new HBox();
+			phonebox.getChildren().addAll(phone, phonenumber);
+			phonebox.getStyleClass().add("phonebox");
+			phonebox.setSpacing(10);
+			phonenumber.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+					phonenumber.setScaleX(1.3);
+					phonenumber.setScaleY(1.3);
+				}
+			});
+			phonenumber.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					phonenumber.setScaleX(1);
+					phonenumber.setScaleY(1);
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+
+			// Textfield used in pop up is given event listener
+			phonenumber.setOnMouseClicked(e -> {
+				TextField temp = new TextField();
+				temp.getStyleClass().add("fillbox");
+				Label description = new Label("Your telephone/Whatsapp number." + "\nPress \"Enter\" when finished. ");
+				description.getStyleClass().add("description");
+				Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				Popup pop2 = PopupBuilder.create().content(description)
+						.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				temp.setText(phonenumber.getText());
+				temp.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent args) {
+						// newinfo is variable with edited info
+						String newInfo = temp.getText();
+						if (newInfo.trim().isEmpty()) {
+							phonenumber.setText("None");
+							temp.setText("None");
+							try {
+								Client.toServer("INCOMING-CHANGE Phone None");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							phonenumber.setText(newInfo);
+							temp.setText(newInfo);
+							try {
+								Client.toServer("INCOMING-CHANGE Phone " + newInfo);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						pop.hide();
+						pop2.hide();
+					}
+				});
+				pop.show(primaryStage);
+				pop2.show(primaryStage);
+			});
+
+			VBox carinfo = new VBox();
+			carinfo.getChildren().addAll(curstud, stpbox, unibox);
+			carinfo.getStyleClass().add("carinfoVBox");
+
+			VBox basinfo = new VBox();
+			basinfo.getChildren().addAll(agebox, genbox, citybox);
+			basinfo.getStyleClass().add("basinfoVBox");
+
+			VBox contactinfo = new VBox();
+			contactinfo.getChildren().addAll(mailbox, phonebox, countrybox);
+			contactinfo.getStyleClass().add("contactinfoVBox");
+
+			/**
+			 * De foto die je eventueel kan vervangen door een foto van jezelf
+			 */
+
+			String userURL = Client.toServer("INCOMING-GET Piclink");
+			ImageView picview = ImageViewBuilder.create().image(new Image("http://i68.tinypic.com/2vjt0xz.jpg"))
+					.build();
+					try
+					{
+						picview = ImageViewBuilder.create().image(new Image(userURL))
+								.build();
+					}
+					catch (Exception e)
+					{
+						picview = ImageViewBuilder.create().image(new Image("http://i68.tinypic.com/2vjt0xz.jpg"))
+								.build();
+					}
+			
+			picview.getStyleClass().add("picuser");
+			picview.setFitHeight(200);
+			picview.setFitWidth(348);
+			picview.setLayoutX(300);
+			picview.setLayoutY(100);
+			picview.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+
+				}
+			});
+			picview.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+
+			// Textfield used in pop up is given event listener
+			picview.setOnMouseClicked(e -> {
+				TextField temp = new TextField();
+				temp.getStyleClass().add("fillbox");
+				Label description = new Label(
+						"Please add an URL link for you profile picture. \n Upload an picture on the internet and get the URL \nWe recommend www.tinypic.com \n Your picture will be changed the next time you logs in \nPress \"Enter\" when finished. ");
+				description.getStyleClass().add("description");
+				Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				Popup pop2 = PopupBuilder.create().content(description)
+						.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				try {
+					temp.setText(Client.toServer("INCOMING-GET Piclink"));
+				} catch (Exception e1) {
+
+					e1.printStackTrace();
+				}
+				temp.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent args) {
+						// newinfo is variable with edited info
+						String newInfo = temp.getText();
+						if (newInfo.trim().isEmpty()) {
+							try {
+								Client.toServer("INCOMING-CHANGE Piclink http://i67.tinypic.com/2ug08eu.jpg");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							try {
+								Client.toServer("INCOMING-CHANGE Piclink " + newInfo);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						pop.hide();
+						pop2.hide();
+						/*
+						 * try { primaryStage.hide();
+						 * profileTab(primaryStage,scenetest,rootProfileTabe,
+						 * sceneProfileTabee); } catch (Exception e1) { //
+						 * e1.printStackTrace(); }
+						 */
+					}
+				});
+				pop.show(primaryStage);
+				pop2.show(primaryStage);
+
+			});
+
+			/**
+			 * Foto van TU Delft, ook dit kan je veranderen naar een foto naar keus.
+			 */
+
+			String userPlacePic = Client.toServer("INCOMING-GET Placepic");
+			ImageView delftview = ImageViewBuilder.create().image(new Image("http://i68.tinypic.com/2vjt0xz.jpg"))
+			.build();
+			try
+			{
+				delftview = ImageViewBuilder.create().image(new Image(userPlacePic))
+						.build();
+			}
+			catch (Exception e)
+			{
+				delftview = ImageViewBuilder.create().image(new Image("http://i68.tinypic.com/2vjt0xz.jpg"))
+						.build();
+			}
+			
+			
+			delftview.getStyleClass().add("picuser");
+			delftview.setFitHeight(200);
+			delftview.setFitWidth(348);
+			delftview.setLayoutX(1200);
+			delftview.setLayoutY(100);
+			delftview.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+
+				}
+			});
+			delftview.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+
+			// Textfield used in pop up is given event listener
+			delftview.setOnMouseClicked(e -> {
+				TextField temp = new TextField();
+				temp.getStyleClass().add("fillbox");
+				Label description = new Label(
+						"Please add an URL link for you university or secondary picture. \n Upload an picture on the internet and get the URL \nWe recommend www.tinypic.com  \n Your picture will be changed the next time you logs in \nPress \"Enter\" when finished. ");
+				description.getStyleClass().add("description");
+				Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				Popup pop2 = PopupBuilder.create().content(description)
+						.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
+						.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+				try {
+					temp.setText(Client.toServer("INCOMING-GET Placepic"));
+				} catch (Exception e1) {
+
+					e1.printStackTrace();
+				}
+				temp.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent args) {
+						// newinfo is variable with edited info
+						String newInfo = temp.getText();
+						if (newInfo.trim().isEmpty()) {
+							try {
+								Client.toServer("INCOMING-CHANGE Piclink http://i67.tinypic.com/15fje5g.jpg");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							try {
+								Client.toServer("INCOMING-CHANGE Placepic " + newInfo);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						pop.hide();
+						pop2.hide();
+						/*
+						 * try { primaryStage.hide();
+						 * profileTab(primaryStage,scenetest,rootProfileTabe,
+						 * sceneProfileTabee); } catch (Exception e1) { //
+						 * e1.printStackTrace(); }
+						 */
+					}
+				});
+				pop.show(primaryStage);
+				pop2.show(primaryStage);
+
+			});
+
+			/**
+			 * Een foto met daarin de logo.
+			 */
+			Image logo = new Image("log.jpg");
+			ImageView imgview = new ImageView(logo);
+			Image motto = new Image("motto.jpg");
+			ImageView picaview = new ImageView(motto);
+
+			HBox boven = new HBox();
+			boven.setMinSize(1550, 85);
+			boven.getChildren().addAll(picaview, imgview);
+			boven.getStyleClass().add("bovenstuk");
+
+			/**
+			 * De zwarte lijn die career informatie scheidt van Basic Informatie.
+			 */
+			Line line = new Line();
+			line.setStartX(750);
+			line.setStartY(500);
+			line.setEndX(750);
+			line.setEndY(727);
+
+			/**
+			 * De zwarte lijn die basic informatie scheidt van Contact Informatie
+			 */
+			Line line2 = new Line();
+			line2.setStartX(1150);
+			line2.setStartY(500);
+			line2.setEndX(1150);
+			line2.setEndY(727);
+
+			Pane rootProfileTabe = new Pane();
+			rootProfileTabe.setId("pane");
+
+			// if(countProfile==0){
+			rootProfileTabe.getChildren().addAll(boven, delftview, picaview, imgview, helpout, overzicht, bovennaam, desci,
+					summary, summy, career, carinfo, basicinfo, basinfo, contact, contactinfo, line, line2, picview);
+			// }
+			countProfile++;
+			boven.setLayoutX(50);
+
+			picaview.setLayoutX(730);
+			picaview.setLayoutY(30);
+
+			imgview.setLayoutX(50);
+			imgview.setLayoutY(25);
+
+			helpout.setLayoutX(1410);
+			helpout.setLayoutY(25);
+
+			overzicht.setLayoutX(50);
+			overzicht.setLayoutY(100);
+
+			bovennaam.setLayoutX(780);
+			bovennaam.setLayoutY(125);
+
+			desci.setLayoutX(720);
+			desci.setLayoutY(200);
+
+			summary.setLayoutX(300);
+			summary.setLayoutY(300);
+
+			summy.setLayoutX(300);
+			summy.setLayoutY(350);
+
+			career.setLayoutX(300);
+			career.setLayoutY(500);
+
+			carinfo.setLayoutX(300);
+			carinfo.setLayoutY(550);
+
+			basicinfo.setLayoutX(760);
+			basicinfo.setLayoutY(500);
+
+			basinfo.setLayoutX(760);
+			basinfo.setLayoutY(550)
+
+			contact.setLayoutX(1200);
+			contact.setLayoutY(500);
+
+			contactinfo.setLayoutX(1200);
+			contactinfo.setLayoutY(550);
+
+			final Scene sceneProfileTabe = new Scene(rootProfileTabe, 1600, 900);
+
+			primaryStage.setScene(sceneProfileTabe);
+
+			sceneProfileTabe.getStylesheets().add("ontwerp.css");
+
+			primaryStage.show();
+
+		}
 	
 }
 	
