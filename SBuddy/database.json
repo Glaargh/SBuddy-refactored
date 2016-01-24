@@ -23,7 +23,7 @@
         "CityOfResidence": "Rotterdam",
         "Available": "true",
         "CurrentUniversity": "Technical University of Delft",
-        "Age": "20",
+        "Age": "19",
         "JoinDate": "11:54:AM:6:1:2015",
         "Password": "iamironman96"
       }
@@ -34,9 +34,9 @@
       {
         "CountryOfResidence": "The Netherlands",
         "CurrentStudy": "Computer Science",
-        "Piclink": "http://www.theblaze.com/wp-content/uploads/2011/10/Facebook-no-profile-picture-icon-620x389.jpg",
+        "Piclink": "https://scontent.cdninstagram.com/hphotos-xft1/t51.2885-15/s320x320/e35/11809967_1104443242917133_1328169645_n.jpg",
         "Email": "pimdhn@gmail.com",
-        "Description": "None",
+        "Description": "I am an ethusiastic student looking to help and work with others :)",
         "Placepic": "http://www.tudelft.nl/uploads/RTEmagicC_comp.jpg.jpg",
         "Lastname": "Dhaen",
         "StudyPeriod": "2015-2018",
@@ -53,7 +53,7 @@
         "CityOfResidence": "Delft",
         "Available": "true",
         "CurrentUniversity": "Technical University of Delft",
-        "Age": "18",
+        "Age": "19",
         "JoinDate": "10:53:PM:3:11:2015",
         "Password": "easy"
       }
@@ -108,6 +108,180 @@
         "Age": "22",
         "JoinDate": "3:48:PM:24:1:2016",
         "Password": "stevepass"
+      }
+    ]
+  },
+  {
+    "naqib@hotmail.com": [
+      {
+        "CountryOfResidence": "Netherlands",
+        "CurrentStudy": "Computer Science",
+        "Piclink": "https://i.ytimg.com/vi/fWPYAd6Ea8I/maxresdefault.jpg",
+        "Email": "naqib@hotmail.com",
+        "Description": "i like computers",
+        "Placepic": "http://www.mecanoo.nl/DesktopModules/40fingers/Images/img.ashx?mode\u003dicon\u0026out\u003dimg\u0026w\u003d2400\u0026File\u003d/Portals/_default//Mecanoo/PRProjects/44/20140717-121203.jpg\u0026Q\u003d70",
+        "Lastname": "Zarin",
+        "StudyPeriod": "2015-2018",
+        "Gender": "Male",
+        "Firstname": "Naqib",
+        "Phone": "086935654",
+        "Course list": {
+          "redeneren en logica": "I passed so I can help you",
+          "Object orientated programming": "can help others and would like to work together on it",
+          "OOP Project": "l can really help people at with javaFX!",
+          "Web en database": "I am looking for someone to help me understand the material",
+          "Calculus": "CALCULUS ALL THE WAY",
+          "computer organisation": "Not so good at it but I just passed"
+        },
+        "CityOfResidence": "Rotterdam",
+        "Available": "true",
+        "CurrentUniversity": "Technical University of Delft",
+        "Age": "21",
+        "JoinDate": "6:28:PM:24:1:2016",
+        "Password": "naqib1"
+      }
+    ]
+  },
+  {
+    "dario@gmail.com": [
+      {
+        "CountryOfResidence": "Netherlands",
+        "CurrentStudy": "Computer Science",
+        "Piclink": "http://i67.tinypic.com/2ug08eu.jpg",
+        "Email": "dario@gmail.com",
+        "Description": "I am a young and enthusiastic guy and like to studdy with others!",
+        "Placepic": "http://i67.tinypic.com/15fje5g.jpg",
+        "Lastname": "Hartog",
+        "StudyPeriod": "2015-2018",
+        "Gender": "Male",
+        "Firstname": "Dario",
+        "Phone": "0668654505",
+        "Course list": {
+          "Web en database": "Im ok at it, could use some help for finals",
+          "Calculus": "I am confident about calulus and can help others here",
+          "Lineaire Algebra": "I am new to this, help me!"
+        },
+        "CityOfResidence": "Delft",
+        "Available": "false",
+        "CurrentUniversity": "Technical University of Delft",
+        "Age": "16",
+        "JoinDate": "8:58:PM:24:1:2016",
+        "Password": "dario1"
+      }
+    ]
+  },
+  {
+    "lufther@gmail.com": [
+      {
+        "CountryOfResidence": "Netherlands",
+        "CurrentStudy": "Computer Science",
+        "Piclink": "https://s-media-cache-ak0.pinimg.com/avatars/lufther_1445279986_140.jpg",
+        "Email": "lufther@gmail.com",
+        "Description": "I study computer sciences at tu delft, my hobbies involve acrobatics, going out with friends and I love efteling!",
+        "Placepic": "http://i67.tinypic.com/15fje5g.jpg",
+        "Lastname": "Kronstadt",
+        "StudyPeriod": "2015-2018",
+        "Gender": "Male",
+        "Firstname": "Lufther",
+        "Phone": "068978155",
+        "Course list": {
+          "Object orientated programming": "I appreciate some help here",
+          "Artificial Intelligence": "I find it very interesting",
+          "Calculus": "I am good at calculus so I can help you",
+          "Lineaire Algebra": "Maths is my strong point",
+          "Web en Database": "Don\u0027t even start about it"
+        },
+        "CityOfResidence": "Amsterdam",
+        "Available": "true",
+        "CurrentUniversity": "Technical University Of Delft",
+        "Age": "20",
+        "JoinDate": "9:2:PM:24:1:2016",
+        "Password": "lufter1"
+      }
+    ]
+  },
+  {
+    "michael@gmail.com": [
+      {
+        "CountryOfResidence": "Netherlands",
+        "CurrentStudy": "Computer Science",
+        "Piclink": "http://www.sandiego.edu/business/images/michael-tran.jpg",
+        "Email": "michael@gmail.com",
+        "Description": "I love my study and working with others:)!",
+        "Placepic": "http://i67.tinypic.com/15fje5g.jpg",
+        "Lastname": "Tran",
+        "StudyPeriod": "2015-2018",
+        "Gender": "Male",
+        "Firstname": "Michael",
+        "Phone": "0649784653",
+        "Course list": {
+          "Artificial Intelligence": "Really good at it",
+          "Calculus": "Looking to improve ,so please help me!",
+          "Web en Database": "I understand databases, but really struggling at web, can you help me?"
+        },
+        "CityOfResidence": "The Hague",
+        "Available": "true",
+        "CurrentUniversity": "Technical University of Delft",
+        "Age": "19",
+        "JoinDate": "9:9:PM:24:1:2016",
+        "Password": "michael1"
+      }
+    ]
+  },
+  {
+    "josie@gmal.com": [
+      {
+        "CountryOfResidence": "The Netherlands",
+        "CurrentStudy": "Philosophy",
+        "Piclink": "http://www.lastudiomusicians.info/Joe%20Meyer%202.jpg",
+        "Email": "josie@gmal.com",
+        "Description": "If learning is so much fun, why should I stop studying? I am not a pervert.",
+        "Placepic": "http://i67.tinypic.com/15fje5g.jpg",
+        "Lastname": "Meyer",
+        "StudyPeriod": "1985-2020",
+        "Gender": "Male",
+        "Firstname": "Joseph",
+        "Phone": "Private",
+        "Course list": {
+          "existence": "awesomeeeeeeee",
+          "Calculus": "The main reason I don\u0027t have many degrees.",
+          "Autonomy": "I can tell you all about it",
+          "Philosophy": "Can help others really well in this subject"
+        },
+        "CityOfResidence": "Arnhem",
+        "Available": "true",
+        "CurrentUniversity": "Univeristy of Amsterdam",
+        "Age": "62",
+        "JoinDate": "9:16:PM:24:1:2016",
+        "Password": "joseph1"
+      }
+    ]
+  },
+  {
+    "fatima@gmail.com": [
+      {
+        "CountryOfResidence": "Turkey",
+        "CurrentStudy": "Dutch Language",
+        "Piclink": "http://i.dailymail.co.uk/i/pix/2011/12/09/article-2072264-0EC8ECE400000578-909_468x300.jpg",
+        "Email": "fatima@gmail.com",
+        "Description": "Ik heb taal probleem en ik want help please:D",
+        "Placepic": "http://i67.tinypic.com/15fje5g.jpg",
+        "Lastname": "Celkoek",
+        "StudyPeriod": "2015-2030",
+        "Gender": "Female",
+        "Firstname": "Fatima",
+        "Phone": "0698465312",
+        "Course list": {
+          "Vocabulary": "This goes well",
+          "Mathematics": "I really want help with maths",
+          "Grammar": "i really dont understand the kofschip rule"
+        },
+        "CityOfResidence": "Amsterdam",
+        "Available": "false",
+        "CurrentUniversity": "University of Amsterdam",
+        "Age": "34",
+        "JoinDate": "9:27:PM:24:1:2016",
+        "Password": "fatima1"
       }
     ]
   }
