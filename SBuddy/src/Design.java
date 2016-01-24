@@ -2759,7 +2759,7 @@ public class Design extends Application {
 			basicinfo.setLayoutY(500);
 
 			basinfo.setLayoutX(760);
-			basinfo.setLayoutY(550)
+			basinfo.setLayoutY(550);
 
 			contact.setLayoutX(1200);
 			contact.setLayoutY(500);
