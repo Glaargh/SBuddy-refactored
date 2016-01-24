@@ -3306,6 +3306,389 @@ public class Design extends Application {
 			primaryStage.show();
 		}
 
-	
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^METHODE PROFILE
+	// TAB^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+	// fdhgjkl;'lkjhbcghjkl';
+	/*
+	 * Declaren van enkele labels die gebruikt worden.
+	 */
+	Label lb_text;
+	Label labels;
+	Label labelss;
+
+	int countMatch = 0;
+	int countProfile = 0;
+	int countOpties = 0;
+	int countCourse = 0;
+	int countHelp = 0;
+
+	Label noResults = new Label("No results were found.");
+	String SearchTypeString = "Name";
+	boolean AvailableNow = false;
+	Button matchButton = new Button("Make match with selected");
+	// Lijst maken. Eerst leeg laten.
+	ListView<String> SearchResultList = new ListView<String>();
+
+	// Results of search by filter.
+	ListView<String> filterTable = new ListView<String>();
+
+	// Checkbox urgent.
+	CheckBox UrgentCheck = new CheckBox("Urgent?");
+	boolean urgency = false;
+	TreeView<String> totLijst;
+
+	final HBox hb = new HBox();
+	// passWord moet veranderd worden naar de werkelijke passwoord van de user.
+	Label TaalDisplayLabel = new Label();
+	Label PasswordDisplayLabel = new Label("Uw wachtwoord is veranderd.");
+	String taalDisplay = "Nederlands";
+	String passWord;
+	String passwoordbutton;
+	String passwoordprompt;
+	String TaalStringButton;
+
+	/*
+	 * De main. Vereist onderdeel
+	 */
+	public static void main(String[] args) {
+		Thread ClientSocket = new Thread(new Client());
+		ClientSocket.start();
+		launch(args);
+	}
+
+	// ***********************************************START JAVA FX, VOORPAGINA
+	// CODE ZIT ER IN
+	// ***********************************************************************
+	public void start(final Stage primaryStage) throws Exception {
+		// TODO Auto-generated method stub
+
+		// **********************************************************PANE OF
+		// TABS*********************
+		primaryStage.setOnCloseRequest(event -> {
+		    System.out.println("Stage is closing");
+		    try {
+				Client.toServer("exit");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    System.exit(0);
+		});
+		
+		Pane rootCourseTab = new Pane();
+		rootCourseTab.getStyleClass().add("vbox");
+
+		Pane rootMatchTab = new Pane();
+		rootMatchTab.getStyleClass().add("Background");
+
+		Pane rootProfileTabe = new Pane();
+		rootProfileTabe.setId("pane");
+
+		Pane rootHelp = new Pane();
+		rootHelp.setId("pane");
+
+		Pane root = new Pane();
+		root.setId("pane");
+
+		final Scene scenetest = new Scene(root, 1300, 800);
+		final Scene sceneProfileTabe = new Scene(rootProfileTabe, 1600, 900);
+		final Scene sceneMatchTab = new Scene(rootMatchTab, 1600, 900);
+		final Scene CourseScene = new Scene(rootCourseTab, 1800, 900);
+		final Scene helpScene = new Scene(rootHelp, 1600, 900);
+
+		// **********************************************************PANE OF
+		// PROFILE TAB*********************
+
+		/**
+		 * Placeholder voor logo. Hier wordt naam gegeven.
+		 */
+
+		Image logo = new Image("log.jpg");
+		ImageView imgview = new ImageView(logo);
+
+		lb_text = new Label();
+		labels = new Label();
+		labels.getStyleClass().add("label12");
+		labels.setLayoutX(730);
+		labels.setLayoutY(120);
+		labelss = new Label();
+
+		/**
+		 * Maken van email form. Zetten van voorgeplaatste text met
+		 * setPromptText("Email")
+		 */
+		final TextField email = new TextField();
+		email.setPromptText("Email");
+		// email.setText("120567wolfert@gmail.com");
+		HBox hb1 = new HBox();
+		hb1.getChildren().addAll(email);
+		hb1.setSpacing(10);
+
+		/**
+		 * Maken van password form. Zetten van voorgeplaatste text met
+		 * setPromptText("Password")
+		 */
+		final PasswordField password = new PasswordField();
+		password.setPromptText("Password");
+		// password.setText("iamironman96");
+		HBox hb2 = new HBox();
+		hb2.getChildren().addAll(password);
+		hb2.setSpacing(13);
+
+		labels.setVisible(false);
+		/**
+		 * Maken van Login button met placeholderfunctie, laten zien dat we met
+		 * .getText() de inhoud van de forms kunnen gebruiken.
+		 */
+		Button button1 = new Button("Log in");
+		button1.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent args) {
+				// *******************************************************************************************************
+				// ******************************READ
+				// ME******************************************************************
+				// HERE IT WILL CHECK IF USER AND PASSWORD IS VALID. IT GO TO
+				// PROFILE PAGE IF VALID. Else readbelow
+				if (!(email.getText().isEmpty() || password.getText().isEmpty())) {
+					try {
+						if (Client
+								.toServer("INCOMING-LOGIN"
+										+ ClientMethods.Login(email.getText().trim(), password.getText().trim()))
+								.equals("true")) {// return true if person is in
+													// database and correct
+													// password
+
+							profileTab(primaryStage, scenetest, rootProfileTabe, sceneProfileTabe, sceneMatchTab,
+									rootMatchTab, rootCourseTab, CourseScene);
+							email.clear();
+							password.clear();
+						} else {// ADD a pop up or something that will say:
+							labels.setText("Sorry, your combination is not valid. Please contact admin.");
+							labels.setVisible(true);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				} else {
+					labels.setText("Please fill in both fields. Email must be valid.");
+					labels.setVisible(true);
+				}
+			}
+		});
+
+		button1.setLayoutX(500);
+		button1.setLayoutY(1000);
+
+		/**
+		 * Zetten van style van de button op de .my_customLabel uit de css.
+		 */
+		button1.getStyleClass().add("my_customLabel");
+
+		/**
+		 * Zelfde doen voor TextFields met .topFields.
+		 */
+		password.getStyleClass().add("topFields");
+		email.getStyleClass().add("topFields");
+
+		/**
+		 * De login form en button in een HBox zetten voor makkelijk
+		 * verplaatsen.
+		 */
+		HBox LoginHolder = new HBox();
+		LoginHolder.getStyleClass().add("lgin");
+		LoginHolder.getChildren().addAll(hb1, hb2, button1);
+
+		/**
+		 * Placeholderfunctie voor de button die een passwoord naar de
+		 * emailadres moet sturen als het geklikt wordt.
+		 */
+		Button button2 = new Button("Forgot your password?");
+		button2.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent args) {
+				lb_text.setText("Your password will be sent to your emailaddress shortly.");
+			}
+		});
+		button2.setVisible(false);
+		/**
+		 * Geven van style .ForgotPassword uit css.
+		 */
+		button2.getStyleClass().add("ForgotPassword");
+
+		/**
+		 * Maken van text boven de form en geven van bijbehorende styles.
+		 */
+		Label find = new Label("Find a study buddy");
+		find.getStyleClass().add("find");
+		Label free = new Label("get started - it's ");
+		Label free2 = new Label("free!");
+		free2.getStyleClass().add("free2bolding");
+		HBox freeholder = new HBox();
+		freeholder.getChildren().addAll(free, free2);
+		freeholder.getStyleClass().add("freeholder");
+
+		/**
+		 * Maken van form voor registreren (voornaam).
+		 */
+		Label label1 = new Label("First name:");
+		label1.getStyleClass().add("firstname");
+		final TextField firstname = new TextField();
+		HBox hb3 = new HBox();
+		hb3.getChildren().addAll(label1, firstname);
+		hb3.getStyleClass().add("first");
+		hb3.setSpacing(10);
+		/**
+		 * Maken van form voor achternaam.
+		 */
+		Label label2 = new Label("Last name:");
+		label2.getStyleClass().add("lastname");
+		final TextField lastname = new TextField();
+		HBox hb4 = new HBox();
+		hb4.getChildren().addAll(label2, lastname);
+		hb4.getStyleClass().add("second");
+		hb4.setSpacing(14);
+
+		/**
+		 * Maken van form voor email.
+		 */
+		Label label3 = new Label("Email:");
+		label3.getStyleClass().add("email");
+		final TextField emailaddress = new TextField();
+		HBox hb5 = new HBox();
+		hb5.getChildren().addAll(label3, emailaddress);
+		hb5.getStyleClass().add("third");
+		hb5.setSpacing(58);
+
+		/**
+		 * Maken van form voor passwoord.
+		 */
+		Label label4 = new Label("Password:");
+		label4.getStyleClass().add("passwd");
+		final TextField passwords = new TextField();
+		HBox hb6 = new HBox();
+		hb6.getChildren().addAll(label4, passwords);
+		hb6.getStyleClass().add("fourth");
+		hb6.setSpacing(15);
+
+		/**
+		 * Maken van button om te joinen met placeholderfunctie.
+		 */
+		Button button3 = new Button("Join now");
+		button3.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent args) {
+
+				if (!(emailaddress.getText().isEmpty() || firstname.getText().isEmpty() || lastname.getText().isEmpty()
+						|| (passwords.getText().length() < 6))) {
+					try {
+						if (Client
+								.toServer(ClientMethods.Register(firstname.getText().trim(), lastname.getText().trim(),
+												emailaddress.getText().trim(), passwords.getText().trim()))
+								.equals("true")) {
+							Client.toServer(ClientMethods.Login(emailaddress.getText().trim(), passwords.getText().trim()));
+							profileTab(primaryStage, scenetest, rootProfileTabe, sceneProfileTabe, sceneMatchTab,
+									rootMatchTab, rootCourseTab, CourseScene);
+							firstname.clear();
+							lastname.clear();
+							emailaddress.clear();
+							passwords.clear();
+						} else {// ADD a pop up or something that will say:
+							labels.setText("Sorry, but your email already exist in our system.");
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				} else {
+					labels.setText("Password must be greater than 6 characters. No blank fields.");
+					labels.setVisible(true);
+				}
+			}
+		});
+
+		/**
+		 * Plaatsen in HBox voor makkelijk verplaatsen en geven van style aan de
+		 * relevante onderdelen.
+		 */
+		VBox logInfoHolder = new VBox();
+		logInfoHolder.getChildren().addAll(hb3, hb4, hb5, hb6, button3, labelss);
+		hb3.getStyleClass().add("RegInfoContents");
+		hb4.getStyleClass().add("RegInfoContents");
+		hb5.getStyleClass().add("RegInfoContents");
+		hb6.getStyleClass().add("RegInfoContents");
+		button3.getStyleClass().add("RegInfoContents");
+		labelss.getStyleClass().add("RegInfoContents");
+		logInfoHolder.getStyleClass().add("registerBox");
+		logInfoHolder.setSpacing(15);
+		// Hier zijn de veranderingen en in css.
+		// logInfoHolder.setOpacity(.68);
+		HBox filler = new HBox();
+		filler.setOpacity(.81);
+		filler.getStyleClass().add("registerBox2");
+		filler.setLayoutX(725);
+		filler.setLayoutY(150);
+		// filler.setMinHeight(150);
+		// filler.setMinWidth(550);
+		filler.setMinHeight(447);
+		filler.setMinWidth(550);
+		button3.getStyleClass().add("Button3Recolor");
+		hb6.setSpacing(20);
+		// HBox filler2 = new HBox();
+		// filler2.setOpacity(.68);
+		// filler2.getStyleClass().add("registerBox");
+		// filler2.setLayoutX(680);
+		// filler2.setLayoutY(300);
+		// filler2.setMinHeight(297);
+		// filler2.setMinWidth(170);
+		// HBox filler3 = new HBox();
+		// filler3.setOpacity(.68);
+		// filler3.getStyleClass().add("registerBox");
+		// filler3.setLayoutX(1162);
+		// filler3.setLayoutY(300);
+		// filler3.setMinHeight(297);
+		// filler3.setMinWidth(68);
+		// Veranderingen eindigen hier.
+
+		/**
+		 * Plaatsen van alles in een Vbox voor display.
+		 */
+
+		root.getChildren().addAll(filler, imgview, LoginHolder, labels, button2, lb_text, find, freeholder,
+				logInfoHolder);
+		// Van 700 naar 755
+		find.setLayoutX(755);
+		find.setLayoutY(150);
+		// Van 750 naar 805
+		freeholder.setLayoutX(805);
+		freeholder.setLayoutY(220);
+
+		button2.setLayoutX(800);
+		button2.setLayoutY(65);
+
+		LoginHolder.setLayoutX(800);
+		LoginHolder.setLayoutY(20);
+		// veranderd van 850 naar 905
+		logInfoHolder.setLayoutX(905);
+		logInfoHolder.setLayoutY(300);
+
+		/**
+		 * Scene maken en zetten als de scene voor primaryStage.
+		 */
+
+		primaryStage.setScene(scenetest);
+
+		/**
+		 * De css toevoegen aan onze scene.
+		 */
+		scenetest.getStylesheets().add("Voorpagina.css");
+
+		/**
+		 * De scene laten zien.
+		 */
+		primaryStage.show();
+
+		// *****************************************************************************************************
+		// ***********************************************PROFILE TAB
+		// CODE***************************************
+	}
+
 }
 	
