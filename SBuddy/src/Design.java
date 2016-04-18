@@ -8,18 +8,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
-
 import javax.imageio.ImageIO;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -48,55 +43,25 @@ import javafx.stage.Popup;
 import javafx.stage.PopupBuilder;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import javafx.scene.control.ListCell
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
-import javafx.application.Application;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
-
 
 
 
@@ -110,7 +75,7 @@ public class Design extends Application {
 		  /* String[] crse = courselist.keySet().toString().substring(1,courselist.keySet().toString().length()-1).split(",");
 		   for (int i =0 ; i<crse.length; i++)
 		   {
-			   crse[i]= crse[i].trim() +"¿"+courselist.get(crse[i].trim());
+			   crse[i]= crse[i].trim() +"Â¿"+courselist.get(crse[i].trim());
 			   System.out.println(crse[i]);
 		   }*/
 			ObservableList<Courses> data = FXCollections.observableArrayList();
@@ -175,7 +140,7 @@ public class Design extends Application {
                 	
                  	String changedValue = t.getNewValue();
                 	try {
-						Client.toServer("INCOMING-COURSECHANGE¿"+changeName+ "¿"+ changedValue);						
+						Client.toServer("INCOMING-COURSECHANGEÂ¿"+changeName+ "Â¿"+ changedValue);						
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -206,7 +171,7 @@ public class Design extends Application {
                 	System.out.println(changedValue);
                 	      
                 	try {
-						Client.toServer("INCOMING-COURSECHANGE¿"+h.getFirstName()+ "¿"+ changedValue);						
+						Client.toServer("INCOMING-COURSECHANGEÂ¿"+h.getFirstName()+ "Â¿"+ changedValue);						
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -251,7 +216,7 @@ public class Design extends Application {
                 	System.out.println("Empty ");
                 }else{
                 	 try {
-     					Client.toServer("INCOMING-COURSECHANGE¿"+addCour+ "¿"+ addDesc);
+     					Client.toServer("INCOMING-COURSECHANGEÂ¿"+addCour+ "Â¿"+ addDesc);
      				} catch (IOException e1) {
      					e1.printStackTrace();
      				}
@@ -284,7 +249,7 @@ public class Design extends Application {
             System.out.println(deleteCourse);
             
             try {
-				Client.toServer("INCOMING-COURSEREMOVE¿"+deleteCourse);
+				Client.toServer("INCOMING-COURSEREMOVEÂ¿"+deleteCourse);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -741,14 +706,14 @@ public class Design extends Application {
 						JSONObject courseList = null;
 						String incomingCourses = "";
 						try {
-							n = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Firstname");
-							sur = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Lastname");
-							a = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Age");
-							c = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿CityOfResidence");
-							co = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿CountryOfResidence");
-							un = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿CurrentUniversity");
-							st = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿CurrentStudy");
-							incomingCourses = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Course list");
+							n = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Firstname");
+							sur = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Lastname");
+							a = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Age");
+							c = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿CityOfResidence");
+							co = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿CountryOfResidence");
+							un = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿CurrentUniversity");
+							st = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿CurrentStudy");
+							incomingCourses = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Course list");
 
 							
 							if (incomingCourses.equals("{}")) {
@@ -770,9 +735,9 @@ public class Design extends Application {
 								}
 							}
 
-							num = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Phone");
-							String email = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Email");
-							piclink = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Piclink");
+							num = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Phone");
+							String email = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Email");
+							piclink = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Piclink");
 							Label name = new Label();
 							name.setText("Full name:          " + n + " " + sur);
 							name.getStyleClass().add("e");
@@ -791,7 +756,7 @@ public class Design extends Application {
 							Label study = new Label();
 							study.setText("Study:              " + st);
 							study.getStyleClass().add("e");
-							Label description = new Label(Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Description"));
+							Label description = new Label(Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Description"));
 							description.getStyleClass().add("e");
 							description.setWrapText(true);
 							ListView<String> tempC = new ListView<String>();
@@ -875,7 +840,7 @@ public class Design extends Application {
 						}
 						// Return control
 						try {
-							Client.toServer("INCOMING-FROMOTHERSGET¿" + curEmail + "¿Piclink");
+							Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + curEmail + "Â¿Piclink");
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -921,14 +886,14 @@ public class Design extends Application {
 						JSONObject courseList = null;
 						String incomingCourses = "";
 						try {
-							n = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Firstname");
-							sur = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Lastname");
-							a = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Age");
-							c = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿CityOfResidence");
-							co = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿CountryOfResidence");
-							un = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿CurrentUniversity");
-							st = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿CurrentStudy");
-							incomingCourses = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Course list");
+							n = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Firstname");
+							sur = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Lastname");
+							a = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Age");
+							c = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿CityOfResidence");
+							co = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿CountryOfResidence");
+							un = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿CurrentUniversity");
+							st = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿CurrentStudy");
+							incomingCourses = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Course list");
 
 							if (incomingCourses.equals("{}")) {
 								incomingCourses = "No results..";
@@ -949,9 +914,9 @@ public class Design extends Application {
 								
 							}
 
-							num = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Phone");
-							String email = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Email");
-							piclink = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Piclink");
+							num = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Phone");
+							String email = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Email");
+							piclink = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Piclink");
 							Label name = new Label();
 							name.setText("Full name:          " + n + " " + sur);
 							name.getStyleClass().add("e");
@@ -970,7 +935,7 @@ public class Design extends Application {
 							Label study = new Label();
 							study.setText("Study:              " + st);
 							study.getStyleClass().add("e");
-							Label description = new Label(Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Description"));
+							Label description = new Label(Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + emailSelect + "Â¿Description"));
 							description.getStyleClass().add("e");
 							description.setWrapText(true);
 							ListView<String> tempC = new ListView<String>();
@@ -1054,7 +1019,7 @@ public class Design extends Application {
 						}
 						// Return control
 						try {
-							Client.toServer("INCOMING-FROMOTHERSGET¿" + curEmail + "¿Piclink");
+							Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + curEmail + "Â¿Piclink");
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -1096,7 +1061,7 @@ public class Design extends Application {
 
 						try {
 							curEmail = Client.toServer("INCOMING-GET Email");
-							temp = Client.toServer("INCOMING-SEARCH¿" + currentOption + "¿" + currentValue);
+							temp = Client.toServer("INCOMING-SEARCHÂ¿" + currentOption + "Â¿" + currentValue);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -1131,19 +1096,19 @@ public class Design extends Application {
 
 									String userCourses = "";
 									try {
-										userCourses = Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Course list");
+										userCourses = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿Course list");
 									} catch (IOException e1) {
 										e1.printStackTrace();
 									}
 									if (userCourses.equals("{}")) {
-										results = "Email: " + Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Email")
-												+ "\nName: " + Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Firstname")
+										results = "Email: " + Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿Email")
+												+ "\nName: " + Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿Firstname")
 												+ "\nUni:     "
-												+ Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿CurrentUniversity")
+												+ Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿CurrentUniversity")
 												+ "\nStudy: "
-												+ Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿CurrentStudy")
+												+ Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿CurrentStudy")
 												+ "\nCity:     "
-												+ Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿CityOfResidence");
+												+ Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿CityOfResidence");
 
 										matchInfo.add(results);
 
@@ -1172,18 +1137,18 @@ public class Design extends Application {
 											}
 									    }
 										String available = "No  :(  Please check back later.";
-										if(Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Available").equals("true"))
+										if(Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿Available").equals("true"))
 										{
 											available="Yes, contact me now!";
 										}
-										results = "Email: " + Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Email")
-												+ "\nName: " + Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Firstname")+" "+ Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Lastname")
+										results = "Email: " + Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿Email")
+												+ "\nName: " + Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿Firstname")+" "+ Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿Lastname")
 												+ "\nUni:     "
-												+ Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿CurrentUniversity")
+												+ Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿CurrentUniversity")
 												+ "\nStudy: "
-												+ Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿CurrentStudy")
+												+ Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿CurrentStudy")
 												+ "\nCity:     "
-												+ Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿CityOfResidence")
+												+ Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿CityOfResidence")
 												+ "\nAvailable Now?     "
 												+ available
 												+ "\nCourses: " + displayCourses;
@@ -1207,7 +1172,7 @@ public class Design extends Application {
 
 							// Reset current user:
 							try {
-								curEmail = Client.toServer("INCOMING-FROMOTHERSGET¿" + curEmail + "¿Firstname");
+								curEmail = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + curEmail + "Â¿Firstname");
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
@@ -1247,7 +1212,7 @@ public class Design extends Application {
 						String userStudy = Client.toServer("INCOMING-GET CurrentStudy");
 						String userUni = Client.toServer("INCOMING-GET CurrentUniversity");
 						String userCity = Client.toServer("INCOMING-GET CityOfResidence");
-						usersMatch = Client.toServer("INCOMING-MATCH" + "¿" + userStudy + "¿" + userUni + "¿" + userCity);
+						usersMatch = Client.toServer("INCOMING-MATCH" + "Â¿" + userStudy + "Â¿" + userUni + "Â¿" + userCity);
 
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -1286,7 +1251,7 @@ public class Design extends Application {
 
 								String userCourses = "";
 								try {
-									userCourses = Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Course list");
+									userCourses = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿Course list");
 
 								} catch (IOException e1) {
 									e1.printStackTrace();
@@ -1294,13 +1259,13 @@ public class Design extends Application {
 								if (userCourses.equals("{}")) {
 									System.out.println("empty");
 
-									results = "Email: " + Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Email")
-											+ "\nName: " + Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Firstname")
+									results = "Email: " + Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿Email")
+											+ "\nName: " + Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿Firstname")
 											+ "\nUni:     "
-											+ Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿CurrentUniversity")
-											+ "\nStudy: " + Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿CurrentStudy")
+											+ Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿CurrentUniversity")
+											+ "\nStudy: " + Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿CurrentStudy")
 											+ "\nCity:     "
-											+ Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿CityOfResidence");
+											+ Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿CityOfResidence");
 
 									matchNames.add(results);
 								} else {
@@ -1329,17 +1294,17 @@ public class Design extends Application {
 										}
 								    }
 									String available = "No  :(  Please check back later.";
-									if(Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Available").equals("true"))
+									if(Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿Available").equals("true"))
 									{
 										available="Yes, contact me now!";
 									}
-									results = "Email: " + Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Email") 
-											+ "\nName: " + Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Firstname")+" "+ Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Lastname")
+									results = "Email: " + Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿Email") 
+											+ "\nName: " + Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿Firstname")+" "+ Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿Lastname")
 											+ "\nUniversity: "
-											+ Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿CurrentUniversity")
-											+ "\nStudy: " + Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿CurrentStudy")
+											+ Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿CurrentUniversity")
+											+ "\nStudy: " + Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿CurrentStudy")
 											+ "\nCity:     "
-											+ Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿CityOfResidence")
+											+ Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + s + "Â¿CityOfResidence")
 											+ "\nAvailable Now?     "
 											+ available;
 									results += "\nCourses: " + displayCourses;
@@ -1355,7 +1320,7 @@ public class Design extends Application {
 
 						// Reset login
 						try {
-							curEmail = Client.toServer("INCOMING-FROMOTHERSGET¿" + curEmail + "¿Firstname");
+							curEmail = Client.toServer("INCOMING-FROMOTHERSGETÂ¿" + curEmail + "Â¿Firstname");
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -3271,7 +3236,7 @@ public class Design extends Application {
 						
 						if(old.equals(checkCur)){
 							try {
-								Client.toServer("INCOMING-ACCREMOVE¿" + curEmail);
+								Client.toServer("INCOMING-ACCREMOVEÂ¿" + curEmail);
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
