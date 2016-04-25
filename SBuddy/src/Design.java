@@ -1,4 +1,5 @@
 import java.awt.MouseInfo;
+
 import java.awt.Window;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -49,7 +50,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.ListCell
+import javafx.scene.control.ListCell;
 import javafx.scene.shape.Rectangle;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleStringProperty;
