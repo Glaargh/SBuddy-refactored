@@ -137,8 +137,8 @@ public class Design extends Application {
 	 */
 	public void start(final Stage primaryStage) throws Exception {
 
-		// **********************************************************PANE OF
-		// TABS*********************
+	
+		// .setOnCloseRequest will terminate the server session when exiting GUI.
 		primaryStage.setOnCloseRequest(event -> {
 		    System.out.println("Stage is closing");
 		    try {
@@ -150,6 +150,7 @@ public class Design extends Application {
 		    System.exit(0);
 		});
 		
+		// HERE ALL THE PANES FOR ALL THE TABS ARE MADE:
 		Pane rootCourseTab = new Pane();
 		rootCourseTab.getStyleClass().add("vbox");
 
@@ -165,6 +166,7 @@ public class Design extends Application {
 		Pane root = new Pane();
 		root.setId("pane");
 
+		// HERE ALL THE SCENES FOR ALL THE TABS ARE MADE:
 		final Scene scenetest = new Scene(root, 1300, 800);
 		final Scene sceneProfileTabe = new Scene(rootProfileTabe, 1600, 900);
 		final Scene sceneMatchTab = new Scene(rootMatchTab, 1600, 900);
@@ -177,7 +179,6 @@ public class Design extends Application {
 		/**
 		 * Placeholder voor logo. Hier wordt naam gegeven.
 		 */
-
 		Image logo = new Image("log.jpg");
 		ImageView imgview = new ImageView(logo);
 
@@ -194,7 +195,6 @@ public class Design extends Application {
 		 */
 		final TextField email = new TextField();
 		email.setPromptText("Email");
-		// email.setText("120567wolfert@gmail.com");
 		HBox hb1 = new HBox();
 		hb1.getChildren().addAll(email);
 		hb1.setSpacing(10);
@@ -205,37 +205,33 @@ public class Design extends Application {
 		 */
 		final PasswordField password = new PasswordField();
 		password.setPromptText("Password");
-		// password.setText("iamironman96");
 		HBox hb2 = new HBox();
 		hb2.getChildren().addAll(password);
 		hb2.setSpacing(13);
-
 		labels.setVisible(false);
+		
 		/**
-		 * Maken van Login button met placeholderfunctie, laten zien dat we met
-		 * .getText() de inhoud van de forms kunnen gebruiken.
+		 * CODE IS MAINLY JAVAFX, NO MAJOR REFACTORS NEEDED
+		 * LOGIN BUTTON, WE GET EMAIL AND PASSWORD BY .getText().
 		 */
 		Button button1 = new Button("Log in");
 		button1.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
-				// *******************************************************************************************************
-				// ******************************READ
-				// ME******************************************************************
-				// HERE IT WILL CHECK IF USER AND PASSWORD IS VALID. IT GO TO
-				// PROFILE PAGE IF VALID. Else readbelow
 				if (!(email.getText().isEmpty() || password.getText().isEmpty())) {
 					try {
+						
 						if (Client
 								.toServer(ClientMethods.Login(email.getText().trim(), password.getText().trim()))
 								.equals("true")) {// return true if person is in
 													// database and correct
-													// password
-
+													// password. IF THE TEXTS FIELDS ARE NOT EMPTY AND THE USER EXISTS:
+							// EXECUTE profileTab method to open profile tab.
 							profileTab(primaryStage, scenetest, rootProfileTabe, sceneProfileTabe, sceneMatchTab,
 									rootMatchTab, rootCourseTab, CourseScene);
 							email.clear();
 							password.clear();
-						} else {// ADD a pop up or something that will say:
+							
+						} else {//UNSUCCESSFULL LOGIN
 							labels.setText("Sorry, your combination is not valid. Please contact admin.");
 							labels.setVisible(true);
 						}
@@ -243,7 +239,7 @@ public class Design extends Application {
 						e.printStackTrace();
 					}
 
-				} else {
+				} else {// EMPTY TEXT FIELDS
 					labels.setText("Please fill in both fields. Email must be valid.");
 					labels.setVisible(true);
 				}
@@ -344,12 +340,14 @@ public class Design extends Application {
 		hb6.setSpacing(15);
 
 		/**
-		 * Maken van button om te joinen met placeholderfunctie.
+		 * CODE IS MAINLY JAVAFX, NO MAJOR REFACTORS NEEDED.
+		 * JOIN NOW BUTTON WHICH ALSO USES .getText() to retrieve email and password info.
 		 */
 		Button button3 = new Button("Join now");
 		button3.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
-
+				// LOGICAL CHECKS IF TEXTS FIELDS AREN'T EMPTY AND WE USE METHOD: "Client
+				//.toServer(ClientMethods.Register(firstname etc.." to register user on database.
 				if (!(emailaddress.getText().isEmpty() || firstname.getText().isEmpty() || lastname.getText().isEmpty()
 						|| (passwords.getText().length() < 6))) {
 					try {
@@ -442,13 +440,15 @@ public class Design extends Application {
 	}
 
 	/**
-	 * PROFILE TAB. THIS IS THE TAB WITH THE MOST TESTABLE CODES. SEE COVERAGE FOR MORE INSTRUCTION
+	 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY).
+	 * THERE IS NOT ALLOT OF CODE WHICH YOU CAN PLACE OUTSIDE GUI, 
+	 * BUT A DIFFERENT APPROACH (GUI CODE REFACTOR) TO GIVE DESIRED FUNCTIONALITY OF PROFILE TAB IS RECOMMENDED.
+	 * THIS IS THE TAB WITH THE MOST "TESTABLE CODES". SEE COVERAGE FOR MORE INSTRUCTION
 	 */
 	@SuppressWarnings("deprecation")
 	public void profileTab(final Stage primaryStage, final Scene scenetest, Pane rootProfileTabee,Scene sceneProfileTabee, final Scene sceneMatchTab, Pane rootMatchTab, Pane rootCourseTab, Scene CourseScene) throws IOException {
 		/**
-		 * een button help. De setaction moet gelinkt worden aan een nieuwe
-		 * page, maar welke? (Dario nodig)
+		 * HELP BUTTON, WILL OPEN HELP SCENE
 		 */
 		Button help = new Button("Help");
 		help.setMinWidth(90);
@@ -460,21 +460,15 @@ public class Design extends Application {
 
 			}
 		});
-		// helpTab(final Stage primaryStage, final Scene sceneMatchTab, Pane
-		// rootMatchTab, Scene sceneProfileTabe,final Scene scenetest, Pane
-		// rootProfileTabe, Pane rootCourseTab, Scene CourseScene,Pane
-		// rootHelp,Scene helpScene){
 
 		/**
-		 * Een button voor logout. De set action moet nog gemaakt worden om
-		 * terug te gaan naar de hoofdpagina? (Dario nodig)
+		 * Een button voor logout. IT WILL OPEN INITIAL LOGIN SCENE
 		 */
 		Button logout = new Button("Log out");
 		logout.setMinWidth(80);
 		logout.getStyleClass().add("logout");
 		logout.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
-
 				try {
 					start(primaryStage);
 				} catch (Exception e) {
@@ -484,7 +478,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een box voor de help en logout buttons (dario nodig)
+		 * Een box voor de help en logout buttons 
 		 */
 		HBox helpout = new HBox();
 		helpout.getChildren().addAll(help, logout);
@@ -499,7 +493,7 @@ public class Design extends Application {
 		deleteall.getStyleClass().add("deleteall");
 
 		/**
-		 * Een foto die hooft bij profile button (Dario nodig)
+		 * Een foto die hoort bij profile button
 		 */
 		Image prfoto = new Image(getClass().getResourceAsStream("huisteken.jpg"));
 		ImageView profileimage = new ImageView(prfoto);
@@ -507,7 +501,7 @@ public class Design extends Application {
 		profile.getStyleClass().add("profile");
 
 		/**
-		 * Een foto die hoort bij course button (Dario nodig)
+		 * course button which will redirect to courses tab
 		 */
 		Image crfoto = new Image(getClass().getResourceAsStream("courseteken.jpg"));
 		ImageView coursefoto = new ImageView(crfoto);
@@ -521,7 +515,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een foto die hoort bij match button (Dario nodig)
+		 * MATCH button which will redirect to MATCH tab
 		 */
 		Image mfoto = new Image(getClass().getResourceAsStream("matchteken.jpg"));
 		ImageView matchfoto = new ImageView(mfoto);
@@ -537,7 +531,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een foto die hoort bij settings button (dario nodig)
+		 * SETTINGS button which will redirect to SETTINGS tab
 		 */
 		Image setfoto = new Image(getClass().getResourceAsStream("settingsteken.jpg"));
 		ImageView settingsfoto = new ImageView(setfoto);
@@ -551,29 +545,36 @@ public class Design extends Application {
 						rootCourseTab, CourseScene);
 			}
 		});
+		
 		/**
-		 * Een VBox voor alle buttons links op de pagina (Dario nodig)
+		 * Een VBox voor alle buttons links op de pagina
 		 */
 		VBox overzicht = new VBox();
 		overzicht.getChildren().addAll(profile, courses, match, settings);
 		overzicht.getStyleClass().add("overzicht");
 		overzicht.setMinHeight(630);
+		
 		/**
-		 * Een textfield waar je je naam in kan voeren DIT MOET Niet een text
-		 * field zijn meer maar een string waar je er op klik komt er text field
-		 * om te veranderen.
-		 */
-
+		 * A USERS INFORMATION IS DISPLAYED BY LABELS.
+		 * TO RETRIEVE THE INFO WE USE method .toServer. for example: Client.toServer("INCOMING-GET Firstname")
+		 * Like this all name,age,nationality etc. labels get display their info.
+		 **/
 		String Vorn = Client.toServer("INCOMING-GET Firstname");
 		final Label Voornaam = new Label(Vorn);
 		Voornaam.getStyleClass().add("labelqqq");
+		
 		String Lstn = Client.toServer("INCOMING-GET Lastname");
 		final Label Lastname = new Label(Lstn);
 		Lastname.getStyleClass().add("labelqqq");
+		
 		HBox bovennaam = new HBox();
 		bovennaam.getChildren().addAll(Voornaam, Lastname);
 		bovennaam.getStyleClass().add("bovennaam");
 		bovennaam.setSpacing(8);
+		
+		/**
+		 * All .setOnMouseEntered and .setOnMouseExited are for the cursor to change style on hover:
+		 * */
 		Voornaam.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
@@ -589,18 +590,30 @@ public class Design extends Application {
 			}
 		});
 
-		// Textfield used in pop up is given event listener
+		
+		/**
+		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
+		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
+		 * WHEN ONE CLICKS ON THE BUTTON.
+		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
+		 **/
 		Voornaam.setOnMouseClicked(e -> {
+			// Temp is textfield of popup
 			TextField temp = new TextField();
 			temp.getStyleClass().add("fillbox");
 			Label description = new Label("Your firstname \nPress \"Enter\" when finished. ");
 			description.getStyleClass().add("description");
+			
+			// The popupa which will appear at your cursor position with .getPointerInfo() :
 			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
 					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
 			Popup pop2 = PopupBuilder.create().content(description)
 					.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
 					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+			
 			temp.setText(Voornaam.getText());
+			
+			// BELOW WE USE METHOD Client.toServer("INCOMING-CHANGE ___ ___") to change a users data in the database:
 			temp.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent args) {
 					// newinfo is variable with edited info
@@ -629,6 +642,10 @@ public class Design extends Application {
 			pop.show(primaryStage);
 			pop2.show(primaryStage);
 		});
+		
+		/**
+		 * All .setOnMouseEntered and .setOnMouseExited are for the cursor to change style on hover:
+		 * */
 		Lastname.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
@@ -644,7 +661,13 @@ public class Design extends Application {
 			}
 		});
 
-		// Textfield used in pop up is given event listener
+		/**
+		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
+		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
+		 * WHEN ONE CLICKS ON THE BUTTON.
+		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
+		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
+		 **/
 		Lastname.setOnMouseClicked(e -> {
 			TextField temp = new TextField();
 			temp.getStyleClass().add("fillbox");
@@ -690,8 +713,6 @@ public class Design extends Application {
 		 * DIT MOET Niet een text field zijn meer maar een string waar je er op
 		 * klik komt er text field om te veranderen.
 		 */
-
-		
 		String programa = Client.toServer("INCOMING-GET CurrentStudy");
 		Label student = new Label("Student " + programa);
 		student.getStyleClass().add("labelSSS4");
@@ -720,7 +741,6 @@ public class Design extends Application {
 		 * Een textfield waar je een iets uitgebreidere samenvatting kan geven
 		 * over jezelf
 		 */
-
 		String descr = Client.toServer("INCOMING-GET Description");
 		final Label descriptn = new Label(descr);
 		descriptn.getStyleClass().add("labelSSS1");
@@ -731,6 +751,10 @@ public class Design extends Application {
 		summy.getChildren().addAll(descriptn);
 		summy.setSpacing(10);
 		summy.getStyleClass().add("summy");
+		
+		/**
+		 * All .setOnMouseEntered and .setOnMouseExited are for the cursor to change style on hover:
+		 * */
 		descriptn.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
@@ -744,7 +768,13 @@ public class Design extends Application {
 			}
 		});
 
-		// Textfield used in pop up is given event listener
+		/**
+		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
+		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
+		 * WHEN ONE CLICKS ON THE BUTTON.
+		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
+		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
+		 **/
 		descriptn.setOnMouseClicked(e -> {
 			TextField temp = new TextField();
 			temp.getStyleClass().add("fillbox");
@@ -802,6 +832,10 @@ public class Design extends Application {
 		curstud.getChildren().addAll(curs, currentstud);
 		curstud.getStyleClass().add("curstudybox");
 		curstud.setSpacing(46);
+		
+		/**
+		 * All .setOnMouseEntered and .setOnMouseExited are for the cursor to change style on hover:
+		 * */
 		currentstud.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
@@ -820,7 +854,13 @@ public class Design extends Application {
 		});
 		
 		
-		// Textfield used in pop up is given event listener
+		/**
+		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
+		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
+		 * WHEN ONE CLICKS ON THE BUTTON.
+		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
+		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
+		 **/
 		currentstud.setOnMouseClicked(e -> {
 			TextField temp = new TextField();
 			temp.getStyleClass().add("fillbox");
@@ -865,9 +905,6 @@ public class Design extends Application {
 		/**
 		 * Een label en een textfield waar je in kan voeren wat je
 		 * waarschijnlijke studieperiode is
-		 *
-		 *
-		 *
 		 */
 		Label studyper = new Label("Study period: ");
 		studyper.getStyleClass().add("curslabel");
@@ -878,6 +915,8 @@ public class Design extends Application {
 		stpbox.getChildren().addAll(studyper, stper);
 		stpbox.getStyleClass().add("genderbox");
 		stpbox.setSpacing(55);
+		
+		
 		stper.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
@@ -895,7 +934,13 @@ public class Design extends Application {
 			}
 		});
 
-		// Textfield used in pop up is given event listener
+		/**
+		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
+		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
+		 * WHEN ONE CLICKS ON THE BUTTON.
+		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
+		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
+		 **/
 		stper.setOnMouseClicked(e -> {
 			TextField temp = new TextField();
 			temp.getStyleClass().add("fillbox");
@@ -969,7 +1014,13 @@ public class Design extends Application {
 		});
 		
 
-		// Textfield used in pop up is given event listener
+		/**
+		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
+		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
+		 * WHEN ONE CLICKS ON THE BUTTON.
+		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
+		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
+		 **/
 		uni.setOnMouseClicked(e -> {
 			TextField temp = new TextField();
 			temp.getStyleClass().add("fillbox");
@@ -1043,7 +1094,13 @@ public class Design extends Application {
 			}
 		});
 
-		// Textfield used in pop up is given event listener
+		/**
+		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
+		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
+		 * WHEN ONE CLICKS ON THE BUTTON.
+		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
+		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
+		 **/
 		age.setOnMouseClicked(e -> {
 			TextField temp = new TextField();
 			temp.getStyleClass().add("fillbox");
@@ -1116,7 +1173,13 @@ public class Design extends Application {
 			}
 		});
 
-		// Textfield used in pop up is given event listener
+		/**
+		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
+		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
+		 * WHEN ONE CLICKS ON THE BUTTON.
+		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
+		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
+		 **/
 		geslacht.setOnMouseClicked(e -> {
 			TextField temp = new TextField();
 			temp.getStyleClass().add("fillbox");
@@ -1192,6 +1255,14 @@ public class Design extends Application {
 				sceneProfileTabee.setCursor(Cursor.DEFAULT);
 			}
 		});
+		
+		/**
+		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
+		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
+		 * WHEN ONE CLICKS ON THE BUTTON.
+		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
+		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
+		 **/
 		countryof.setOnMouseClicked(e -> {
 			TextField temp = new TextField();
 			temp.getStyleClass().add("fillbox");
@@ -1263,6 +1334,14 @@ public class Design extends Application {
 				sceneProfileTabee.setCursor(Cursor.DEFAULT);
 			}
 		});
+		
+		/**
+		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
+		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
+		 * WHEN ONE CLICKS ON THE BUTTON.
+		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
+		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
+		 **/
 		cit.setOnMouseClicked(e -> {
 			TextField temp = new TextField();
 			temp.getStyleClass().add("fillbox");
@@ -1336,7 +1415,13 @@ public class Design extends Application {
 			}
 		});
 
-		// Textfield used in pop up is given event listener
+		/**
+		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
+		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
+		 * WHEN ONE CLICKS ON THE BUTTON.
+		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
+		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
+		 **/
 		email.setOnMouseClicked(e -> {
 			TextField temp = new TextField();
 			temp.getStyleClass().add("fillbox");
@@ -1390,6 +1475,7 @@ public class Design extends Application {
 		phonebox.getChildren().addAll(phone, phonenumber);
 		phonebox.getStyleClass().add("phonebox");
 		phonebox.setSpacing(10);
+		
 		phonenumber.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
@@ -1407,7 +1493,13 @@ public class Design extends Application {
 			}
 		});
 
-		// Textfield used in pop up is given event listener
+		/**
+		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
+		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
+		 * WHEN ONE CLICKS ON THE BUTTON.
+		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
+		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
+		 **/
 		phonenumber.setOnMouseClicked(e -> {
 			TextField temp = new TextField();
 			temp.getStyleClass().add("fillbox");
@@ -1463,7 +1555,6 @@ public class Design extends Application {
 		/**
 		 * De foto die je eventueel kan vervangen door een foto van jezelf
 		 */
-
 		String userURL = Client.toServer("INCOMING-GET Piclink");
 		ImageView picview = ImageViewBuilder.create().image(new Image("http://i68.tinypic.com/2vjt0xz.jpg"))
 				.build();
@@ -1497,7 +1588,13 @@ public class Design extends Application {
 			}
 		});
 
-		// Textfield used in pop up is given event listener
+		/**
+		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
+		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
+		 * WHEN ONE CLICKS ON THE BUTTON.
+		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
+		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
+		 **/
 		picview.setOnMouseClicked(e -> {
 			TextField temp = new TextField();
 			temp.getStyleClass().add("fillbox");
@@ -1571,6 +1668,7 @@ public class Design extends Application {
 		delftview.setFitWidth(348);
 		delftview.setLayoutX(1200);
 		delftview.setLayoutY(100);
+		
 		delftview.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
@@ -1586,7 +1684,13 @@ public class Design extends Application {
 			}
 		});
 
-		// Textfield used in pop up is given event listener
+		/**
+		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
+		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
+		 * WHEN ONE CLICKS ON THE BUTTON.
+		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
+		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
+		 **/
 		delftview.setOnMouseClicked(e -> {
 			TextField temp = new TextField();
 			temp.getStyleClass().add("fillbox");
@@ -1670,10 +1774,9 @@ public class Design extends Application {
 		Pane rootProfileTabe = new Pane();
 		rootProfileTabe.setId("pane");
 
-		// if(countProfile==0){
 		rootProfileTabe.getChildren().addAll(boven, delftview, picaview, imgview, helpout, overzicht, bovennaam, desci,
 				summary, summy, career, carinfo, basicinfo, basinfo, contact, contactinfo, line, line2, picview);
-		// }
+
 		countProfile++;
 		boven.setLayoutX(50);
 
@@ -1730,21 +1833,23 @@ public class Design extends Application {
 	}
 	
 	/**
-	 * COURSE TAB, NOT MUCH CODE GROUPS WHICH CAN BE PUT INTO METHODS.
+	 * Allot of parsing which should be done outside of GUI is in courses tab, try change
 	 */
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	public void coursesTab(final Stage primaryStage, final Scene sceneMatchTab, Pane rootMatchTab, Scene sceneProfileTabe,final Scene scenetest, Pane rootProfileTabe, Pane rootCourseTab, Scene CourseScene){
 	   
+			// These are the tables storing course info
 			TableView<Courses> table = new TableView<Courses>();
-
-		
-		  /* String[] crse = courselist.keySet().toString().substring(1,courselist.keySet().toString().length()-1).split(",");
-		   for (int i =0 ; i<crse.length; i++)
-		   {
-			   crse[i]= crse[i].trim() +"¿"+courselist.get(crse[i].trim());
-			   System.out.println(crse[i]);
-		   }*/
+			// WE USE variable data, which is the data of the table, to change and add info to our table
 			ObservableList<Courses> data = FXCollections.observableArrayList();
+			
+			/**
+			 * We need to display course discription and course name in the table.
+			 * To get a users course info, we once again use String courses = Client.toServer("INCOMING-GET Course list").
+			 * This will return a string with the following pattern (check again to confirm), String courses =  {"calculus":"I really hate it", "Algebra":"I really love it"}
+			 * THE FOLLOWING CODE SNIPPET USES AN ITERATOR AND SEPERATES the above JSON object, putting everything into key value pairs.
+			 * THIS CODE IS BEST TO PLACED OUTSIDE GUI, THE PARSING DONE HERE IS EXCESSIVE FOR GUI:
+			 * */
 			Set keys = null;
 			Iterator loop = null;
 			JSONObject courseList = null;
@@ -1766,21 +1871,19 @@ public class Design extends Application {
 				keys = courseList.keySet();
 			    loop = keys.iterator();	
 			    while(loop.hasNext()) {
+			    	// KEY is course name
+			    	// VALUE is course description
 			    	String key = (String)loop.next();
 			        String value = (String)courseList.get(key);
-		
+			        // HERE EVERY COURSE AND COURSE DESCRIPTION IS PLACED INTO THE TABLE THROUGH THE LOOP:
 			        data.add(new Courses(key,value,""));
+					// WE USE variable data, which is the data of the table, to change and add info to our table
 			    }
 			}else{
 				System.out.println("No courses #course tab");
 			}
 		
 			
-			
-		   
-
-		
-		
 		primaryStage.setTitle("Courses");
         primaryStage.setWidth(1600);
         primaryStage.setHeight(900);
@@ -1797,17 +1900,22 @@ public class Design extends Application {
             new PropertyValueFactory<Courses, String>("firstName"));
 
  
- 
+        /**
+         * HERE WE DEFINE THE COLUMN FOR COURSE DESCRIPTION.
+         * */
         TableColumn gradeCol = new TableColumn("Description");
         gradeCol.setMinWidth(800);
-        gradeCol.setCellValueFactory(
-            new PropertyValueFactory<Courses, String>("lastName"));
+        gradeCol.setCellValueFactory(new PropertyValueFactory<Courses, String>("lastName"));
         gradeCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        /**
+         * Allows for changing of cell info (.setOnEditCommit) as well as the user info in database with (Client.toServer("INCOMING-COURSECHANGE¿"+h.getFirstName()+ "¿"+ changedValue);	):
+         * */
         gradeCol.setOnEditCommit(
             new EventHandler<CellEditEvent<Courses, String>>() {
                 @Override
                 public void handle(CellEditEvent<Courses, String> t) {
                 	
+                	// Choose selected (clicked on cell) item on table and edit that specific info:
                 	Courses h = table.getSelectionModel().getSelectedItem();
                 	System.out.println(h.getLastName());
              
@@ -1828,11 +1936,11 @@ public class Design extends Application {
             }
         );
  
+        // Table gets the info from observiable list of strings data:
         table.setItems(data);
-        //if(countCourse ==0){
+        // Add columns to table
         table.getColumns().addAll(courseCol, gradeCol);
         table.getStyleClass().add("table");
-        //}
  
         final TextField addCourse = new TextField();
         addCourse.setPromptText("Course");
@@ -1845,28 +1953,29 @@ public class Design extends Application {
         addGrade.setMaxWidth(200);
         addHelp.setMaxWidth(200);
         
-        
+        /**
+         * HERE WE DEFINE HOW TO ADD INFO TO TABLE AND USER DATABASE:
+         * */
         Button addButton = new Button("Add");
         addButton.getStyleClass().add("toevoeg");
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
             
-            	
+            	// GET info to be added from textbox:
             	String addCour = addCourse.getText().trim();
-
                 String addDesc = addGrade.getText().trim();
                 if(addCour.equals("") ||addDesc.equals("")){
                 	System.out.println("Empty ");
                 }else{
                 	 try {
+                		// IF THE INPUT ISNT EMPTY, THE WE USE Client.toServer("INCOMING-COURSECHANGE¿"etc. to change a users info in database.
      					Client.toServer("INCOMING-COURSECHANGE¿"+addCour+ "¿"+ addDesc);
      				} catch (IOException e1) {
      					e1.printStackTrace();
      				}
-                     
-                     //addHelp.getText();
-                     
+                    
+                     // We add to table
                      data.add(new Courses(
                              addCourse.getText(),
                              addGrade.getText(),""));
@@ -1883,6 +1992,10 @@ public class Design extends Application {
             }
         });
         
+        /**
+         * Here we can delete a course from table and user database with Client.toServer("INCOMING-COURSEREMOVE¿"+deleteCourse);
+         * and using selectors of table to select which item to delete
+         * */
         final Button deleteButton = new Button("Delete");
         deleteButton.getStyleClass().add("toevoeg");
         deleteButton.setOnAction(e -> {
@@ -1961,15 +2074,12 @@ public class Design extends Application {
 		profile.getStyleClass().add("profile");
 		profile.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
-			//	profileTab(primaryStage, scenetest, rootProfileTabe, sceneProfileTabe,sceneMatchTab,rootMatchTab);
 			try {
 				profileTab(primaryStage,scenetest,rootProfileTabe,sceneProfileTabe,sceneMatchTab,rootMatchTab,rootCourseTab,CourseScene);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
-				//1final Stage primaryStage, final Scene scenetest, Pane rootProfileTabe, Scene sceneProfileTabe, final Scene sceneMatchTab, Pane rootMatchTab) throws IOException{
-			
 			}
 		});
 		
@@ -2004,7 +2114,7 @@ public class Design extends Application {
 		settings.getStyleClass().add("settings");
 		settings.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
-				//final Stage primaryStage, final Scene sceneMatchTab, Pane rootMatchTab, Scene sceneProfileTabe
+			
 				settingsTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe,scenetest, rootProfileTabe,rootCourseTab,CourseScene);
 			}
 		});
@@ -2030,12 +2140,11 @@ public class Design extends Application {
 		boven.getChildren().addAll(picaview, imgview);
 		boven.getStyleClass().add("bovenstuk");
 		
-       
 		Pane rootCourse = new Pane();
 		rootCourse.getStyleClass().add("pane");
-        //if(countCourse == 0){
+        
 		rootCourse.getChildren().addAll(label, courseoverview,  table, hb, boven,  picaview, imgview, helpout, overzicht);
-        //}
+
         countCourse++;
       
 		boven.setLayoutX(50);
@@ -2060,7 +2169,7 @@ public class Design extends Application {
 	}
 
 	/**
-	 * THIS IS A CLASS WHICH IS CREATED TO SUPPORT PARTS FROM COURSE TAB, TESTABLE
+	 * THIS IS A CLASS WHICH IS CREATED TO SUPPORT THE USE OF A TABLE IN COURSE TAB, TESTABLE
 	 */
 	public static class Courses {
 
@@ -2103,29 +2212,16 @@ public class Design extends Application {
 	/**
 	 * MATCH TAB, THIS IS WHERE THE ESSENTIAL TRANSLATION CODE (JSON DATA FROM SERVER TO DISPLAY VARIABLES) WHICH ARE TESTABLE ARE. LOADS OF PARSING CODES, 
 	 * THESE SHOULD BE PUT INTO THEIR OWN PARSING METHODS WHICH ARE CALLED FROM THE MATCH TAB. 
+	 * VIEWPROFILE  AND VIEWPROFILE2 (BUTTONS) ARE MOST IMPORTANT TO REFACTOR
 	 */
 	public void matchTab(final Stage primaryStage, final Scene sceneMatchTab, Pane rootMatchTab, Scene sceneProfileTabe,
 			final Scene scenetest, Pane rootProfileTabe, Pane rootCourseTab, Scene CourseScene) {
-
 		
+		// here a few operations are performed for positioning/visibility of button and tables:
 		filterTable.getItems().clear();
 		SearchResultList.getItems().clear();
 		filterTable.setMinHeight(450);
 		SearchResultList.setMinHeight(450);
-		/*
-		 * ImageView picview = null; try { picview = ImageViewBuilder.create()
-		 * .image(new Image(Client.toServer("INCOMING-GET Piclink"))) .build();
-		 * } catch (IOException e1) { e1.printStackTrace(); }
-		 * picview.setFitHeight(200); picview.setFitWidth(250);
-		 * /*picview.setLayoutX(300); picview.setLayoutY(100);
-		 */
-		/*
-		 * SearchResultList.setCellFactory(new Callback<ListView<String>,
-		 * ListCell<String>>() {
-		 * 
-		 * @Override public ListCell<String> call(ListView<String> list) {
-		 * return new ColorRectCell(); } } );
-		 */
 
 		TextField enterSearch = new TextField();
 		enterSearch.setLayoutX(1125);
@@ -2142,23 +2238,23 @@ public class Design extends Application {
 		UrgentBox.setSpacing(10);
 		UrgentBox.getStyleClass().add("checkboxBox");
 		UrgentBox.setVisible(false);
+		// BE ABLE TO MARK CHECHBOX ON AND OFF (AVAILABLE AND UNAVAILABLE) 
 		UrgentCheck.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				urgency = newValue;
 			}
 		});
-
 		noResults.getStyleClass().add("noResults");
 
 		ArrayList<String> SearchResultInput = new ArrayList<String>();
 
 		// Initialiseren van resultaten als niet zichtbaar.
-
 		noResults.setVisible(false);
 
 		SearchResultList.getStyleClass().add("SearchResults");
 
+		// if user is available it displays accordingly
 		boolean userAvailability = false;
 		try {
 			String tempA = Client.toServer("INCOMING-GET Available");
@@ -2180,8 +2276,7 @@ public class Design extends Application {
 	
 
 		/**
-		 * een button help. De setaction moet gelinkt worden aan een nieuwe
-		 * page, maar welke? (Dario nodig)
+		 * een button help. 
 		 */
 		Button help = new Button("Help");
 		help.setMinWidth(90);
@@ -2194,8 +2289,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een button voor logout. De set action moet nog gemaakt worden om
-		 * terug te gaan naar de hoofdpagina? (Dario nodig)
+		 * Een button voor logout.
 		 */
 		Button logout = new Button("Log out");
 		logout.setMinWidth(90);
@@ -2230,19 +2324,12 @@ public class Design extends Application {
 		profile.getStyleClass().add("profile");
 		profile.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
-				// profileTab(primaryStage, scenetest, rootProfileTabe,
-				// sceneProfileTabe,sceneMatchTab,rootMatchTab);
 				try {
 					profileTab(primaryStage, scenetest, rootProfileTabe, sceneProfileTabe, sceneMatchTab, rootMatchTab,
 							rootCourseTab, CourseScene);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				// 1final Stage primaryStage, final Scene scenetest, Pane
-				// rootProfileTabe, Scene sceneProfileTabe, final Scene
-				// sceneMatchTab, Pane rootMatchTab) throws IOException{
-
 			}
 		});
 
@@ -2277,8 +2364,6 @@ public class Design extends Application {
 		settings.getStyleClass().add("settings");
 		settings.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
-				// final Stage primaryStage, final Scene sceneMatchTab, Pane
-				// rootMatchTab, Scene sceneProfileTabe
 				settingsTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
 						rootCourseTab, CourseScene);
 			}
@@ -2302,7 +2387,6 @@ public class Design extends Application {
 
 		HBox bovens = new HBox();
 		bovens.setMinSize(1550, 85);
-		// bovens.getChildren().addAll(picaviews, imgviews);
 		bovens.getStyleClass().add("bovenstuk");
 
 		bovens.setLayoutX(50);
@@ -2312,25 +2396,36 @@ public class Design extends Application {
 		imgviews.setLayoutX(50);
 		imgviews.setLayoutY(25);
 
+		/**
+		 * VIEW PROFILE BUTTON,
+		 * CLICK A USER YOU MATCH WITH THEN PRESS BUTTON FOR POP UP WITH RESPECTIVE INFO
+		 **/
 		Button viewProfile2 = new Button("View Selected Profile");
 		viewProfile2.getStyleClass().add("viewProfile");
 		viewProfile2.setLayoutX(1020);
 		viewProfile2.setLayoutY(700);
 		viewProfile2.setVisible(false);
+		/**
+		 * VIEW PROFILE BUTTON
+		 * THIS NEEDS REFACTORING!
+		 * WE PARSE THE INCOMING MATCHES INFO INTO RESPECTIVE PLACES FOR DISPLAY. THE PARSING MUST BE DONE OUTSIDE GUI.
+		 **/
 		viewProfile2.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
+				// DETERMINE WHO IS LOGGED IN WITH GETTING CURRENT EMAIL
 				String curEmail = "";
 				try {
 					curEmail = Client.toServer("INCOMING-GET Email");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				// Get name of person to view profie of.
+				// GET THE NAME OF THE PROFILE WE WANT TO VIEW (.getSelectedItem() from table)
 				String emailSelect = filterTable.getSelectionModel().getSelectedItem();
 
 				if (emailSelect.equals("No results..") || filterTable.getSelectionModel().getSelectedItem().isEmpty()) {
 					System.out.println("No results");
 				} else {
+					// WE USE A SCANNER TO GRAB THE NAME, FOR EXAMPLE TO GET RID OF 'NAME' IN "NAME:PIM" AND TO JUST HAVE "PIM"
 					Scanner sc = new Scanner(emailSelect);
 					sc.useDelimiter("\n");
 					emailSelect = sc.next().substring(7);
@@ -2349,6 +2444,7 @@ public class Design extends Application {
 					JSONObject courseList = null;
 					String incomingCourses = "";
 					try {
+						// WE GET ALL OTHER INFO OF SELECTED USER WITH (Client.toServer("INCOMING-FROMOTHERSGET¿) LIKE BELOW:
 						n = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Firstname");
 						sur = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Lastname");
 						a = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Age");
@@ -2358,7 +2454,7 @@ public class Design extends Application {
 						st = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿CurrentStudy");
 						incomingCourses = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Course list");
 
-						
+						// WE USE ITERATOR TO PARSE THE COURSES INFO OF USER WE'RE LOOKING AT, LIKE EXPLANED IN THE PROFILE TAB
 						if (incomingCourses.equals("{}")) {
 							incomingCourses = "No results..";
 						} else {
@@ -2381,6 +2477,7 @@ public class Design extends Application {
 						num = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Phone");
 						String email = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Email");
 						piclink = Client.toServer("INCOMING-FROMOTHERSGET¿" + emailSelect + "¿Piclink");
+						// PLACE THE INFO IN THE LABELS:
 						Label name = new Label();
 						name.setText("Full name:          " + n + " " + sur);
 						name.getStyleClass().add("e");
@@ -2420,7 +2517,7 @@ public class Design extends Application {
 						courses.setText("Courses:            ");
 						courses.getStyleClass().add("e");
 						
-					
+						// CREATE RESPECTIVE LABELS AND BOXES FOR DISPLAY PURPOSES
 						
 						Label number = new Label();
 						number.setText("Number: " + num);
@@ -2468,6 +2565,7 @@ public class Design extends Application {
 						emailadress.getStyleClass().add("LabelPop");
 						courses.getStyleClass().add("LabelPop");
 
+						// PUT ALL ABOVE LABELS IN A POPUP
 						Popup pop = PopupBuilder.create().content(view).y(250).x(850).width(0).height(0).build();
 
 						closePop.setOnAction(new EventHandler<ActionEvent>() {
@@ -2481,7 +2579,8 @@ public class Design extends Application {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					// Return control
+					// WE SEND A REQUEST TO SERVER ASKING FOR OUR OWN (THE ONE LOGGED IN) EMAIL, THIS RETURNS CONTROL TO THE USER BEING LOGGED IN SO WE
+					// DO FURTHER REQUEST OUT OF USERS PERSPECTIVE.
 					try {
 						Client.toServer("INCOMING-FROMOTHERSGET¿" + curEmail + "¿Piclink");
 					} catch (IOException e) {
@@ -2491,6 +2590,10 @@ public class Design extends Application {
 			}
 		});
 
+		/**
+		 * READ comments by viewProfile2 for explanation what this button does, as they both are similar:
+		 * NEEDS REFACTORING SAME WAY AS viewProfile2 button
+		 * */
 		Button viewProfile = new Button("View Selected Profile");
 		viewProfile.getStyleClass().add("viewProfile");
 		viewProfile.setLayoutX(350);
@@ -2670,7 +2773,11 @@ public class Design extends Application {
 			}
 		});
 
-		// Where all the results get decided.
+		/**
+		 * FIND MATCHES BY SEARCHING BUTTON.
+		 * WILL DISPLAY MATCHES ACCORDING TO SEARCH PREFERENCES.
+		 * NEEDS REFACTORING FOR HOW WE PARSE INCOMING INFO FROM SERVER:
+		 * */
 		Button searchCourse = new Button("Search");
 		searchCourse.getStyleClass().add("courseSearch");
 		searchCourse.setLayoutX(1309);
@@ -2679,7 +2786,7 @@ public class Design extends Application {
 			public void handle(ActionEvent args) {
 				filterTable.getItems().clear();
 				if (!(enterSearch.getText().equals(""))) {
-
+					// DECIDE WHAT OPTION/PREFERENCES WE CHOSE TO SEARCH WITH:
 					String currentOption = SearchOptions.getValue();
 					String currentValue = enterSearch.getText();
 
@@ -2692,6 +2799,7 @@ public class Design extends Application {
 					if (currentOption.equals("Interested Courses")) {
 						currentOption = "Course list";
 					}
+					//set up variables for parsing of temp:
 					String temp = "";
 					String results = "";
 					String curEmail = "";
@@ -2701,18 +2809,21 @@ public class Design extends Application {
 					Set keys = null;
 					Iterator loop = null;
 					JSONObject courseList = null;
-
+					
+					// HERE WE RECEIVE ALL MATCHES BY SEARCH USING: " Client.toServer("INCOMING-SEARCH¿" + currentOption + "¿" + currentValue);"
 					try {
 						curEmail = Client.toServer("INCOMING-GET Email");
 						temp = Client.toServer("INCOMING-SEARCH¿" + currentOption + "¿" + currentValue);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-
-					System.out.println(temp + "#");
-					// System.out.println(SearchAvailableNow.selectedProperty().get());
-
-					// Grab emails through result as string:
+					
+					/**
+					 * MAIN TIP FOR REFACTORING, THE temp VARIABLE above receives all people and their details as JSON OBJECT.
+					 * Below with use of scanner and primitive parsing technqiues we grab all emails of matches out of that JSON String for display.
+					 * Look at what temp looks like and implement a parsing method elsewhere or refactor code.
+					 * 
+					 * */
 					Scanner sc;
 					if (temp.equals("[]")) {
 						System.out.println("No Results..");
@@ -2725,6 +2836,7 @@ public class Design extends Application {
 						while (sc.hasNext()) {
 							temp2 = sc.next().substring(1);
 							if (!temp2.equals(curEmail)) {
+								// match emails gets all emails of people we match with
 								if (temp2.endsWith("]")) {
 									matchEmails.add(temp2.substring(0, temp2.length() - 1));
 								} else {
@@ -2733,7 +2845,8 @@ public class Design extends Application {
 							}
 						}
 
-						// Get info of matched emails
+						// Get info of matched emails using the command to get other peoples info  Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Email")
+						//+ "\nName: " + Client.toServer("INCOMING-FROMOTHERSGET
 						for (String s : matchEmails) {
 							try {
 
@@ -2756,6 +2869,7 @@ public class Design extends Application {
 									matchInfo.add(results);
 
 								} else {
+									// PARSE MATCHES COURSES:
 									if(!userCourses.equals("{}")){
 										//Parse String to a JSONObject:
 										try {
@@ -2804,7 +2918,7 @@ public class Design extends Application {
 							}
 						}
 
-						// Display results:
+						// Display THE INFO OF MATCHES IN THE TABLE:
 						for (String j : matchInfo) {
 							if (j.contains(curEmail)) {
 								System.out.println(curEmail + "Exists");
@@ -2813,7 +2927,7 @@ public class Design extends Application {
 							}
 						}
 
-						// Reset current user:
+						// RETURN CONTROL TO USER LOGGED IN:
 						try {
 							curEmail = Client.toServer("INCOMING-FROMOTHERSGET¿" + curEmail + "¿Firstname");
 						} catch (IOException e) {
@@ -2839,11 +2953,17 @@ public class Design extends Application {
 
 		});
 
+		/**
+		 * MATCHNOW BUTTON, FINDS AND DISPLAYS ALL MATCHES
+		 * NEEDS REFACTORING!
+		 * */
 		Button matchNow = new Button("Match Now!");
 		matchNow.getStyleClass().add("matchbut");
 		matchNow.setLayoutX(470);
 		matchNow.setLayoutY(130);
-
+		/**
+		 * WHEN WE CLICK ON MATCHNOW:
+		 * */
 		matchNow.setOnAction(new EventHandler<ActionEvent>() {
 			@SuppressWarnings("resource")
 			public void handle(ActionEvent args) {
@@ -2851,10 +2971,15 @@ public class Design extends Application {
 				String usersMatch = "";
 				String curEmail = "";
 				try {
+					// GET USER LOGGED IN INFO TO SEARCH FOR SIMILAR MATCHES
 					curEmail = Client.toServer("INCOMING-GET Email");
 					String userStudy = Client.toServer("INCOMING-GET CurrentStudy");
 					String userUni = Client.toServer("INCOMING-GET CurrentUniversity");
 					String userCity = Client.toServer("INCOMING-GET CityOfResidence");
+					/**
+					 * WE USE Client.toServer("INCOMING-MATCH"  method to get all matches .
+					 *  variable usersMatch will contain all other matches info which we parse below.
+					 * */
 					usersMatch = Client.toServer("INCOMING-MATCH" + "¿" + userStudy + "¿" + userUni + "¿" + userCity);
 
 				} catch (IOException e) {
@@ -2869,14 +2994,13 @@ public class Design extends Application {
 				Scanner sc;
 				if (usersMatch.equals("[]")) {
 					System.out.println("No Results#####");
-
 					SearchResultList.getItems().add("No Results..");
 				} else {
 					sc = new Scanner(usersMatch);
 
 					sc.useDelimiter(",");
 					String temp = "";
-
+					// Get email names of matches:
 					while (sc.hasNext()) {
 						temp = sc.next().substring(1);
 						if (!temp.equals(curEmail)) {
@@ -2891,7 +3015,7 @@ public class Design extends Application {
 					String results = "";
 					for (String s : matchEmails) {
 						try {
-
+							// GET INFO OF USERS TO DISPLAY USING: Client.toServer("INCOMING-FROMOTHERSGET
 							String userCourses = "";
 							try {
 								userCourses = Client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Course list");
@@ -2961,7 +3085,7 @@ public class Design extends Application {
 						}
 					}
 
-					// Reset login
+					// Reset login, RETURN CONTROL TO USER
 					try {
 						curEmail = Client.toServer("INCOMING-FROMOTHERSGET¿" + curEmail + "¿Firstname");
 					} catch (IOException e) {
@@ -2977,11 +3101,6 @@ public class Design extends Application {
 					}
 					viewProfile.setVisible(true);
 				}
-				/*
-				 * SearchResultList.setVisible(true);
-				 * SearchResultList.setLayoutX(480);
-				 * SearchResultList.setLayoutY(250);
-				 */
 			}
 		});
 
@@ -3080,15 +3199,11 @@ public class Design extends Application {
 
 		Pane rootMatchTabe = new Pane();
 		rootMatchTabe.getStyleClass().add("Background");
-		// Toevoegen van SearchOptions, SearchAvailableNow,
-		// SearchField,SearchButton,noResults,SearchResultList
-
-		// if(countMatch == 0){
+	
 		rootMatchTabe.getChildren().addAll(checkLabel,checkLabel2,checkLabel3,expl2, expl, viewProfile2, filterTable, SearchAvailableNow, enterSearch,
 				line2, searchCourse, viewProfile, line, UrgentBox, SearchOptions,
 				/* SearchOptionsBox, SearchBox, */ matchButton, /* SearchButton, */noResults, SearchResultList,
 				overzicht, bovens, picaviews, imgviews, helpout, matchNow);
-		// }
 		countMatch++;
 
 		Scene sceneeMatchTab = new Scene(rootMatchTabe, 1600, 900);
@@ -3098,7 +3213,7 @@ public class Design extends Application {
 	}
 	
 	/**
-	 * SETTING TAB.
+	 * SETTING TAB. NOT VERY IMPORTANT
 	 */
 	public void settingsTab(final Stage primaryStage, final Scene sceneMatchTab, Pane rootMatchTab,
 
@@ -3413,7 +3528,7 @@ public class Design extends Application {
 	}
 	
 	/**
-	 * HELP TAB
+	 * HELP TAB.  NOT VERY IMPORTANT
 	 */
 	public void helpTab(final Stage primaryStage, final Scene sceneMatchTab, Pane rootMatchTab, Scene sceneProfileTabe,
 				final Scene scenetest, Pane rootProfileTabe, Pane rootCourseTab, Scene CourseScene) {
@@ -3645,13 +3760,6 @@ public class Design extends Application {
 		return item;
 
 	}
-		
-
-
-	
-
-
-
 
 }
 	
