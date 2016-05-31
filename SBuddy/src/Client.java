@@ -1,69 +1,57 @@
 import java.io.*;
 import java.net.*;
-import java.nio.charset.StandardCharsets;
 public class Client implements Runnable
 {
-	//Run the Server class and then the Client Class. Go to re ClientInfo Class, fill in your credentials. 
-	//Type "Login" on the client console to login, if you want to login but haven't registered yet it will refuse. 
-	//Type "Register" to create and account, if the entered email is already taken it will refuse. After register you can login.
 
+	/**
+	 * Base Client class for connecting to the Provider
+	 */
 	
-	
-	
-    Socket requestSocket;
-    static PrintWriter out;
-    static BufferedReader in;
+    private Socket requestSocket;
+    private PrintWriter out;
+    private BufferedReader in;
     private String message;
-    Client(){}
+    private String serverIP;
+    private int serverPort;
+    
+    /**
+     * Construct the class by passing on arguments for the IP and the port of the server
+     * @param args
+     */
+    public Client(String[] args) {
+    	serverIP = args.length >= 1 ? args[0] : "";
+    	serverPort = args.length == 2 ? Integer.parseInt(args[1]): 0;
+    }
+    
+    /**
+     * The run method of the Client class
+     */
     public void run()
     {
         try{
             //1. creating a socket to connect to the server
         	System.out.println("Connecting...");
-            requestSocket = new Socket("localhost", 8080);
+            requestSocket = new Socket(serverIP, serverPort);
             System.out.println("Connected to " + requestSocket.getInetAddress() + " on port "
 			          + requestSocket.getPort() + " from port " + requestSocket.getLocalPort() + " of "
 			          + requestSocket.getLocalAddress());
+           
             //2. get Input and Output streams
-            
             out = new PrintWriter(requestSocket.getOutputStream(), true);
             out.flush();
             in = new BufferedReader(new InputStreamReader(requestSocket.getInputStream()));
             BufferedReader userInputBR = new BufferedReader(new InputStreamReader(System.in));
+            
             //3: Communicating with the server
-            do{
-            	
-                message = getMessage();
+            while(!(message=getMessage()).equals("exit")) {
                 //message to ensure Connection is established.
 				System.out.println("server>" + message);
 				
 				String userInput = userInputBR.readLine();
 				message = userInput;
-				/*if(message.contains("CHANGE"))
-				{
-				String msg = message.substring(message.indexOf(" "));
-				sendMessage("INCOMING-CHANGE " +msg);
-				}
-				else if(message.contains("GET"))
-				{
-				String msg= message.substring(message.indexOf(" "));
-				sendMessage("INCOMING-GET " +msg);
-				}
-				if (message.equals("Register"))
-				{//Json String will be send here to the server if "Submit" is entered. At the server it will be saved to a file
-						sendMessage("INCOMING-REGISTER" + ClientMethods.Register(Firstname, Lastname, Email,Password));
-				}
-				else if (message.equals("Login"))
-				{
-						sendMessage("INCOMING-LOGIN" + ClientMethods.Login(Email,Password));
-				}
-				*/
 				
 				sendMessage(message);
-	
-
- 		
-            }while(!message.equals("exit"));
+            }
             
           
         }
@@ -86,21 +74,37 @@ public class Client implements Runnable
         }
     }
     
-    public static void sendMessage(String msg)
+    /**
+     * Send a message msg to the server and directly flush the stream after.
+     * @param msg
+     */
+    public void sendMessage(String msg)
     {
         out.println(msg);
 		out.flush();
-
     }
-    public static String getMessage() throws IOException
+    
+    /**
+     * Returns a String message as a response from the server
+     * @return String
+     * @throws IOException
+     */
+    public String getMessage() throws IOException
     {
-    	String msg = (String)in.readLine();
+    	String msg = (String) in.readLine();
     	return msg;
 
     }
-    public static String toServer(String to) throws IOException
+    
+    /**
+     * Sends a message and returns its corresponding response from the server
+     * @param to The request
+     * @return String The response
+     * @throws IOException
+     */
+    public String toServer(String to) throws IOException
     {
-    	Client.sendMessage(to);
-    	return Client.getMessage();
+    	sendMessage(to);
+    	return getMessage();
     }
 }
