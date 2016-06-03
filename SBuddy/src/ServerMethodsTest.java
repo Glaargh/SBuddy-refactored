@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-public class ServerMethodsTest extends ServerMethods {
-	
+//public class ServerMethodsTest extends ServerMethods {
+	/*
 	@Test
 	public void testfalseLogin() 
 	{// 1993@gmail.com doesn't exist in the database
@@ -171,16 +171,18 @@ public class ServerMethodsTest extends ServerMethods {
 		Login("INCOMING-LOGIN¿wolfertvanborselen@gmail.com¿pass");
 		modify("INCOMING-CHANGE CurrentUniversity testuniversity");
 		modify("INCOMING-CHANGE Available false");*/
-		assertTrue(SearchEngineTRUEFALSE1("120567wolfert@gmail.com","Firstname","Luat"));
-		assertFalse(SearchEngineTRUEFALSE1("120567wolfert@gmail.com","CurrentUniversity","testuniversity"));
+		//assertTrue(SearchEngineTRUEFALSE1("120567wolfert@gmail.com","Firstname","Luat"));
+	//	assertFalse(SearchEngineTRUEFALSE1("120567wolfert@gmail.com","CurrentUniversity","testuniversity"));
 		//remove("INCOMING-REMOVE¿wolfertvanborselen@gmail.com¿pass");
-	}
+//	}
+	
+	
+
 	
 	
 	
 	
-	
-}
+//}
 
 
 /*

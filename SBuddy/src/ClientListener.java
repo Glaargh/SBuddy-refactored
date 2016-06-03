@@ -1,17 +1,34 @@
-
-
 import java.io.*;
 import java.net.*;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+/**
+ * This class functions as an answer machine for the client. The client makes
+ * a request and the request goes through this class to search for an answer in
+ * the database.
+ */
+
 public class ClientListener implements Runnable {
 	private Socket connection;
-	PrintWriter out;
-    BufferedReader in;
-    ServerMethods srvmt = new ServerMethods();
+	private PrintWriter out;
+    private BufferedReader in;
+    private ServerMethods srvmt = new ServerMethods();
+    
+    
+    /**
+     * Construct the class with the Socket
+     * @param connectionIn
+     */
     public ClientListener(Socket connectionIn){
-    	this.connection = connectionIn;
-    	
+    	this.connection = connectionIn;	
     }
     
+    /**
+     * Will respond to the client based on its given action in its JSONObject
+     */
     public void run()
     {
         String message;
@@ -23,74 +40,63 @@ public class ClientListener implements Runnable {
             in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             sendMessage("Connection successful");
             
-            do{
-                message = (String)in.readLine();
+            while(!(message=(String)in.readLine()).equals("exit")) {
 				System.out.println(connection.getInetAddress().getHostName() 
 						+ "> "  + connection.getPort() + "> "   + message);
-				if (message.contains("INCOMING-REGISTER"))
-				{
-
-					sendMessage(srvmt.Register(message)); 
+				
+				if (message.equals("exit")) {
+					sendMessage("exit");
+					break;
 				}
-				else if (message.contains("INCOMING-LOGIN"))
-				{
-
+				
+				JSONParser parser = new JSONParser();
+				
+				JSONObject json = (JSONObject) parser.parse(message);
+				String action = (String) json.get("action");
+				
+				
+				switch (action) {
+				case "login":
 					sendMessage(srvmt.Login(message));
-					
+					break;
+				case "register":
+					sendMessage(srvmt.Register(message)); 
+					break;
+				case "get":
+					sendMessage(srvmt.get(message));
+					break;
+				case "change":
+					sendMessage(srvmt.modify(message));
+					break;
+				case "getother":
+					sendMessage(srvmt.getothers(message));
+					break;
+				case "changecourse":
+					sendMessage(srvmt.addormodifycourse(message));
+					break;
+				case "removecourse":
+					sendMessage(srvmt.removecourse(message));
+					break;
+				case "match":
+					sendMessage(srvmt.MatchEngine(message));
+					break;
+				case "search":
+					sendMessage(srvmt.SearchEngine(message));
+					break;
+				case "removeaccount":
+					sendMessage(srvmt.remove(message));
+					break;
+				default:
+					sendMessage(message);
+					break;
 				}
-			   else if (message.contains("INCOMING-GET"))
-				  {
-
-				     	sendMessage(srvmt.get(message));
-			     }
-		       else if (message.contains("INCOMING-CHANGE"))
-			   {
-			     	sendMessage(srvmt.modify(message));
-		     	}
-				///////////////////////NEW////
-				
-		       else if (message.contains("INCOMING-FROMOTHERSGET"))
-			   {//this can be used without being logged in*****************
-		    	   //INCOMING-FROMOTHERSGET¿pimdhn@gmail.com¿Lastname
-			     	sendMessage(srvmt.getothers(message));
-		     }
-		       else if (message.contains("INCOMING-COURSECHANGE"))
-			   {
-			     	sendMessage(srvmt.addormodifycourse(message));
-		     	}
-		       else if (message.contains("INCOMING-COURSEREMOVE"))
-			   {//INCOMING-COURSEREMOVE¿Computer Organization
-			     	sendMessage(srvmt.removecourse(message));
-		     	}
-		       else if (message.contains("INCOMING-MATCH"))
-			   {//INCOMING-MATCH¿Computer Science¿Technical University of Delft¿Rotterdam
-		    	 //this can be used without being logged in*****************
-			     	sendMessage(srvmt.MatchEngine(message));
-		     	}
-		       else if (message.contains("INCOMING-SEARCH"))
-			   {//INCOMING-SEARCH¿Email¿pimdhn@gmail.com
-		    	   //this can be used without being logged in*****************
-			     	sendMessage(srvmt.SearchEngine(message));
-		     	}
-		       else if (message.contains("INCOMING-ACCREMOVE"))
-			   {//INCOMING-ACCREMOVE¿jUnittest@gmail.com
-		    	   //this can be used without being logged in*****************
-			     	sendMessage(srvmt.remove(message));
-		     	}
-				/////////////////NEW/////
-				else 
-				{sendMessage(message);}
-				
-				
-				if (message.equals("exit"))
-				{
-				    sendMessage("exit");
-				}
-            }while(!message.equals("exit"));
+            }
         }
         catch(IOException ioException){
             ioException.printStackTrace();
-        }
+        } catch (ParseException e) {
+			e.printStackTrace();
+		}
         finally{
             //4: Closing connection
             try{
@@ -103,11 +109,14 @@ public class ClientListener implements Runnable {
             }
         }
     }
-    void sendMessage(String msg)
+    
+    /**
+     * Sends a message to the client
+     * @param msg
+     */
+    public void sendMessage(String msg)
     {
         out.println(msg);
 		out.flush();
-
     }
 }
-

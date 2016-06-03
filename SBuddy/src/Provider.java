@@ -3,8 +3,8 @@ import java.net.*;
 public class Provider
 {
 	
-	ServerSocket providerSocket;
-    Socket connection = null;
+	private ServerSocket providerSocket;
+    private Socket connection = null;
     private ClientListener listener;
     private int port;
     private boolean running = false;
