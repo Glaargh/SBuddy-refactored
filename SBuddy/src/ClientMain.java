@@ -8,6 +8,8 @@ public class ClientMain extends Application {
 	 * @param args
 	 */
 	
+	private Client client;
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -22,7 +24,18 @@ public class ClientMain extends Application {
 		args[0] = "localhost";
 		args[1] = "8080";
 		
-		Design GUI = new Design(args);
+		connect(args);
+		
+		
+		Design GUI = new Design(client);
 		GUI.start(primaryStage);
 	}
+	
+	public void connect(String[] connection){
+		client= new Client(connection);
+		Thread ClientSocket= new Thread(client);
+		ClientSocket.start();
+		
+	}
+	
 }

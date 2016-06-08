@@ -220,12 +220,15 @@ private  user User;
 			json = (JSONObject) parser.parse(modifycommand);
 			String key = (String) json.get("key");
 			String id = (String) json.get("id");
+			System.out.println(key);
 	        user otheruser = new user(id);
 	        return otheruser.get(key);
 		} catch (ParseException e) {
 			return "false";
 		}
     }
+	
+	
 	
     private  boolean StringExist(JSONArray jsonArray, String usernameToFind) 
     {//method to find out if the inserted string (email) already exist in the system.

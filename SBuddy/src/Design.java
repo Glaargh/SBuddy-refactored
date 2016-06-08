@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -46,107 +47,65 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.text.Font;
 
 /**
- * @author 		C0d3Bust3rs
- * Revision: 	C0d3Bust3rs 2.0
- * Date:		28-04-2016
- * READ JAVADOC CAREFULY WHILE ATTEMPTING TO MODIFY CODE. 
- * ANY RECKLESS MODIFICATION MIGHT RESULT IN HIDDEN FAILURES OF THIS PROGRAM WHICH ARE COSTLY TO FIX.
+ * @author C0d3Bust3rs Revision: C0d3Bust3rs 2.0 Date: 28-04-2016 READ JAVADOC
+ *         CAREFULY WHILE ATTEMPTING TO MODIFY CODE. ANY RECKLESS MODIFICATION
+ *         MIGHT RESULT IN HIDDEN FAILURES OF THIS PROGRAM WHICH ARE COSTLY TO
+ *         FIX.
  * 
- * TO SEE ALL THE GENERAL EXPLANATION OF THE PROGRAM, COLLAPSE ALL BY PUSHING:
- * CTRL + SHIFT + DIVIDE KEY ( this key: / )
+ *         TO SEE ALL THE GENERAL EXPLANATION OF THE PROGRAM, COLLAPSE ALL BY
+ *         PUSHING: CTRL + SHIFT + DIVIDE KEY ( this key: / )
  * 
- * DUE TO THE CODE'S COMPLEXITY & VAGUENESS, IT'S BEST TO KEEP TAB CODES CLOSED AND EXPAND THEM ONLY IF YOU ARE GOING TO WORK WITH THEM. 
- * USE TEST COVERAGE TO SEE EXACTLY WHERE CODES ARE TESTABLE (SUCH AS PARSING CODE) SO YOU CAN TRANSFER THEM TO SEPERATE METHODS.
+ *         DUE TO THE CODE'S COMPLEXITY & VAGUENESS, IT'S BEST TO KEEP TAB CODES
+ *         CLOSED AND EXPAND THEM ONLY IF YOU ARE GOING TO WORK WITH THEM. USE
+ *         TEST COVERAGE TO SEE EXACTLY WHERE CODES ARE TESTABLE (SUCH AS
+ *         PARSING CODE) SO YOU CAN TRANSFER THEM TO SEPERATE METHODS.
  */
 @SuppressWarnings("deprecation")
 public class Design extends Application {
-	
-	
+
 	/**
-	 * VARIABLES, LABELS INITIALIZATION OF THE PROGRAM. 
-	 * From observation, some of the variables such as "Label PasswordDisplayLabel = new Label("Uw wachtwoord is veranderd.");" 
-	 * should not be initialized as global variables, so they need to be separated and put into their own local method.
-	 * This is the first step of refactorization as you don't want those methods to encounter missing variables errors.
-	 * Thus the less global variables there are, the better.
+	 * VARIABLES, LABELS INITIALIZATION OF THE PROGRAM.
 	 */
-		Label lb_text;
-		Label labels;
-		Label labelss;
-
-		int countMatch = 0;
-		int countProfile = 0;
-		int countOpties = 0;
-		int countCourse = 0;
-		int countHelp = 0;
-
-		Label noResults = new Label("No results were found.");
-		String SearchTypeString = "Name";
-		boolean AvailableNow = false;
-		Button matchButton = new Button("Make match with selected");
-		// Lijst maken. Eerst leeg laten.
-		ListView<String> SearchResultList = new ListView<String>();
-
-		// Results of search by filter.
-		ListView<String> filterTable = new ListView<String>();
-
-		// Checkbox urgent.
-		CheckBox UrgentCheck = new CheckBox("Urgent?");
-		boolean urgency = false;
-		TreeView<String> totLijst;
-
-		final HBox hb = new HBox();
-		// passWord moet veranderd worden naar de werkelijke passwoord van de user.
-		Label TaalDisplayLabel = new Label();
-		Label PasswordDisplayLabel = new Label("Uw wachtwoord is veranderd.");
-		String taalDisplay = "Nederlands";
-		String passWord;
-		String passwoordbutton;
-		String passwoordprompt;
-		String TaalStringButton;
-		Client client;
-		
+	private Label lb_text;
+	private boolean urgency = false;
+	private Client client;
+	private Parser parser;
 
 	/**
 	 * Where the Design scene gets initially constructed
-	 * @param args Where the first argument is the IP and the second argument the port of the server.
+	 * 
+	 * @param args
+	 *            Where the first argument is the IP and the second argument the
+	 *            port of the server.
 	 */
-	public Design(String[] args) {
-		if (args.length != 2) args = new String[2];
-		
-		String port = "8080";
-		String ip = "localhost";
-		
-		args[0] = args[0] == null ? ip : args[0];
-		args[1] = args[1] == null ? port : args[1];
-		
-		String[] actualParams = {args[0],args[1]};
-		
-		client = new Client(actualParams);
-		
-		Thread ClientSocket = new Thread(client);
-		ClientSocket.start();
+	public Design(Client clientSocket) {
+		client = clientSocket;
+		parser = new Parser();
 	}
-	    	
 
 	/**
-	 * LOGIN TAB, MOSTLY JAVAFX BUT THERE ARE A FEW CODE GROUPS WHICH CAN BE PUT INTO THEIR OWN METHODS SO IT CAN BE TESTED.
-	 * RUN TEST COVERAGE AND RETURN TO THIS METHOD TO SEE WHERE EXACTLY THE CODE IS NEEDED TO BE TAKEN OUT.
+	 * LOGIN TAB, MOSTLY JAVAFX BUT THERE ARE A FEW CODE GROUPS WHICH CAN BE PUT
+	 * INTO THEIR OWN METHODS SO IT CAN BE TESTED. RUN TEST COVERAGE AND RETURN
+	 * TO THIS METHOD TO SEE WHERE EXACTLY THE CODE IS NEEDED TO BE TAKEN OUT.
 	 */
 	public void start(final Stage primaryStage) throws Exception {
 
-	
-		// .setOnCloseRequest will terminate the server session when exiting GUI.
+		Label labels;
+		Label labelss;
+
+		// .setOnCloseRequest will terminate the server session when exiting
+		// GUI.
 		primaryStage.setOnCloseRequest(event -> {
-		    System.out.println("Stage is closing");
-		    try {
+			System.out.println("Stage is closing");
+			try {
 				client.toServer("exit");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		    System.exit(0);
+			System.exit(0);
 		});
-		
+
 		// HERE ALL THE PANES FOR ALL THE TABS ARE MADE:
 		Pane rootCourseTab = new Pane();
 		rootCourseTab.getStyleClass().add("vbox");
@@ -206,29 +165,30 @@ public class Design extends Application {
 		hb2.getChildren().addAll(password);
 		hb2.setSpacing(13);
 		labels.setVisible(false);
-		
+
 		/**
-		 * CODE IS MAINLY JAVAFX, NO MAJOR REFACTORS NEEDED
-		 * LOGIN BUTTON, WE GET EMAIL AND PASSWORD BY .getText().
+		 * CODE IS MAINLY JAVAFX, NO MAJOR REFACTORS NEEDED LOGIN BUTTON, WE GET
+		 * EMAIL AND PASSWORD BY .getText().
 		 */
 		Button button1 = new Button("Log in");
 		button1.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
 				if (!(email.getText().isEmpty() || password.getText().isEmpty())) {
 					try {
-						
-						if (client
-								.toServer(ClientMethods.Login(email.getText().trim(), password.getText().trim()))
+
+						if (client.toServer(ClientMethods.Login(email.getText().trim(), password.getText().trim()))
 								.equals("true")) {// return true if person is in
 													// database and correct
-													// password. IF THE TEXTS FIELDS ARE NOT EMPTY AND THE USER EXISTS:
+													// password. IF THE TEXTS
+													// FIELDS ARE NOT EMPTY AND
+													// THE USER EXISTS:
 							// EXECUTE profileTab method to open profile tab.
 							profileTab(primaryStage, scenetest, rootProfileTabe, sceneProfileTabe, sceneMatchTab,
 									rootMatchTab, rootCourseTab, CourseScene);
 							email.clear();
 							password.clear();
-							
-						} else {//UNSUCCESSFULL LOGIN
+
+						} else {// UNSUCCESSFULL LOGIN
 							labels.setText("Sorry, your combination is not valid. Please contact admin.");
 							labels.setVisible(true);
 						}
@@ -337,22 +297,24 @@ public class Design extends Application {
 		hb6.setSpacing(15);
 
 		/**
-		 * CODE IS MAINLY JAVAFX, NO MAJOR REFACTORS NEEDED.
-		 * JOIN NOW BUTTON WHICH ALSO USES .getText() to retrieve email and password info.
+		 * CODE IS MAINLY JAVAFX, NO MAJOR REFACTORS NEEDED. JOIN NOW BUTTON
+		 * WHICH ALSO USES .getText() to retrieve email and password info.
 		 */
 		Button button3 = new Button("Join now");
 		button3.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
-				// LOGICAL CHECKS IF TEXTS FIELDS AREN'T EMPTY AND WE USE METHOD: "client
-				//.toServer(ClientMethods.Register(firstname etc.." to register user on database.
+				// LOGICAL CHECKS IF TEXTS FIELDS AREN'T EMPTY AND WE USE
+				// METHOD: "client
+				// .toServer(ClientMethods.Register(firstname etc.." to register
+				// user on database.
 				if (!(emailaddress.getText().isEmpty() || firstname.getText().isEmpty() || lastname.getText().isEmpty()
 						|| (passwords.getText().length() < 6))) {
 					try {
-						if (client
-								.toServer(ClientMethods.Register(firstname.getText().trim(), lastname.getText().trim(),
-												emailaddress.getText().trim(), passwords.getText().trim()))
+						if (client.toServer(ClientMethods.Register(firstname.getText().trim(),
+								lastname.getText().trim(), emailaddress.getText().trim(), passwords.getText().trim()))
 								.equals("true")) {
-							client.toServer(ClientMethods.Login(emailaddress.getText().trim(), passwords.getText().trim()));
+							client.toServer(
+									ClientMethods.Login(emailaddress.getText().trim(), passwords.getText().trim()));
 							profileTab(primaryStage, scenetest, rootProfileTabe, sceneProfileTabe, sceneMatchTab,
 									rootMatchTab, rootCourseTab, CourseScene);
 							firstname.clear();
@@ -395,7 +357,6 @@ public class Design extends Application {
 		filler.setMinWidth(550);
 		button3.getStyleClass().add("Button3Recolor");
 		hb6.setSpacing(20);
-	
 
 		/**
 		 * Plaatsen van alles in een Vbox voor display.
@@ -437,13 +398,19 @@ public class Design extends Application {
 	}
 
 	/**
-	 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY).
-	 * THERE IS NOT ALLOT OF CODE WHICH YOU CAN PLACE OUTSIDE GUI, 
-	 * BUT A DIFFERENT APPROACH (GUI CODE REFACTOR) TO GIVE DESIRED FUNCTIONALITY OF PROFILE TAB IS RECOMMENDED.
-	 * THIS IS THE TAB WITH THE MOST "TESTABLE CODES". SEE COVERAGE FOR MORE INSTRUCTION
+	 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO
+	 * CHANGE (GIVE OTHER CODE PRIORITY). THERE IS NOT ALLOT OF CODE WHICH YOU
+	 * CAN PLACE OUTSIDE GUI, BUT A DIFFERENT APPROACH (GUI CODE REFACTOR) TO
+	 * GIVE DESIRED FUNCTIONALITY OF PROFILE TAB IS RECOMMENDED. THIS IS THE TAB
+	 * WITH THE MOST "TESTABLE CODES". SEE COVERAGE FOR MORE INSTRUCTION
 	 */
 	@SuppressWarnings("deprecation")
-	public void profileTab(final Stage primaryStage, final Scene scenetest, Pane rootProfileTabee,Scene sceneProfileTabee, final Scene sceneMatchTab, Pane rootMatchTab, Pane rootCourseTab, Scene CourseScene) throws IOException {
+	public void profileTab(final Stage primaryStage, final Scene scenetest, Pane rootProfileTabee,
+			Scene sceneProfileTabee, final Scene sceneMatchTab, Pane rootMatchTab, Pane rootCourseTab,
+			Scene CourseScene) throws IOException {
+
+		int countProfile = 0;
+
 		/**
 		 * HELP BUTTON, WILL OPEN HELP SCENE
 		 */
@@ -475,7 +442,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een box voor de help en logout buttons 
+		 * Een box voor de help en logout buttons
 		 */
 		HBox helpout = new HBox();
 		helpout.getChildren().addAll(help, logout);
@@ -542,7 +509,7 @@ public class Design extends Application {
 						rootCourseTab, CourseScene);
 			}
 		});
-		
+
 		/**
 		 * Een VBox voor alle buttons links op de pagina
 		 */
@@ -550,160 +517,50 @@ public class Design extends Application {
 		overzicht.getChildren().addAll(profile, courses, match, settings);
 		overzicht.getStyleClass().add("overzicht");
 		overzicht.setMinHeight(630);
-		
+
 		/**
-		 * A USERS INFORMATION IS DISPLAYED BY LABELS.
-		 * TO RETRIEVE THE INFO WE USE method .toServer. for example: client.toServer("INCOMING-GET Firstname")
-		 * Like this all name,age,nationality etc. labels get display their info.
+		 * A USERS INFORMATION IS DISPLAYED BY LABELS. TO RETRIEVE THE INFO WE
+		 * USE method .toServer. for example: client.toServer(
+		 * "INCOMING-GET Firstname") Like this all name,age,nationality etc.
+		 * labels get display their info.
 		 **/
 		String Vorn = client.toServer(ClientMethods.get("Firstname"));
 		final Label Voornaam = new Label(Vorn);
 		Voornaam.getStyleClass().add("labelqqq");
-		
+
 		String Lstn = client.toServer(ClientMethods.get("Lastname"));
 		final Label Lastname = new Label(Lstn);
 		Lastname.getStyleClass().add("labelqqq");
-		
+
 		HBox bovennaam = new HBox();
 		bovennaam.getChildren().addAll(Voornaam, Lastname);
 		bovennaam.getStyleClass().add("bovennaam");
 		bovennaam.setSpacing(8);
-		
+
+		ArrayList<Node> clickableNodes = new ArrayList<Node>();
+		clickableNodes.add(Voornaam);
 		/**
-		 * All .setOnMouseEntered and .setOnMouseExited are for the cursor to change style on hover:
-		 * */
-		Voornaam.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				sceneProfileTabee.setCursor(Cursor.HAND);
+		 * All .setOnMouseEntered and .setOnMouseExited are for the cursor to
+		 * change style on hover:
+		 */
 
-			}
-		});
-		Voornaam.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
+		String VNaamDesc = "Your firstname \nPress \"Enter\" when finished. ";
+		String VNaamKey = "Firstname";
+		String standardVNaam = "None";
 
-				sceneProfileTabee.setCursor(Cursor.DEFAULT);
-			}
-		});
+		Voornaam.setOnMouseClicked(e -> constructEdit(VNaamDesc, standardVNaam, VNaamKey, Voornaam, primaryStage));
 
-		
+		clickableNodes.add(Lastname);
 		/**
-		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
-		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
-		 * WHEN ONE CLICKS ON THE BUTTON.
-		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
-		 **/
-		Voornaam.setOnMouseClicked(e -> {
-			// Temp is textfield of popup
-			TextField temp = new TextField();
-			temp.getStyleClass().add("fillbox");
-			Label description = new Label("Your firstname \nPress \"Enter\" when finished. ");
-			description.getStyleClass().add("description");
-			
-			// The popupa which will appear at your cursor position with .getPointerInfo() :
-			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			Popup pop2 = PopupBuilder.create().content(description)
-					.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			
-			temp.setText(Voornaam.getText());
-			
-			// BELOW WE USE METHOD client.toServer("INCOMING-CHANGE ___ ___") to change a users data in the database:
-			temp.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// newinfo is variable with edited info
-					String newInfo = temp.getText();
-					if (newInfo.trim().isEmpty()) {
-						Voornaam.setText("None");
-						temp.setText("None");
-						try {
-							client.toServer(ClientMethods.change("Firstname","None"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					} else {
-						Voornaam.setText(newInfo);
-						temp.setText(newInfo);
-						try {
-							client.toServer(ClientMethods.change("Firstname",newInfo));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					pop.hide();
-					pop2.hide();
-				}
-			});
-			pop.show(primaryStage);
-			pop2.show(primaryStage);
-		});
-		
-		/**
-		 * All .setOnMouseEntered and .setOnMouseExited are for the cursor to change style on hover:
-		 * */
-		Lastname.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				sceneProfileTabee.setCursor(Cursor.HAND);
+		 * All .setOnMouseEntered and .setOnMouseExited are for the cursor to
+		 * change style on hover:
+		 */
 
-			}
-		});
-		Lastname.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
+		String lnameDesc = "Your lastname\nPress \"Enter\" when finished. ";
+		String lnameKey = "Lastname";
+		String standardLName = "None";
 
-				sceneProfileTabee.setCursor(Cursor.DEFAULT);
-			}
-		});
-
-		/**
-		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
-		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
-		 * WHEN ONE CLICKS ON THE BUTTON.
-		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
-		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
-		 **/
-		Lastname.setOnMouseClicked(e -> {
-			TextField temp = new TextField();
-			temp.getStyleClass().add("fillbox");
-			Label description = new Label("Your lastname\nPress \"Enter\" when finished. ");
-			description.getStyleClass().add("description");
-			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			Popup pop2 = PopupBuilder.create().content(description)
-					.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			temp.setText(Lastname.getText());
-			temp.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// newinfo is variable with edited info
-					String newInfo = temp.getText();
-					if (newInfo.trim().isEmpty()) {
-						Lastname.setText("None");
-						temp.setText("None");
-						try {
-							client.toServer(ClientMethods.change("Lastname","None"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					} else {
-						Lastname.setText(newInfo);
-						temp.setText(newInfo);
-						try {
-							client.toServer(ClientMethods.change("Lastname", newInfo));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					pop.hide();
-					pop2.hide();
-				}
-			});
-			pop.show(primaryStage);
-			pop2.show(primaryStage);
-		});
+		Lastname.setOnMouseClicked(e -> constructEdit(lnameDesc, standardLName, lnameKey, Lastname, primaryStage));
 
 		/**
 		 * Een textfield waar je een korte beschrijving kan geven over je zelf
@@ -714,11 +571,10 @@ public class Design extends Application {
 		Label student = new Label("Student " + programa);
 		student.getStyleClass().add("labelSSS4");
 		String univeristy = client.toServer(ClientMethods.get("CurrentUniversity"));
-		 Label at = new Label(" at " + univeristy);
+		Label at = new Label(" at " + univeristy);
 		at.getStyleClass().add("labelSSS4");
-		
-		if(programa.trim().equals("Click to modify"))
-		{
+
+		if (programa.trim().equals("Click to modify")) {
 			student = new Label("Please complete profile page");
 			student.getStyleClass().add("labelSSS4");
 			at = new Label("and relogin to see changes");
@@ -729,7 +585,6 @@ public class Design extends Application {
 		desci.getStyleClass().add("desci");
 		desci.setAlignment(Pos.CENTER);
 		desci.setSpacing(5);
-		
 
 		Label summary = new Label("Summary");
 		summary.getStyleClass().add("summary");
@@ -748,71 +603,17 @@ public class Design extends Application {
 		summy.getChildren().addAll(descriptn);
 		summy.setSpacing(10);
 		summy.getStyleClass().add("summy");
-		
-		/**
-		 * All .setOnMouseEntered and .setOnMouseExited are for the cursor to change style on hover:
-		 * */
-		descriptn.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				sceneProfileTabee.setCursor(Cursor.HAND);
-			}
-		});
-		descriptn.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				sceneProfileTabee.setCursor(Cursor.DEFAULT);
-			}
-		});
 
 		/**
-		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
-		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
-		 * WHEN ONE CLICKS ON THE BUTTON.
-		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
-		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
-		 **/
-		descriptn.setOnMouseClicked(e -> {
-			TextField temp = new TextField();
-			temp.getStyleClass().add("fillbox");
-			temp.setMinSize(1300, 100);
-			Label description = new Label(
-					"Tell us about yourself \nWhat do you like? \nWhat are you interested in? \nPress \"Enter\" when finished. ");
-			description.getStyleClass().add("description");
-			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			Popup pop2 = PopupBuilder.create().content(description)
-					.y(MouseInfo.getPointerInfo().getLocation().getY() + 60)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			temp.setText(descriptn.getText());
-			temp.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// newinfo is variable with edited info
-					String newInfo = temp.getText();
-					if (newInfo.trim().isEmpty()) {
-						descriptn.setText("None");
-						temp.setText("None");
-						try {
-							client.toServer(ClientMethods.change("Description", "None"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					} else {
-						descriptn.setText(newInfo);
-						temp.setText(newInfo);
-						try {
-							client.toServer(ClientMethods.change("Description",newInfo));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					pop.hide();
-					pop2.hide();
-				}
-			});
-			pop.show(primaryStage);
-			pop2.show(primaryStage);
-		});
+		 * All .setOnMouseEntered and .setOnMouseExited are for the cursor to
+		 * change style on hover:
+		 */
+		clickableNodes.add(descriptn);
+
+		String descDesc = "Tell us about yourself \nWhat do you like? \nWhat are you interested in? \nPress \"Enter\" when finished. ";
+		String descKey = "Description";
+		String standardDesc = "None";
+		descriptn.setOnMouseClicked(e -> constructEdit(descDesc, standardDesc, descKey, descriptn, primaryStage));
 		Label career = new Label("Career information");
 		career.getStyleClass().add("summary");
 
@@ -829,75 +630,17 @@ public class Design extends Application {
 		curstud.getChildren().addAll(curs, currentstud);
 		curstud.getStyleClass().add("curstudybox");
 		curstud.setSpacing(46);
-		
-		/**
-		 * All .setOnMouseEntered and .setOnMouseExited are for the cursor to change style on hover:
-		 * */
-		currentstud.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				sceneProfileTabee.setCursor(Cursor.HAND);
-				currentstud.setScaleX(1.3);
-				currentstud.setScaleY(1.3);
-			}
-		});
-		currentstud.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				currentstud.setScaleX(1);
-				currentstud.setScaleY(1);
-				sceneProfileTabee.setCursor(Cursor.DEFAULT);
-			}
-		});
-		
-		
-		/**
-		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
-		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
-		 * WHEN ONE CLICKS ON THE BUTTON.
-		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
-		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
-		 **/
-		currentstud.setOnMouseClicked(e -> {
-			TextField temp = new TextField();
-			temp.getStyleClass().add("fillbox");
-			Label description = new Label(
-					"Your study program in English." + "\nEx: Computer Science \nPress \"Enter\" when finished. ");
-			description.getStyleClass().add("description");
-			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			Popup pop2 = PopupBuilder.create().content(description)
-					.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			temp.setText(currentstud.getText());
-			temp.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// newinfo is variable with edited info
-					String newInfo = temp.getText();
-					if (newInfo.trim().isEmpty()) {
-						currentstud.setText("None");
-						temp.setText("None");
-						try {
-							client.toServer(ClientMethods.change("CurrentStudy","None"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					} else {
-						currentstud.setText(newInfo);
-						temp.setText(newInfo);
-						try {
-							client.toServer(ClientMethods.change("CurrentStudy",newInfo));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					pop.hide();
-					pop2.hide();
-				}
-			});
-			pop.show(primaryStage);
-			pop2.show(primaryStage);
-		});
+
+		ArrayList<Label> clickSizableLabels = new ArrayList<Label>();
+		clickSizableLabels.add(currentstud);
+
+		String studyDesc = "Your study program in English."
+				+ "\nEx: Computer Science \nPress \"Enter\" when finished. ";
+		String studyKey = "CurrentStudy";
+		String standardStudy = "None";
+
+		currentstud
+				.setOnMouseClicked(e -> constructEdit(studyDesc, standardStudy, studyKey, currentstud, primaryStage));
 
 		/**
 		 * Een label en een textfield waar je in kan voeren wat je
@@ -912,72 +655,15 @@ public class Design extends Application {
 		stpbox.getChildren().addAll(studyper, stper);
 		stpbox.getStyleClass().add("genderbox");
 		stpbox.setSpacing(55);
-		
-		
-		stper.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				sceneProfileTabee.setCursor(Cursor.HAND);
-				stper.setScaleX(1.3);
-				stper.setScaleY(1.3);
-			}
-		});
-		stper.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				stper.setScaleX(1);
-				stper.setScaleY(1);
-				sceneProfileTabee.setCursor(Cursor.DEFAULT);
-			}
-		});
 
-		/**
-		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
-		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
-		 * WHEN ONE CLICKS ON THE BUTTON.
-		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
-		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
-		 **/
-		stper.setOnMouseClicked(e -> {
-			TextField temp = new TextField();
-			temp.getStyleClass().add("fillbox");
-			Label description = new Label("Your study period with start year and end year."
-					+ "\nEx: 2013-2016 \nPress \"Enter\" when finished. ");
-			description.getStyleClass().add("description");
-			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			Popup pop2 = PopupBuilder.create().content(description)
-					.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			temp.setText(stper.getText());
-			temp.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// newinfo is variable with edited info
-					String newInfo = temp.getText();
-					if (newInfo.trim().isEmpty()) {
-						stper.setText("None");
-						temp.setText("None");
-						try {
-							client.toServer(ClientMethods.change("StudyPeriod", "None"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					} else {
-						stper.setText(newInfo);
-						temp.setText(newInfo);
-						try {
-							client.toServer(ClientMethods.change("StudyPeriod", newInfo));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					pop.hide();
-					pop2.hide();
-				}
-			});
-			pop.show(primaryStage);
-			pop2.show(primaryStage);
-		});
+		clickSizableLabels.add(stper);
+
+		String stpdDesc = "Your study period with start year and end year."
+				+ "\nEx: 2013-2016 \nPress \"Enter\" when finished. ";
+		String stpdKey = "StudyPeriod";
+		String standardStpd = "None";
+
+		stper.setOnMouseClicked(e -> constructEdit(stpdDesc, standardStpd, stpdKey, stper, primaryStage));
 
 		/**
 		 * Een label en een textfield waar je in kan voeren aan welke
@@ -992,71 +678,12 @@ public class Design extends Application {
 		unibox.getChildren().addAll(university, uni);
 		unibox.getStyleClass().add("genderbox");
 		unibox.setSpacing(10);
-		
-		uni.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				sceneProfileTabee.setCursor(Cursor.HAND);
-				uni.setScaleX(1.3);
-				uni.setScaleY(1.3);
-			}
-		});
-		uni.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				uni.setScaleX(1);
-				uni.setScaleY(1);
-				sceneProfileTabee.setCursor(Cursor.DEFAULT);
-			}
-		});
-		
+		clickSizableLabels.add(uni);
 
-		/**
-		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
-		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
-		 * WHEN ONE CLICKS ON THE BUTTON.
-		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
-		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
-		 **/
-		uni.setOnMouseClicked(e -> {
-			TextField temp = new TextField();
-			temp.getStyleClass().add("fillbox");
-			Label description = new Label("Your full university name in English \nPress \"Enter\" when finished. ");
-			description.getStyleClass().add("description");
-			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 70).width(0).height(0).build();
-			Popup pop2 = PopupBuilder.create().content(description)
-					.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 70).width(0).height(0).build();
-			temp.setText(uni.getText());
-			temp.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// newinfo is variable with edited info
-					String newInfo = temp.getText();
-					if (newInfo.trim().isEmpty()) {
-						uni.setText("None");
-						temp.setText("None");
-						try {
-							client.toServer(ClientMethods.change("CurrentUniversity", "None"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					} else {
-						uni.setText(newInfo);
-						temp.setText(newInfo);
-						try {
-							client.toServer(ClientMethods.change("CurrentUniversity", newInfo));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					pop.hide();
-					pop2.hide();
-				}
-			});
-			pop.show(primaryStage);
-			pop2.show(primaryStage);
-		});
+		String uniDescription = "Your full university name in English \nPress \"Enter\" when finished. ";
+		String uniKey = "CurrentUniversity";
+		String standardUni = "None";
+		uni.setOnMouseClicked(e -> constructEdit(uniDescription, standardUni, uniKey, uni, primaryStage));
 
 		Label basicinfo = new Label("Basic information");
 		basicinfo.getStyleClass().add("summary");
@@ -1074,69 +701,12 @@ public class Design extends Application {
 		agebox.getStyleClass().add("genderbox");
 		agebox.setSpacing(15);
 
-		age.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				sceneProfileTabee.setCursor(Cursor.HAND);
-				age.setScaleX(1.3);
-				age.setScaleY(1.3);
-			}
-		});
-		age.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				age.setScaleX(1);
-				age.setScaleY(1);
-				sceneProfileTabee.setCursor(Cursor.DEFAULT);
-			}
-		});
+		clickSizableLabels.add(age);
 
-		/**
-		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
-		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
-		 * WHEN ONE CLICKS ON THE BUTTON.
-		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
-		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
-		 **/
-		age.setOnMouseClicked(e -> {
-			TextField temp = new TextField();
-			temp.getStyleClass().add("fillbox");
-			Label description = new Label("Please fill in you age in numbers \nPress \"Enter\" when finished. ");
-			description.getStyleClass().add("description");
-			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			Popup pop2 = PopupBuilder.create().content(description)
-					.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			temp.setText(age.getText());
-			temp.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// newinfo is variable with edited info
-					String newInfo = temp.getText();
-					if (newInfo.trim().isEmpty()) {
-						age.setText("None");
-						temp.setText("None");
-						try {
-							client.toServer(ClientMethods.change("Age", "None"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					} else {
-						age.setText(newInfo);
-						temp.setText(newInfo);
-						try {
-							client.toServer(ClientMethods.change("Age",newInfo));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					pop.hide();
-					pop2.hide();
-				}
-			});
-			pop.show(primaryStage);
-			pop2.show(primaryStage);
-		});
+		String ageDescription = "Please fill in you age in numbers \nPress \"Enter\" when finished. ";
+		String standardAge = "None";
+		// key: Age
+		age.setOnMouseClicked(e -> constructEdit(ageDescription, standardAge, "Age", age, primaryStage));
 
 		/**
 		 * Een label en een textfield waar je in kan voeren of je een man of een
@@ -1153,69 +723,14 @@ public class Design extends Application {
 		genbox.getStyleClass().add("genderbox");
 		genbox.setSpacing(15);
 
-		geslacht.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				sceneProfileTabee.setCursor(Cursor.HAND);
-				geslacht.setScaleX(1.3);
-				geslacht.setScaleY(1.3);
-			}
-		});
-		geslacht.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				geslacht.setScaleX(1);
-				geslacht.setScaleY(1);
-				sceneProfileTabee.setCursor(Cursor.DEFAULT);
-			}
-		});
+		clickSizableLabels.add(geslacht);
 
-		/**
-		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
-		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
-		 * WHEN ONE CLICKS ON THE BUTTON.
-		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
-		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
-		 **/
-		geslacht.setOnMouseClicked(e -> {
-			TextField temp = new TextField();
-			temp.getStyleClass().add("fillbox");
-			Label description = new Label("Please fill in only: Male/Female \nPress \"Enter\" when finished. ");
-			description.getStyleClass().add("description");
-			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			Popup pop2 = PopupBuilder.create().content(description)
-					.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			temp.setText(geslacht.getText());
-			temp.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// newinfo is variable with edited info
-					String newInfo = temp.getText();
-					if (newInfo.trim().isEmpty()) {
-						geslacht.setText("None");
-						temp.setText("None");
-						try {
-							client.toServer(ClientMethods.change("Gender", "None"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					} else {
-						geslacht.setText(newInfo);
-						temp.setText(newInfo);
-						try {
-							client.toServer(ClientMethods.change("Gender",newInfo));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					pop.hide();
-					pop2.hide();
-				}
-			});
-			pop.show(primaryStage);
-			pop2.show(primaryStage);
-		});
+		String geslachtDescription = "Please fill in only: Male/Female \nPress \"Enter\" when finished. ";
+		String standardGeslacht = "None";
+		// key: Gender
+
+		geslacht.setOnMouseClicked(
+				e -> constructEdit(geslachtDescription, standardGeslacht, "Gender", geslacht, primaryStage));
 
 		/**
 		 * Een label en een textfield waar je in kan voeren waar je vandaan komt
@@ -1236,69 +751,14 @@ public class Design extends Application {
 		countrybox.getStyleClass().add("countrybox");
 		countrybox.setSpacing(11);
 
-		countryof.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				sceneProfileTabee.setCursor(Cursor.HAND);
-				countryof.setScaleX(1.3);
-				countryof.setScaleY(1.3);
-			}
-		});
-		countryof.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				countryof.setScaleX(1);
-				countryof.setScaleY(1);
-				sceneProfileTabee.setCursor(Cursor.DEFAULT);
-			}
-		});
-		
-		/**
-		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
-		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
-		 * WHEN ONE CLICKS ON THE BUTTON.
-		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
-		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
-		 **/
-		countryof.setOnMouseClicked(e -> {
-			TextField temp = new TextField();
-			temp.getStyleClass().add("fillbox");
-			Label description = new Label("Your country name in English  \nPress \"Enter\" when finished. ");
-			description.getStyleClass().add("description");
-			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			Popup pop2 = PopupBuilder.create().content(description)
-					.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			temp.setText(countryof.getText());
-			temp.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// newinfo is variable with edited info
-					String newInfo = temp.getText();
-					if (newInfo.trim().isEmpty()) {
-						countryof.setText("None");
-						temp.setText("None");
-						try {
-							client.toServer(ClientMethods.change("CountryOfResidence" ,"None"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					} else {
-						countryof.setText(newInfo);
-						temp.setText(newInfo);
-						try {
-							client.toServer(ClientMethods.change("CountryOfResidence",newInfo));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					pop.hide();
-					pop2.hide();
-				}
-			});
-			pop.show(primaryStage);
-			pop2.show(primaryStage);
-		});
+		clickSizableLabels.add(countryof);
+
+		String countryDescription = "Your country name in English  \nPress \"Enter\" when finished. ";
+		String countryKey = "CountryOfResidence";
+		String standardCountry = "None";
+
+		countryof.setOnMouseClicked(
+				e -> constructEdit(countryDescription, standardCountry, countryKey, countryof, primaryStage));
 
 		/**
 		 * Een label en een textfield waar je in kan voeren waar je vandaan komt
@@ -1315,69 +775,13 @@ public class Design extends Application {
 		citybox.getStyleClass().add("citybox");
 		citybox.setSpacing(47);
 
-		cit.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				sceneProfileTabee.setCursor(Cursor.HAND);
-				cit.setScaleX(1.3);
-				cit.setScaleY(1.3);
-			}
-		});
-		cit.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				cit.setScaleX(1);
-				cit.setScaleY(1);
-				sceneProfileTabee.setCursor(Cursor.DEFAULT);
-			}
-		});
-		
-		/**
-		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
-		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
-		 * WHEN ONE CLICKS ON THE BUTTON.
-		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
-		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
-		 **/
-		cit.setOnMouseClicked(e -> {
-			TextField temp = new TextField();
-			temp.getStyleClass().add("fillbox");
-			Label description = new Label("Your city name in English  \nPress \"Enter\" when finished. ");
-			description.getStyleClass().add("description");
-			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			Popup pop2 = PopupBuilder.create().content(description)
-					.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			temp.setText(cit.getText());
-			temp.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// newinfo is variable with edited info
-					String newInfo = temp.getText();
-					if (newInfo.trim().isEmpty()) {
-						cit.setText("None");
-						temp.setText("None");
-						try {
-							client.toServer(ClientMethods.change("CityOfResidence","None"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					} else {
-						cit.setText(newInfo);
-						temp.setText(newInfo);
-						try {
-							client.toServer(ClientMethods.change("CityOfResidence", newInfo));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					pop.hide();
-					pop2.hide();
-				}
-			});
-			pop.show(primaryStage);
-			pop2.show(primaryStage);
-		});
+		clickSizableLabels.add(cit);
+
+		String cityDesciption = "Your city name in English  \nPress \"Enter\" when finished. ";
+		String standardCity = "None";
+		// key = "CityOfResidence"
+
+		cit.setOnMouseClicked(e -> constructEdit(cityDesciption, standardCity, "CityOfResidence", cit, primaryStage));
 
 		Label contact = new Label("Contact information");
 		contact.getStyleClass().add("summary");
@@ -1395,69 +799,13 @@ public class Design extends Application {
 		mailbox.getChildren().addAll(eml, email);
 		mailbox.getStyleClass().add("mailbox");
 		mailbox.setSpacing(5);
-		email.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				sceneProfileTabee.setCursor(Cursor.HAND);
-				email.setScaleX(1.1);
-				email.setScaleY(1.1);
-			}
-		});
-		email.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				email.setScaleX(1);
-				email.setScaleY(1);
-				sceneProfileTabee.setCursor(Cursor.DEFAULT);
-			}
-		});
 
-		/**
-		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
-		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
-		 * WHEN ONE CLICKS ON THE BUTTON.
-		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
-		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
-		 **/
-		email.setOnMouseClicked(e -> {
-			TextField temp = new TextField();
-			temp.getStyleClass().add("fillbox");
-			Label description = new Label("Your e-mail address \nPress \"Enter\" when finished. ");
-			description.getStyleClass().add("description");
-			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			Popup pop2 = PopupBuilder.create().content(description)
-					.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			temp.setText(email.getText());
-			temp.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// newinfo is variable with edited info
-					String newInfo = temp.getText();
-					if (newInfo.trim().isEmpty()) {
-						email.setText("None");
-						temp.setText("None");
-						try {
-							client.toServer(ClientMethods.change("Email","None"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					} else {
-						email.setText(newInfo);
-						temp.setText(newInfo);
-						try {
-							client.toServer(ClientMethods.change("Email", newInfo));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					pop.hide();
-					pop2.hide();
-				}
-			});
-			pop.show(primaryStage);
-			pop2.show(primaryStage);
-		});
+		clickSizableLabels.add(email);
+
+		String emailDescription = "Your e-mail address \nPress \"Enter\" when finished. ";
+		String standardMail = "None";
+		// key = "Email"
+		email.setOnMouseClicked(e -> constructEdit(emailDescription, standardMail, "Email", email, primaryStage));
 
 		/**
 		 * Een label en een textfield waar je in kan voeren wat je telefoon
@@ -1472,70 +820,11 @@ public class Design extends Application {
 		phonebox.getChildren().addAll(phone, phonenumber);
 		phonebox.getStyleClass().add("phonebox");
 		phonebox.setSpacing(10);
-		
-		phonenumber.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				sceneProfileTabee.setCursor(Cursor.HAND);
-				phonenumber.setScaleX(1.3);
-				phonenumber.setScaleY(1.3);
-			}
-		});
-		phonenumber.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				phonenumber.setScaleX(1);
-				phonenumber.setScaleY(1);
-				sceneProfileTabee.setCursor(Cursor.DEFAULT);
-			}
-		});
 
-		/**
-		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
-		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
-		 * WHEN ONE CLICKS ON THE BUTTON.
-		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
-		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
-		 **/
-		phonenumber.setOnMouseClicked(e -> {
-			TextField temp = new TextField();
-			temp.getStyleClass().add("fillbox");
-			Label description = new Label("Your telephone/Whatsapp number." + "\nPress \"Enter\" when finished. ");
-			description.getStyleClass().add("description");
-			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			Popup pop2 = PopupBuilder.create().content(description)
-					.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			temp.setText(phonenumber.getText());
-			temp.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// newinfo is variable with edited info
-					String newInfo = temp.getText();
-					if (newInfo.trim().isEmpty()) {
-						phonenumber.setText("None");
-						temp.setText("None");
-						try {
-							client.toServer(ClientMethods.change("Phone","None"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					} else {
-						phonenumber.setText(newInfo);
-						temp.setText(newInfo);
-						try {
-							client.toServer(ClientMethods.change("Phone", newInfo));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					pop.hide();
-					pop2.hide();
-				}
-			});
-			pop.show(primaryStage);
-			pop2.show(primaryStage);
-		});
+		clickSizableLabels.add(phonenumber);
+
+		String description = "Your telephone/Whatsapp number." + "\nPress \"Enter\" when finished. ";
+		phonenumber.setOnMouseClicked(e -> constructEdit(description, "None", "Phone", phonenumber, primaryStage));
 
 		VBox carinfo = new VBox();
 		carinfo.getChildren().addAll(curstud, stpbox, unibox);
@@ -1553,189 +842,86 @@ public class Design extends Application {
 		 * De foto die je eventueel kan vervangen door een foto van jezelf
 		 */
 		String userURL = client.toServer(ClientMethods.get("Piclink"));
-		ImageView picview = ImageViewBuilder.create().image(new Image("http://i68.tinypic.com/2vjt0xz.jpg"))
-				.build();
-				try
-				{
-					picview = ImageViewBuilder.create().image(new Image(userURL))
-							.build();
-				}
-				catch (Exception e)
-				{
-					picview = ImageViewBuilder.create().image(new Image("http://i68.tinypic.com/2vjt0xz.jpg"))
-							.build();
-				}
-		
+		ImageView picview = ImageViewBuilder.create().image(new Image("http://i68.tinypic.com/2vjt0xz.jpg")).build();
+		try {
+			picview = ImageViewBuilder.create().image(new Image(userURL)).build();
+		} catch (Exception e) {
+			picview = ImageViewBuilder.create().image(new Image("http://i68.tinypic.com/2vjt0xz.jpg")).build();
+		}
+
 		picview.getStyleClass().add("picuser");
 		picview.setFitHeight(200);
 		picview.setFitWidth(348);
 		picview.setLayoutX(300);
 		picview.setLayoutY(100);
-		picview.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent e) {
-				sceneProfileTabee.setCursor(Cursor.HAND);
+		clickableNodes.add(picview);
 
-			}
-		});
-		picview.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-
-				sceneProfileTabee.setCursor(Cursor.DEFAULT);
-			}
-		});
-
-		/**
-		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
-		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
-		 * WHEN ONE CLICKS ON THE BUTTON.
-		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
-		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
-		 **/
-		picview.setOnMouseClicked(e -> {
-			TextField temp = new TextField();
-			temp.getStyleClass().add("fillbox");
-			Label description = new Label(
-					"Please add an URL link for you profile picture. \n Upload an picture on the internet and get the URL \nWe recommend www.tinypic.com \n Your picture will be changed the next time you logs in \nPress \"Enter\" when finished. ");
-			description.getStyleClass().add("description");
-			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			Popup pop2 = PopupBuilder.create().content(description)
-					.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			try {
-				temp.setText(client.toServer(ClientMethods.get("Piclink")));
-			} catch (Exception e1) {
-
-				e1.printStackTrace();
-			}
-			temp.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// newinfo is variable with edited info
-					String newInfo = temp.getText();
-					if (newInfo.trim().isEmpty()) {
-						try {
-							client.toServer(ClientMethods.change("Piclink", "http://i67.tinypic.com/2ug08eu.jpg"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					} else {
-						try {
-							client.toServer(ClientMethods.change("Piclink ", newInfo));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					pop.hide();
-					pop2.hide();
-					/*
-					 * try { primaryStage.hide();
-					 * profileTab(primaryStage,scenetest,rootProfileTabe,
-					 * sceneProfileTabee); } catch (Exception e1) { //
-					 * e1.printStackTrace(); }
-					 */
-				}
-			});
-			pop.show(primaryStage);
-			pop2.show(primaryStage);
-
-		});
+		String picDescription = "Please add an URL link for you profile picture. \n Upload an picture on the internet and get the URL \nWe recommend www.tinypic.com \n Your picture will be changed the next time you logs in \nPress \"Enter\" when finished. ";
+		String standardPic = "http://i67.tinypic.com/2ug08eu.jpg";
+		// key: "Piclink"
+		// standard:
+		picview.setOnMouseClicked(e -> constructEdit(picDescription, standardPic, "Piclink", null, primaryStage));
 
 		/**
 		 * Foto van TU Delft, ook dit kan je veranderen naar een foto naar keus.
 		 */
 
 		String userPlacePic = client.toServer(ClientMethods.get("Placepic"));
-		ImageView delftview = ImageViewBuilder.create().image(new Image("http://i68.tinypic.com/2vjt0xz.jpg"))
-		.build();
-		try
-		{
-			delftview = ImageViewBuilder.create().image(new Image(userPlacePic))
-					.build();
+		ImageView delftview = ImageViewBuilder.create().image(new Image("http://i68.tinypic.com/2vjt0xz.jpg")).build();
+		try {
+			delftview = ImageViewBuilder.create().image(new Image(userPlacePic)).build();
+		} catch (Exception e) {
+			delftview = ImageViewBuilder.create().image(new Image("http://i68.tinypic.com/2vjt0xz.jpg")).build();
 		}
-		catch (Exception e)
-		{
-			delftview = ImageViewBuilder.create().image(new Image("http://i68.tinypic.com/2vjt0xz.jpg"))
-					.build();
-		}
-		
-		
+
 		delftview.getStyleClass().add("picuser");
 		delftview.setFitHeight(200);
 		delftview.setFitWidth(348);
 		delftview.setLayoutX(1200);
 		delftview.setLayoutY(100);
-		
-		delftview.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				sceneProfileTabee.setCursor(Cursor.HAND);
 
-			}
-		});
-		delftview.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
+		clickableNodes.add(delftview);
 
-				sceneProfileTabee.setCursor(Cursor.DEFAULT);
-			}
-		});
+		String delftDescription = "Please add an URL link for you university or secondary picture. \n Upload an picture on the internet and get the URL \nWe recommend www.tinypic.com  \n Your picture will be changed the next time you logs in \nPress \"Enter\" when finished. ";
+		String standardDelft = "http://i67.tinypic.com/15fje5g.jpg";
+		// key: "Placepic"
+		delftview
+				.setOnMouseClicked(e -> constructEdit(delftDescription, standardDelft, "Placepic", null, primaryStage));
 
-		/**
-		 * LOTS OF JAVAFX AND NOT ALLOT OF PARSING, CHECK IF IT IS NECESSARY TO CHANGE (GIVE OTHER CODE PRIORITY)
-		 * EACH LABEL IN THE PROFILE TAB WHICH WILL DISPLAY USER INFO (SUCH AS name) WILL BE GIVEN AN ACTION EVENT 
-		 * WHEN ONE CLICKS ON THE BUTTON.
-		 * WHEN YOU CLICK ON A LABEL, A POP UP APPEARS AND NEWLY ENTERED INFORMATION INTO TEXTFIELD CHANGES USERS DATA.
-		 * CHECK Voornaam.setOnMouseClicked FOR ADDITIONAL COMMENTS AS CODE IS SIMILAR
-		 **/
-		delftview.setOnMouseClicked(e -> {
-			TextField temp = new TextField();
-			temp.getStyleClass().add("fillbox");
-			Label description = new Label(
-					"Please add an URL link for you university or secondary picture. \n Upload an picture on the internet and get the URL \nWe recommend www.tinypic.com  \n Your picture will be changed the next time you logs in \nPress \"Enter\" when finished. ");
-			description.getStyleClass().add("description");
-			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			Popup pop2 = PopupBuilder.create().content(description)
-					.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
-					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
-			try {
-				temp.setText(client.toServer(ClientMethods.get("Placepic")));
-			} catch (Exception e1) {
-
-				e1.printStackTrace();
-			}
-			temp.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// newinfo is variable with edited info
-					String newInfo = temp.getText();
-					if (newInfo.trim().isEmpty()) {
-						try {
-							client.toServer(ClientMethods.change("Piclink", "http://i67.tinypic.com/15fje5g.jpg"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					} else {
-						try {
-							client.toServer(ClientMethods.change("Placepic",newInfo));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					pop.hide();
-					pop2.hide();
-					/*
-					 * try { primaryStage.hide();
-					 * profileTab(primaryStage,scenetest,rootProfileTabe,
-					 * sceneProfileTabee); } catch (Exception e1) { //
-					 * e1.printStackTrace(); }
-					 */
+		for (Label l : clickSizableLabels) {
+			l.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+					l.setScaleX(1.3);
+					l.setScaleY(1.3);
 				}
 			});
-			pop.show(primaryStage);
-			pop2.show(primaryStage);
+			l.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					l.setScaleX(1);
+					l.setScaleY(1);
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+		}
 
-		});
+		for (Node n : clickableNodes) {
+			n.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.HAND);
+
+				}
+			});
+			n.setOnMouseExited(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					sceneProfileTabee.setCursor(Cursor.DEFAULT);
+				}
+			});
+		}
 
 		/**
 		 * Een foto met daarin de logo.
@@ -1828,201 +1014,209 @@ public class Design extends Application {
 		primaryStage.show();
 
 	}
-	
+
 	/**
-	 * Allot of parsing which should be done outside of GUI is in courses tab, try change
+	 * Allot of parsing which should be done outside of GUI is in courses tab,
+	 * try change
 	 */
 	@SuppressWarnings({ "deprecation", "unchecked" })
-	public void coursesTab(final Stage primaryStage, final Scene sceneMatchTab, Pane rootMatchTab, Scene sceneProfileTabe,final Scene scenetest, Pane rootProfileTabe, Pane rootCourseTab, Scene CourseScene){
-	   
-			// These are the tables storing course info
-			TableView<Courses> table = new TableView<Courses>();
-			// WE USE variable data, which is the data of the table, to change and add info to our table
-			ObservableList<Courses> data = FXCollections.observableArrayList();
-			
-			/**
-			 * We need to display course discription and course name in the table.
-			 * To get a users course info, we once again use String courses = client.toServer(ClientMethods.get("Course list")).
-			 * This will return a string with the following pattern (check again to confirm), String courses =  {"calculus":"I really hate it", "Algebra":"I really love it"}
-			 * THE FOLLOWING CODE SNIPPET USES AN ITERATOR AND SEPERATES the above JSON object, putting everything into key value pairs.
-			 * THIS CODE IS BEST TO PLACED OUTSIDE GUI, THE PARSING DONE HERE IS EXCESSIVE FOR GUI:
-			 * */
-			Set keys = null;
-			Iterator loop = null;
-			JSONObject courseList = null;
-			String incomingCourses = "";
-			try {
-				incomingCourses = client.toServer(ClientMethods.get("Course list"));
-			} catch (IOException e1) {
-				e1.printStackTrace();
+	public void coursesTab(final Stage primaryStage, final Scene sceneMatchTab, Pane rootMatchTab,
+			Scene sceneProfileTabe, final Scene scenetest, Pane rootProfileTabe, Pane rootCourseTab,
+			Scene CourseScene) {
+
+		int countCourse = 0;
+		HBox hb = new HBox();
+
+		// These are the tables storing course info
+		TableView<Courses> table = new TableView<Courses>();
+		// WE USE variable data, which is the data of the table, to change and
+		// add info to our table
+		ObservableList<Courses> data = FXCollections.observableArrayList();
+
+		/**
+		 * We need to display course discription and course name in the table.
+		 * To get a users course info, we once again use String courses =
+		 * client.toServer(ClientMethods.get("Course list")). This will return a
+		 * string with the following pattern (check again to confirm), String
+		 * courses = {"calculus":"I really hate it", "Algebra":
+		 * "I really love it"} THE FOLLOWING CODE SNIPPET USES AN ITERATOR AND
+		 * SEPERATES the above JSON object, putting everything into key value
+		 * pairs. THIS CODE IS BEST TO PLACED OUTSIDE GUI, THE PARSING DONE HERE
+		 * IS EXCESSIVE FOR GUI:
+		 */
+		Set keys = null;
+		Iterator loop = null;
+		JSONObject courseList = null;
+		String incomingCourses = "";
+		try {
+			incomingCourses = client.toServer(ClientMethods.get("Course list"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		if (!incomingCourses.equals("{}")) {
+			// Parse String to a JSONObject:
+			courseList = parser.parse(incomingCourses.toString());
+
+			keys = courseList.keySet();
+			loop = keys.iterator();
+			while (loop.hasNext()) {
+				// KEY is course name
+				// VALUE is course description
+				String key = (String) loop.next();
+				String value = (String) courseList.get(key);
+				// HERE EVERY COURSE AND COURSE DESCRIPTION IS PLACED INTO THE
+				// TABLE THROUGH THE LOOP:
+				data.add(new Courses(key, value, ""));
+				// WE USE variable data, which is the data of the table, to
+				// change and add info to our table
 			}
-		
-			if(!incomingCourses.equals("{}")){
-				//Parse String to a JSONObject:
-				try {
-					courseList = (JSONObject)new JSONParser().parse(incomingCourses.toString());
-				} catch (ParseException e1) {
-					e1.printStackTrace();
-				}
-				
-				keys = courseList.keySet();
-			    loop = keys.iterator();	
-			    while(loop.hasNext()) {
-			    	// KEY is course name
-			    	// VALUE is course description
-			    	String key = (String)loop.next();
-			        String value = (String)courseList.get(key);
-			        // HERE EVERY COURSE AND COURSE DESCRIPTION IS PLACED INTO THE TABLE THROUGH THE LOOP:
-			        data.add(new Courses(key,value,""));
-					// WE USE variable data, which is the data of the table, to change and add info to our table
-			    }
-			}else{
-				System.out.println("No courses #course tab");
-			}
-		
-			
+		} else {
+			System.out.println("No courses #course tab");
+		}
+
 		primaryStage.setTitle("Courses");
-        primaryStage.setWidth(1600);
-        primaryStage.setHeight(900);
- 
-        final Label label = new Label("Course Overview");
-        label.setFont(new Font("Arial", 20));
-        table.setEditable(true);
- 
-       
+		primaryStage.setWidth(1600);
+		primaryStage.setHeight(900);
+
+		final Label label = new Label("Course Overview");
+		label.setFont(new Font("Arial", 20));
+		table.setEditable(true);
+
 		@SuppressWarnings("rawtypes")
 		TableColumn courseCol = new TableColumn("Course");
-        courseCol.setMinWidth(300);
-        courseCol.setCellValueFactory(
-            new PropertyValueFactory<Courses, String>("firstName"));
+		courseCol.setMinWidth(300);
+		courseCol.setCellValueFactory(new PropertyValueFactory<Courses, String>("firstName"));
 
- 
-        /**
-         * HERE WE DEFINE THE COLUMN FOR COURSE DESCRIPTION.
-         * */
-        TableColumn gradeCol = new TableColumn("Description");
-        gradeCol.setMinWidth(800);
-        gradeCol.setCellValueFactory(new PropertyValueFactory<Courses, String>("lastName"));
-        gradeCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        /**
-         * Allows for changing of cell info (.setOnEditCommit) as well as the user info in database with (client.toServer("INCOMING-COURSECHANGE¿"+h.getFirstName()+ "¿"+ changedValue);	):
-         * */
-        gradeCol.setOnEditCommit(
-            new EventHandler<CellEditEvent<Courses, String>>() {
-                @Override
-                public void handle(CellEditEvent<Courses, String> t) {
-                	
-                	// Choose selected (clicked on cell) item on table and edit that specific info:
-                	Courses h = table.getSelectionModel().getSelectedItem();
-                	System.out.println(h.getLastName());
-             
-                	String changedValue = t.getNewValue();
-                	System.out.println(changedValue);
-                	      
-                	try {
-						client.toServer(ClientMethods.courseChange(h.getFirstName(), changedValue));						
-					} catch (IOException e) {
-						e.printStackTrace();
+		/**
+		 * HERE WE DEFINE THE COLUMN FOR COURSE DESCRIPTION.
+		 */
+		TableColumn gradeCol = new TableColumn("Description");
+		gradeCol.setMinWidth(800);
+		gradeCol.setCellValueFactory(new PropertyValueFactory<Courses, String>("lastName"));
+		gradeCol.setCellFactory(TextFieldTableCell.forTableColumn());
+		/**
+		 * Allows for changing of cell info (.setOnEditCommit) as well as the
+		 * user info in database with
+		 * (client.toServer("INCOMING-COURSECHANGE¿"+h.getFirstName()+ "¿"+
+		 * changedValue); ):
+		 */
+		gradeCol.setOnEditCommit(new EventHandler<CellEditEvent<Courses, String>>() {
+			@Override
+			public void handle(CellEditEvent<Courses, String> t) {
+
+				// Choose selected (clicked on cell) item on table and edit that
+				// specific info:
+				Courses h = table.getSelectionModel().getSelectedItem();
+				System.out.println(h.getLastName());
+
+				String changedValue = t.getNewValue();
+				System.out.println(changedValue);
+
+				try {
+					client.toServer(ClientMethods.courseChange(h.getFirstName(), changedValue));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				for (int i = 0; i < data.size(); i++) {
+					if (data.get(i).getLastName().equals(h.getLastName())) {
+						data.get(i).setLastName(changedValue);
 					}
-                	for(int i = 0; i < data.size() ; i++){
-                		if(data.get(i).getLastName().equals(h.getLastName())){
-                			data.get(i).setLastName(changedValue);
-                		}
-                	}      
-                }
-            }
-        );
- 
-        // Table gets the info from observiable list of strings data:
-        table.setItems(data);
-        // Add columns to table
-        table.getColumns().addAll(courseCol, gradeCol);
-        table.getStyleClass().add("table");
- 
-        final TextField addCourse = new TextField();
-        addCourse.setPromptText("Course");
-        final TextField addGrade = new TextField();
-        addGrade.setPromptText("Description");
-        final TextField addHelp = new TextField();
-        addHelp.setPromptText("Offer or need help?");
- 
-        addCourse.setMaxWidth(200);
-        addGrade.setMaxWidth(200);
-        addHelp.setMaxWidth(200);
-        
-        /**
-         * HERE WE DEFINE HOW TO ADD INFO TO TABLE AND USER DATABASE:
-         * */
-        Button addButton = new Button("Add");
-        addButton.getStyleClass().add("toevoeg");
-        addButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-            
-            	// GET info to be added from textbox:
-            	String addCour = addCourse.getText().trim();
-                String addDesc = addGrade.getText().trim();
-                if(addCour.equals("") ||addDesc.equals("")){
-                	System.out.println("Empty ");
-                }else{
-                	 try {
-                		// IF THE INPUT ISNT EMPTY, THE WE USE client.toServer("INCOMING-COURSECHANGE¿"etc. to change a users info in database.
-     					client.toServer(ClientMethods.courseChange(addCour, addDesc));
-     				} catch (IOException e1) {
-     					e1.printStackTrace();
-     				}
-                    
-                     // We add to table
-                     data.add(new Courses(
-                             addCourse.getText(),
-                             addGrade.getText(),""));
-                     
-                     table.setItems(data);
-                     System.out.println(table.getItems());
-                     table.visibleProperty().set(true);
-                         
-                     addCourse.clear();
-                     addGrade.clear();
-                     addHelp.clear();
-                }
-               
-            }
-        });
-        
-        /**
-         * Here we can delete a course from table and user database with client.toServer("INCOMING-COURSEREMOVE¿"+deleteCourse);
-         * and using selectors of table to select which item to delete
-         * */
-        final Button deleteButton = new Button("Delete");
-        deleteButton.getStyleClass().add("toevoeg");
-        deleteButton.setOnAction(e -> {
-            Courses selectedItem = table.getSelectionModel().getSelectedItem();
-            table.getItems().remove(selectedItem);
-            String deleteCourse = selectedItem.getFirstName();
-            
-            System.out.println(deleteCourse);
-            
-            try {
+				}
+			}
+		});
+
+		// Table gets the info from observiable list of strings data:
+		table.setItems(data);
+		// Add columns to table
+		table.getColumns().addAll(courseCol, gradeCol);
+		table.getStyleClass().add("table");
+
+		final TextField addCourse = new TextField();
+		addCourse.setPromptText("Course");
+		final TextField addGrade = new TextField();
+		addGrade.setPromptText("Description");
+		final TextField addHelp = new TextField();
+		addHelp.setPromptText("Offer or need help?");
+
+		addCourse.setMaxWidth(200);
+		addGrade.setMaxWidth(200);
+		addHelp.setMaxWidth(200);
+
+		/**
+		 * HERE WE DEFINE HOW TO ADD INFO TO TABLE AND USER DATABASE:
+		 */
+		Button addButton = new Button("Add");
+		addButton.getStyleClass().add("toevoeg");
+		addButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+
+				// GET info to be added from textbox:
+				String addCour = addCourse.getText().trim();
+				String addDesc = addGrade.getText().trim();
+				if (addCour.equals("") || addDesc.equals("")) {
+					System.out.println("Empty ");
+				} else {
+					try {
+						// IF THE INPUT ISNT EMPTY, THE WE USE
+						// client.toServer("INCOMING-COURSECHANGE¿"etc. to
+						// change a users info in database.
+						client.toServer(ClientMethods.courseChange(addCour, addDesc));
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+
+					// We add to table
+					data.add(new Courses(addCourse.getText(), addGrade.getText(), ""));
+
+					table.setItems(data);
+					System.out.println(table.getItems());
+					table.visibleProperty().set(true);
+
+					addCourse.clear();
+					addGrade.clear();
+					addHelp.clear();
+				}
+
+			}
+		});
+
+		/**
+		 * Here we can delete a course from table and user database with
+		 * client.toServer("INCOMING-COURSEREMOVE¿"+deleteCourse); and using
+		 * selectors of table to select which item to delete
+		 */
+		final Button deleteButton = new Button("Delete");
+		deleteButton.getStyleClass().add("toevoeg");
+		deleteButton.setOnAction(e -> {
+			Courses selectedItem = table.getSelectionModel().getSelectedItem();
+			table.getItems().remove(selectedItem);
+			String deleteCourse = selectedItem.getFirstName();
+
+			System.out.println(deleteCourse);
+
+			try {
 				client.toServer(ClientMethods.courseRemove(deleteCourse));
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-        });
-        
-        hb.getChildren().clear();
-        hb.getChildren().addAll(addCourse, addGrade, addButton,deleteButton);	
- 
-        hb.setSpacing(3);
-        hb.setLayoutX(850);
-        hb.setLayoutY(700);
-        table.setLayoutX(350);
-        table.setLayoutY(250);
-        
-        Label courseoverview = new Label("Course Overview");
+		});
+
+		hb.getChildren().clear();
+		hb.getChildren().addAll(addCourse, addGrade, addButton, deleteButton);
+
+		hb.setSpacing(3);
+		hb.setLayoutX(850);
+		hb.setLayoutY(700);
+		table.setLayoutX(350);
+		table.setLayoutY(250);
+
+		Label courseoverview = new Label("Course Overview");
 		courseoverview.getStyleClass().add("courseview");
 		courseoverview.setLayoutX(750);
 		courseoverview.setLayoutY(150);
-        
+
 		/**
 		 * een button help. De setaction moet gelinkt worden aan een nieuwe
 		 * page, maar welke? (Dario nodig)
@@ -2032,10 +1226,11 @@ public class Design extends Application {
 		help.getStyleClass().add("help");
 		help.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
-				helpTab(primaryStage, sceneMatchTab,  rootMatchTab,  sceneProfileTabe,  scenetest,  rootProfileTabe,  rootCourseTab,  CourseScene);
+				helpTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
+						rootCourseTab, CourseScene);
 			}
 		});
-		
+
 		/**
 		 * Een button voor logout. De set action moet nog gemaakt worden om
 		 * terug te gaan naar de hoofdpagina? (Dario nodig)
@@ -2045,23 +1240,23 @@ public class Design extends Application {
 		logout.getStyleClass().add("logout");
 		logout.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
-				
+
 				try {
 					start(primaryStage);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
+
 			}
 		});
-		
+
 		/**
 		 * Een box voor de help en logout buttons (dario nodig)
 		 */
 		HBox helpout = new HBox();
 		helpout.getChildren().addAll(help, logout);
 		helpout.getStyleClass().add("helpoutbox");
-		
+
 		/**
 		 * Een foto die hooft bij profile button (Dario nodig)
 		 */
@@ -2071,15 +1266,16 @@ public class Design extends Application {
 		profile.getStyleClass().add("profile");
 		profile.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
-			try {
-				profileTab(primaryStage,scenetest,rootProfileTabe,sceneProfileTabe,sceneMatchTab,rootMatchTab,rootCourseTab,CourseScene);
-			} catch (IOException e) {
+				try {
+					profileTab(primaryStage, scenetest, rootProfileTabe, sceneProfileTabe, sceneMatchTab, rootMatchTab,
+							rootCourseTab, CourseScene);
+				} catch (IOException e) {
 
-				e.printStackTrace();
-			}
+					e.printStackTrace();
+				}
 			}
 		});
-		
+
 		/**
 		 * Een foto die hoort bij course button (Dario nodig)
 		 */
@@ -2087,7 +1283,7 @@ public class Design extends Application {
 		ImageView coursefoto = new ImageView(crfoto);
 		Button courses = new Button("Courses", coursefoto);
 		courses.getStyleClass().add("courses");
-		
+
 		/**
 		 * Een foto die hoort bij match button (Dario nodig)
 		 */
@@ -2097,8 +1293,10 @@ public class Design extends Application {
 		match.getStyleClass().add("match");
 		match.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
-				//final Stage primaryStage, final Scene sceneMatchTab, Pane rootMatchTab, Scene sceneProfileTabe
-				matchTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe,scenetest, rootProfileTabe,rootCourseTab,CourseScene);
+				// final Stage primaryStage, final Scene sceneMatchTab, Pane
+				// rootMatchTab, Scene sceneProfileTabe
+				matchTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
+						rootCourseTab, CourseScene);
 			}
 		});
 
@@ -2111,11 +1309,12 @@ public class Design extends Application {
 		settings.getStyleClass().add("settings");
 		settings.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
-			
-				settingsTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe,scenetest, rootProfileTabe,rootCourseTab,CourseScene);
+
+				settingsTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
+						rootCourseTab, CourseScene);
 			}
 		});
-		
+
 		/**
 		 * Een VBox voor alle buttons links op de pagina (Dario nodig)
 		 */
@@ -2123,7 +1322,7 @@ public class Design extends Application {
 		overzicht.getChildren().addAll(profile, courses, match, settings);
 		overzicht.getStyleClass().add("overzicht");
 		overzicht.setMinHeight(630);
-	
+
 		/**
 		 * Een foto met daarin de logo.
 		 */
@@ -2131,19 +1330,19 @@ public class Design extends Application {
 		ImageView imgview = new ImageView(logo);
 		Image motto = new Image("motto.jpg");
 		ImageView picaview = new ImageView(motto);
-		
+
 		HBox boven = new HBox();
 		boven.setMinSize(1550, 85);
 		boven.getChildren().addAll(picaview, imgview);
 		boven.getStyleClass().add("bovenstuk");
-		
+
 		Pane rootCourse = new Pane();
 		rootCourse.getStyleClass().add("pane");
-        
-		rootCourse.getChildren().addAll(label, courseoverview,  table, hb, boven,  picaview, imgview, helpout, overzicht);
 
-        countCourse++;
-      
+		rootCourse.getChildren().addAll(label, courseoverview, table, hb, boven, picaview, imgview, helpout, overzicht);
+
+		countCourse++;
+
 		boven.setLayoutX(50);
 
 		picaview.setLayoutX(730);
@@ -2158,18 +1357,17 @@ public class Design extends Application {
 		overzicht.setLayoutX(50);
 		overzicht.setLayoutY(100);
 
-		
-		Scene CourseScenee = new Scene(rootCourse,1600,900);
-        primaryStage.setScene(CourseScenee);
-        CourseScenee.getStylesheets().add("design.css");
-        primaryStage.show();
+		Scene CourseScenee = new Scene(rootCourse, 1600, 900);
+		primaryStage.setScene(CourseScenee);
+		CourseScenee.getStylesheets().add("design.css");
+		primaryStage.show();
 	}
 
 	/**
-	 * THIS IS A CLASS WHICH IS CREATED TO SUPPORT THE USE OF A TABLE IN COURSE TAB, TESTABLE
+	 * THIS IS A CLASS WHICH IS CREATED TO SUPPORT THE USE OF A TABLE IN COURSE
+	 * TAB, TESTABLE
 	 */
 	public static class Courses {
-
 
 		private final SimpleStringProperty courseName;
 		private final SimpleStringProperty gradeName;
@@ -2205,16 +1403,26 @@ public class Design extends Application {
 			helpName.set(fName);
 		}
 	}
-	
+
 	/**
-	 * MATCH TAB, THIS IS WHERE THE ESSENTIAL TRANSLATION CODE (JSON DATA FROM SERVER TO DISPLAY VARIABLES) WHICH ARE TESTABLE ARE. LOADS OF PARSING CODES, 
-	 * THESE SHOULD BE PUT INTO THEIR OWN PARSING METHODS WHICH ARE CALLED FROM THE MATCH TAB. 
-	 * VIEWPROFILE  AND VIEWPROFILE2 (BUTTONS) ARE MOST IMPORTANT TO REFACTOR
+	 * MATCH TAB, THIS IS WHERE THE ESSENTIAL TRANSLATION CODE (JSON DATA FROM
+	 * SERVER TO DISPLAY VARIABLES) WHICH ARE TESTABLE ARE. LOADS OF PARSING
+	 * CODES, THESE SHOULD BE PUT INTO THEIR OWN PARSING METHODS WHICH ARE
+	 * CALLED FROM THE MATCH TAB. VIEWPROFILE AND VIEWPROFILE2 (BUTTONS) ARE
+	 * MOST IMPORTANT TO REFACTOR
 	 */
 	public void matchTab(final Stage primaryStage, final Scene sceneMatchTab, Pane rootMatchTab, Scene sceneProfileTabe,
 			final Scene scenetest, Pane rootProfileTabe, Pane rootCourseTab, Scene CourseScene) {
-		
-		// here a few operations are performed for positioning/visibility of button and tables:
+
+		Label noResults = new Label("No results were found.");
+		Button matchButton = new Button("Make match with selected");
+		CheckBox UrgentCheck = new CheckBox("Urgent?");
+		int countMatch = 0;
+		ListView<String> SearchResultList = new ListView<String>();
+		ListView<String> filterTable = new ListView<String>();
+
+		// here a few operations are performed for positioning/visibility of
+		// button and tables:
 		filterTable.getItems().clear();
 		SearchResultList.getItems().clear();
 		filterTable.setMinHeight(450);
@@ -2235,7 +1443,7 @@ public class Design extends Application {
 		UrgentBox.setSpacing(10);
 		UrgentBox.getStyleClass().add("checkboxBox");
 		UrgentBox.setVisible(false);
-		// BE ABLE TO MARK CHECHBOX ON AND OFF (AVAILABLE AND UNAVAILABLE) 
+		// BE ABLE TO MARK CHECHBOX ON AND OFF (AVAILABLE AND UNAVAILABLE)
 		UrgentCheck.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -2270,10 +1478,9 @@ public class Design extends Application {
 		// SearchOptions.getStyleClass().add("combobox");
 
 		SearchOptions.setValue("Interested Courses");
-	
 
 		/**
-		 * een button help. 
+		 * een button help.
 		 */
 		Button help = new Button("Help");
 		help.setMinWidth(90);
@@ -2394,8 +1601,8 @@ public class Design extends Application {
 		imgviews.setLayoutY(25);
 
 		/**
-		 * VIEW PROFILE BUTTON,
-		 * CLICK A USER YOU MATCH WITH THEN PRESS BUTTON FOR POP UP WITH RESPECTIVE INFO
+		 * VIEW PROFILE BUTTON, CLICK A USER YOU MATCH WITH THEN PRESS BUTTON
+		 * FOR POP UP WITH RESPECTIVE INFO
 		 **/
 		Button viewProfile2 = new Button("View Selected Profile");
 		viewProfile2.getStyleClass().add("viewProfile");
@@ -2403,9 +1610,9 @@ public class Design extends Application {
 		viewProfile2.setLayoutY(700);
 		viewProfile2.setVisible(false);
 		/**
-		 * VIEW PROFILE BUTTON
-		 * THIS NEEDS REFACTORING!
-		 * WE PARSE THE INCOMING MATCHES INFO INTO RESPECTIVE PLACES FOR DISPLAY. THE PARSING MUST BE DONE OUTSIDE GUI.
+		 * VIEW PROFILE BUTTON THIS NEEDS REFACTORING! WE PARSE THE INCOMING
+		 * MATCHES INFO INTO RESPECTIVE PLACES FOR DISPLAY. THE PARSING MUST BE
+		 * DONE OUTSIDE GUI.
 		 **/
 		viewProfile2.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
@@ -2416,13 +1623,15 @@ public class Design extends Application {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				// GET THE NAME OF THE PROFILE WE WANT TO VIEW (.getSelectedItem() from table)
+				// GET THE NAME OF THE PROFILE WE WANT TO VIEW
+				// (.getSelectedItem() from table)
 				String emailSelect = filterTable.getSelectionModel().getSelectedItem();
 
 				if (emailSelect.equals("No results..") || filterTable.getSelectionModel().getSelectedItem().isEmpty()) {
 					System.out.println("No results");
 				} else {
-					// WE USE A SCANNER TO GRAB THE NAME, FOR EXAMPLE TO GET RID OF 'NAME' IN "NAME:PIM" AND TO JUST HAVE "PIM"
+					// WE USE A SCANNER TO GRAB THE NAME, FOR EXAMPLE TO GET RID
+					// OF 'NAME' IN "NAME:PIM" AND TO JUST HAVE "PIM"
 					Scanner sc = new Scanner(emailSelect);
 					sc.useDelimiter("\n");
 					emailSelect = sc.next().substring(7);
@@ -2435,45 +1644,44 @@ public class Design extends Application {
 					String st = null;
 					String num = null;
 					String piclink = null;
-					
+
 					Set keys = null;
 					Iterator loop = null;
 					JSONObject courseList = null;
 					String incomingCourses = "";
 					try {
-						// WE GET ALL OTHER INFO OF SELECTED USER WITH (client.toServer("INCOMING-FROMOTHERSGET¿) LIKE BELOW:
-						n = client.toServer(ClientMethods.getOther(emailSelect,"Firstname"));
-						sur = client.toServer(ClientMethods.getOther(emailSelect , "Lastname"));
-						a = client.toServer(ClientMethods.getOther(emailSelect , "Age"));
-						c = client.toServer(ClientMethods.getOther(emailSelect , "CityOfResidence"));
-						co = client.toServer(ClientMethods.getOther(emailSelect , "CountryOfResidence"));
-						un = client.toServer(ClientMethods.getOther(emailSelect , "CurrentUniversity"));
-						st = client.toServer(ClientMethods.getOther(emailSelect , "CurrentStudy"));
-						incomingCourses = client.toServer(ClientMethods.getOther(emailSelect , "Course list"));
+						// WE GET ALL OTHER INFO OF SELECTED USER WITH
+						// (client.toServer("INCOMING-FROMOTHERSGET¿) LIKE
+						// BELOW:
+						n = client.toServer(ClientMethods.getOther(emailSelect, "Firstname"));
+						sur = client.toServer(ClientMethods.getOther(emailSelect, "Lastname"));
+						a = client.toServer(ClientMethods.getOther(emailSelect, "Age"));
+						c = client.toServer(ClientMethods.getOther(emailSelect, "CityOfResidence"));
+						co = client.toServer(ClientMethods.getOther(emailSelect, "CountryOfResidence"));
+						un = client.toServer(ClientMethods.getOther(emailSelect, "CurrentUniversity"));
+						st = client.toServer(ClientMethods.getOther(emailSelect, "CurrentStudy"));
+						incomingCourses = client.toServer(ClientMethods.getOther(emailSelect, "Course list"));
 
-						// WE USE ITERATOR TO PARSE THE COURSES INFO OF USER WE'RE LOOKING AT, LIKE EXPLANED IN THE PROFILE TAB
+						// WE USE ITERATOR TO PARSE THE COURSES INFO OF USER
+						// WE'RE LOOKING AT, LIKE EXPLANED IN THE PROFILE TAB
 						if (incomingCourses.equals("{}")) {
 							incomingCourses = "No results..";
 						} else {
-						
-							if(!incomingCourses.equals("{}")){
-								//Parse String to a JSONObject:
-								try {
-									courseList = (JSONObject)new JSONParser().parse(incomingCourses.toString());
-								} catch (ParseException e1) {
-									e1.printStackTrace();
-								}
-								
+
+							if (!incomingCourses.equals("{}")) {
+								// Parse String to a JSONObject:
+								courseList = parser.parse(incomingCourses.toString());
+
 								keys = courseList.keySet();
-							    loop = keys.iterator();	
-							}else{
+								loop = keys.iterator();
+							} else {
 								System.out.println("No courses #match,viewprofile2 tab");
 							}
 						}
 
-						num = client.toServer(ClientMethods.getOther(emailSelect,"Phone"));
-						String email = client.toServer(ClientMethods.getOther(emailSelect,"Email"));
-						piclink = client.toServer(ClientMethods.getOther(emailSelect,"Piclink"));
+						num = client.toServer(ClientMethods.getOther(emailSelect, "Phone"));
+						String email = client.toServer(ClientMethods.getOther(emailSelect, "Email"));
+						piclink = client.toServer(ClientMethods.getOther(emailSelect, "Piclink"));
 						// PLACE THE INFO IN THE LABELS:
 						Label name = new Label();
 						name.setText("Full name:          " + n + " " + sur);
@@ -2493,29 +1701,31 @@ public class Design extends Application {
 						Label study = new Label();
 						study.setText("Study:              " + st);
 						study.getStyleClass().add("e");
-						Label description = new Label(client.toServer(ClientMethods.getOther(emailSelect,"Description")));
+						Label description = new Label(
+								client.toServer(ClientMethods.getOther(emailSelect, "Description")));
 						description.getStyleClass().add("e");
 						description.setWrapText(true);
 						ListView<String> tempC = new ListView<String>();
 						tempC.setMaxHeight(130);
 						if (incomingCourses.equals("No results..")) {
 							tempC.getItems().add(incomingCourses);
-						} else {	
-							
-						    while(loop.hasNext()) {
-						    	String key = (String)loop.next();
-						        String value = (String)courseList.get(key);
-						        
+						} else {
+
+							while (loop.hasNext()) {
+								String key = (String) loop.next();
+								String value = (String) courseList.get(key);
+
 								tempC.getItems().add(key + ":  " + value);
-						    }			
+							}
 						}
 
 						Label courses = new Label();
 						courses.setText("Courses:            ");
 						courses.getStyleClass().add("e");
-						
-						// CREATE RESPECTIVE LABELS AND BOXES FOR DISPLAY PURPOSES
-						
+
+						// CREATE RESPECTIVE LABELS AND BOXES FOR DISPLAY
+						// PURPOSES
+
 						Label number = new Label();
 						number.setText("Number: " + num);
 						number.getStyleClass().add("e");
@@ -2547,7 +1757,7 @@ public class Design extends Application {
 						view1.getStyleClass().add("popView");
 
 						VBox view = new VBox();
-						view.getChildren().addAll(view1,description, courses, tempC);
+						view.getChildren().addAll(view1, description, courses, tempC);
 						view.setMaxWidth(825);
 						view.setMinHeight(275);
 						view.setSpacing(15);
@@ -2576,10 +1786,12 @@ public class Design extends Application {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					// WE SEND A REQUEST TO SERVER ASKING FOR OUR OWN (THE ONE LOGGED IN) EMAIL, THIS RETURNS CONTROL TO THE USER BEING LOGGED IN SO WE
+					// WE SEND A REQUEST TO SERVER ASKING FOR OUR OWN (THE ONE
+					// LOGGED IN) EMAIL, THIS RETURNS CONTROL TO THE USER BEING
+					// LOGGED IN SO WE
 					// DO FURTHER REQUEST OUT OF USERS PERSPECTIVE.
 					try {
-						client.toServer(ClientMethods.getOther(curEmail,"Piclink"));
+						client.toServer(ClientMethods.getOther(curEmail, "Piclink"));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -2588,9 +1800,10 @@ public class Design extends Application {
 		});
 
 		/**
-		 * READ comments by viewProfile2 for explanation what this button does, as they both are similar:
-		 * NEEDS REFACTORING SAME WAY AS viewProfile2 button
-		 * */
+		 * READ comments by viewProfile2 for explanation what this button does,
+		 * as they both are similar: NEEDS REFACTORING SAME WAY AS viewProfile2
+		 * button
+		 */
 		Button viewProfile = new Button("View Selected Profile");
 		viewProfile.getStyleClass().add("viewProfile");
 		viewProfile.setLayoutX(350);
@@ -2622,44 +1835,39 @@ public class Design extends Application {
 					String un = null;
 					String st = null;
 					String num = null;
-					String piclink = null;		
-					
+					String piclink = null;
+
 					Set keys = null;
 					Iterator loop = null;
 					JSONObject courseList = null;
 					String incomingCourses = "";
 					try {
-						n = client.toServer(ClientMethods.getOther(emailSelect ,"Firstname"));
-						sur = client.toServer(ClientMethods.getOther(emailSelect,"Lastname"));
+						n = client.toServer(ClientMethods.getOther(emailSelect, "Firstname"));
+						sur = client.toServer(ClientMethods.getOther(emailSelect, "Lastname"));
 						a = client.toServer(ClientMethods.getOther(emailSelect, "Age"));
-						c = client.toServer(ClientMethods.getOther(emailSelect ,"CityOfResidence"));
-						co = client.toServer(ClientMethods.getOther(emailSelect,"CountryOfResidence"));
-						un = client.toServer(ClientMethods.getOther(emailSelect,"CurrentUniversity"));
-						st = client.toServer(ClientMethods.getOther(emailSelect,"CurrentStudy"));
-						incomingCourses = client.toServer(ClientMethods.getOther(emailSelect,"Course list"));
+						c = client.toServer(ClientMethods.getOther(emailSelect, "CityOfResidence"));
+						co = client.toServer(ClientMethods.getOther(emailSelect, "CountryOfResidence"));
+						un = client.toServer(ClientMethods.getOther(emailSelect, "CurrentUniversity"));
+						st = client.toServer(ClientMethods.getOther(emailSelect, "CurrentStudy"));
+						incomingCourses = client.toServer(ClientMethods.getOther(emailSelect, "Course list"));
 
 						if (incomingCourses.equals("{}")) {
 							incomingCourses = "No results..";
 						} else {
-							if(!incomingCourses.equals("{}")){
-								//Parse String to a JSONObject:
-								try {
-									courseList = (JSONObject)new JSONParser().parse(incomingCourses.toString());
-								} catch (ParseException e1) {
-									e1.printStackTrace();
-								}
-								
+							if (!incomingCourses.equals("{}")) {
+								// Parse String to a JSONObject:
+								courseList = parser.parse(incomingCourses.toString());
 								keys = courseList.keySet();
-							    loop = keys.iterator();	
-							}else{
+								loop = keys.iterator();
+							} else {
 								System.out.println("No courses #match,viewprofile2 tab");
 							}
-							
+
 						}
 
-						num = client.toServer(ClientMethods.getOther(emailSelect,"Phone"));
+						num = client.toServer(ClientMethods.getOther(emailSelect, "Phone"));
 						String email = client.toServer(ClientMethods.getOther(emailSelect, "Email"));
-						piclink = client.toServer(ClientMethods.getOther(emailSelect,"Piclink"));
+						piclink = client.toServer(ClientMethods.getOther(emailSelect, "Piclink"));
 						Label name = new Label();
 						name.setText("Full name:          " + n + " " + sur);
 						name.getStyleClass().add("e");
@@ -2678,7 +1886,8 @@ public class Design extends Application {
 						Label study = new Label();
 						study.setText("Study:              " + st);
 						study.getStyleClass().add("e");
-						Label description = new Label(client.toServer(ClientMethods.getOther(emailSelect,"Description")));
+						Label description = new Label(
+								client.toServer(ClientMethods.getOther(emailSelect, "Description")));
 						description.getStyleClass().add("e");
 						description.setWrapText(true);
 						ListView<String> tempC = new ListView<String>();
@@ -2686,21 +1895,19 @@ public class Design extends Application {
 						if (incomingCourses.equals("No results..")) {
 							tempC.getItems().add(incomingCourses);
 						} else {
-							
-						    while(loop.hasNext()) {
-						    	String key = (String)loop.next();
-						        String value = (String)courseList.get(key);
-						        
+
+							while (loop.hasNext()) {
+								String key = (String) loop.next();
+								String value = (String) courseList.get(key);
+
 								tempC.getItems().add(key + ":  " + value);
-						    }		
+							}
 						}
 
 						Label courses = new Label();
 						courses.setText("Courses:            ");
 						courses.getStyleClass().add("e");
-						
-					
-						
+
 						Label number = new Label();
 						number.setText("Number: " + num);
 						number.getStyleClass().add("e");
@@ -2732,7 +1939,7 @@ public class Design extends Application {
 						view1.getStyleClass().add("popView");
 
 						VBox view = new VBox();
-						view.getChildren().addAll(view1,description, courses, tempC);
+						view.getChildren().addAll(view1, description, courses, tempC);
 						view.setMaxWidth(825);
 						view.setMinHeight(275);
 						view.setSpacing(15);
@@ -2762,7 +1969,7 @@ public class Design extends Application {
 					}
 					// Return control
 					try {
-						client.toServer(ClientMethods.getOther(curEmail,"Piclink"));
+						client.toServer(ClientMethods.getOther(curEmail, "Piclink"));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -2771,10 +1978,10 @@ public class Design extends Application {
 		});
 
 		/**
-		 * FIND MATCHES BY SEARCHING BUTTON.
-		 * WILL DISPLAY MATCHES ACCORDING TO SEARCH PREFERENCES.
-		 * NEEDS REFACTORING FOR HOW WE PARSE INCOMING INFO FROM SERVER:
-		 * */
+		 * FIND MATCHES BY SEARCHING BUTTON. WILL DISPLAY MATCHES ACCORDING TO
+		 * SEARCH PREFERENCES. NEEDS REFACTORING FOR HOW WE PARSE INCOMING INFO
+		 * FROM SERVER:
+		 */
 		Button searchCourse = new Button("Search");
 		searchCourse.getStyleClass().add("courseSearch");
 		searchCourse.setLayoutX(1309);
@@ -2796,7 +2003,7 @@ public class Design extends Application {
 					if (currentOption.equals("Interested Courses")) {
 						currentOption = "Course list";
 					}
-					//set up variables for parsing of temp:
+					// set up variables for parsing of temp:
 					String temp = "";
 					String results = "";
 					String curEmail = "";
@@ -2806,21 +2013,26 @@ public class Design extends Application {
 					Set keys = null;
 					Iterator loop = null;
 					JSONObject courseList = null;
-					
-					// HERE WE RECEIVE ALL MATCHES BY SEARCH USING: " client.toServer("INCOMING-SEARCH¿" + currentOption + "¿" + currentValue);"
+
+					// HERE WE RECEIVE ALL MATCHES BY SEARCH USING: "
+					// client.toServer("INCOMING-SEARCH¿" + currentOption + "¿"
+					// + currentValue);"
 					try {
 						curEmail = client.toServer(ClientMethods.get("Email"));
 						temp = client.toServer(ClientMethods.search(currentOption, currentValue));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					
+
 					/**
-					 * MAIN TIP FOR REFACTORING, THE temp VARIABLE above receives all people and their details as JSON OBJECT.
-					 * Below with use of scanner and primitive parsing technqiues we grab all emails of matches out of that JSON String for display.
-					 * Look at what temp looks like and implement a parsing method elsewhere or refactor code.
+					 * MAIN TIP FOR REFACTORING, THE temp VARIABLE above
+					 * receives all people and their details as JSON OBJECT.
+					 * Below with use of scanner and primitive parsing
+					 * technqiues we grab all emails of matches out of that JSON
+					 * String for display. Look at what temp looks like and
+					 * implement a parsing method elsewhere or refactor code.
 					 * 
-					 * */
+					 */
 					Scanner sc;
 					if (temp.equals("[]")) {
 						System.out.println("No Results..");
@@ -2833,7 +2045,8 @@ public class Design extends Application {
 						while (sc.hasNext()) {
 							temp2 = sc.next().substring(1);
 							if (!temp2.equals(curEmail)) {
-								// match emails gets all emails of people we match with
+								// match emails gets all emails of people we
+								// match with
 								if (temp2.endsWith("]")) {
 									matchEmails.add(temp2.substring(0, temp2.length() - 1));
 								} else {
@@ -2842,71 +2055,65 @@ public class Design extends Application {
 							}
 						}
 
-						// Get info of matched emails using the command to get other peoples info  client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Email")
-						//+ "\nName: " + client.toServer("INCOMING-FROMOTHERSGET
+						// Get info of matched emails using the command to get
+						// other peoples info
+						// client.toServer("INCOMING-FROMOTHERSGET¿" + s +
+						// "¿Email")
+						// + "\nName: " +
+						// client.toServer("INCOMING-FROMOTHERSGET
 						for (String s : matchEmails) {
 							try {
 
 								String userCourses = "";
 								try {
-									userCourses = client.toServer(ClientMethods.getOther(s,"Course list"));
+									userCourses = client.toServer(ClientMethods.getOther(s, "Course list"));
 								} catch (IOException e1) {
 									e1.printStackTrace();
 								}
 								if (userCourses.equals("{}")) {
-									results = "Email: " + client.toServer(ClientMethods.getOther(s,"Email"))
-											+ "\nName: " + client.toServer(ClientMethods.getOther(s,"Firstname"))
+									results = "Email: " + client.toServer(ClientMethods.getOther(s, "Email"))
+											+ "\nName: " + client.toServer(ClientMethods.getOther(s, "Firstname"))
 											+ "\nUni:     "
-											+ client.toServer(ClientMethods.getOther(s,"CurrentUniversity"))
-											+ "\nStudy: "
-											+ client.toServer(ClientMethods.getOther(s,"CurrentStudy"))
+											+ client.toServer(ClientMethods.getOther(s, "CurrentUniversity"))
+											+ "\nStudy: " + client.toServer(ClientMethods.getOther(s, "CurrentStudy"))
 											+ "\nCity:     "
-											+ client.toServer(ClientMethods.getOther(s,"CityOfResidence"));
+											+ client.toServer(ClientMethods.getOther(s, "CityOfResidence"));
 
 									matchInfo.add(results);
 
 								} else {
 									// PARSE MATCHES COURSES:
-									if(!userCourses.equals("{}")){
-										//Parse String to a JSONObject:
-										try {
-											courseList = (JSONObject)new JSONParser().parse(userCourses.toString());
-										} catch (ParseException e1) {
-											e1.printStackTrace();
-										}
-										
+									if (!userCourses.equals("{}")) {
+										// Parse String to a JSONObject:
+										courseList = parser.parse(userCourses.toString());
+
 										keys = courseList.keySet();
-									    loop = keys.iterator();	
-									}else{
+										loop = keys.iterator();
+									} else {
 										System.out.println("No courses #match,viewprofile2 tab");
 									}
-									
+
 									String displayCourses = "";
-									while(loop.hasNext()) {
-										String key = (String)loop.next();
-								    	if (!loop.hasNext()) {
-								    		displayCourses += key;
-										}else{
-									    	displayCourses += key  +", ";
+									while (loop.hasNext()) {
+										String key = (String) loop.next();
+										if (!loop.hasNext()) {
+											displayCourses += key;
+										} else {
+											displayCourses += key + ", ";
 										}
-								    }
-									String available = "No  :(  Please check back later.";
-									if(client.toServer(ClientMethods.getOther(s, "Available")).equals("true"))
-									{
-										available="Yes, contact me now!";
 									}
-									results = "Email: " + client.toServer(ClientMethods.getOther(s,"Email"))
-											+ "\nName: " + client.toServer(ClientMethods.getOther(s,"Firstname"))+" "
-											+ client.toServer(ClientMethods.getOther(s,"Lastname"))
-											+ "\nUni:     "
-											+ client.toServer(ClientMethods.getOther(s,"CurrentUniversity"))
-											+ "\nStudy: "
-											+ client.toServer(ClientMethods.getOther(s,"CurrentStudy"))
+									String available = "No  :(  Please check back later.";
+									if (client.toServer(ClientMethods.getOther(s, "Available")).equals("true")) {
+										available = "Yes, contact me now!";
+									}
+									results = "Email: " + client.toServer(ClientMethods.getOther(s, "Email"))
+											+ "\nName: " + client.toServer(ClientMethods.getOther(s, "Firstname")) + " "
+											+ client.toServer(ClientMethods.getOther(s, "Lastname")) + "\nUni:     "
+											+ client.toServer(ClientMethods.getOther(s, "CurrentUniversity"))
+											+ "\nStudy: " + client.toServer(ClientMethods.getOther(s, "CurrentStudy"))
 											+ "\nCity:     "
-											+ client.toServer(ClientMethods.getOther(s,"CityOfResidence"))
-											+ "\nAvailable Now?     "
-											+ available
-											+ "\nCourses: " + displayCourses;
+											+ client.toServer(ClientMethods.getOther(s, "CityOfResidence"))
+											+ "\nAvailable Now?     " + available + "\nCourses: " + displayCourses;
 
 									matchInfo.add(results);
 								}
@@ -2927,7 +2134,7 @@ public class Design extends Application {
 
 						// RETURN CONTROL TO USER LOGGED IN:
 						try {
-							curEmail = client.toServer(ClientMethods.getOther(curEmail,"Firstname"));
+							curEmail = client.toServer(ClientMethods.getOther(curEmail, "Firstname"));
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -2952,16 +2159,15 @@ public class Design extends Application {
 		});
 
 		/**
-		 * MATCHNOW BUTTON, FINDS AND DISPLAYS ALL MATCHES
-		 * NEEDS REFACTORING!
-		 * */
+		 * MATCHNOW BUTTON, FINDS AND DISPLAYS ALL MATCHES NEEDS REFACTORING!
+		 */
 		Button matchNow = new Button("Match Now!");
 		matchNow.getStyleClass().add("matchbut");
 		matchNow.setLayoutX(470);
 		matchNow.setLayoutY(130);
 		/**
 		 * WHEN WE CLICK ON MATCHNOW:
-		 * */
+		 */
 		matchNow.setOnAction(new EventHandler<ActionEvent>() {
 			@SuppressWarnings("resource")
 			public void handle(ActionEvent args) {
@@ -2975,9 +2181,10 @@ public class Design extends Application {
 					String userUni = client.toServer(ClientMethods.get("CurrentUniversity"));
 					String userCity = client.toServer(ClientMethods.get("CityOfResidence"));
 					/**
-					 * WE USE client.toServer("INCOMING-MATCH"  method to get all matches .
-					 *  variable usersMatch will contain all other matches info which we parse below.
-					 * */
+					 * WE USE client.toServer("INCOMING-MATCH" method to get all
+					 * matches . variable usersMatch will contain all other
+					 * matches info which we parse below.
+					 */
 					usersMatch = client.toServer(ClientMethods.match(userStudy, userUni, userCity));
 
 				} catch (IOException e) {
@@ -3013,7 +2220,8 @@ public class Design extends Application {
 					String results = "";
 					for (String s : matchEmails) {
 						try {
-							// GET INFO OF USERS TO DISPLAY USING: client.toServer("INCOMING-FROMOTHERSGET
+							// GET INFO OF USERS TO DISPLAY USING:
+							// client.toServer("INCOMING-FROMOTHERSGET
 							String userCourses = "";
 							try {
 								userCourses = client.toServer(ClientMethods.getOther(s, "Course list"));
@@ -3024,56 +2232,45 @@ public class Design extends Application {
 							if (userCourses.equals("{}")) {
 								System.out.println("empty");
 
-								results = "Email: " + client.toServer(ClientMethods.getOther(s,"Email"))
-										+ "\nName: " + client.toServer(ClientMethods.getOther(s,"Firstname"))
-										+ "\nUni:     "
-										+ client.toServer(ClientMethods.getOther(s,"CurrentUniversity"))
-										+ "\nStudy: " + client.toServer(ClientMethods.getOther(s,"CurrentStudy"))
-										+ "\nCity:     "
-										+ client.toServer(ClientMethods.getOther(s,"CityOfResidence"));
+								results = "Email: " + client.toServer(ClientMethods.getOther(s, "Email")) + "\nName: "
+										+ client.toServer(ClientMethods.getOther(s, "Firstname")) + "\nUni:     "
+										+ client.toServer(ClientMethods.getOther(s, "CurrentUniversity")) + "\nStudy: "
+										+ client.toServer(ClientMethods.getOther(s, "CurrentStudy")) + "\nCity:     "
+										+ client.toServer(ClientMethods.getOther(s, "CityOfResidence"));
 
 								matchNames.add(results);
 							} else {
 
-								if(!userCourses.equals("{}")){
-									//Parse String to a JSONObject:
-									try {
-										courseList = (JSONObject)new JSONParser().parse(userCourses.toString());
-									} catch (ParseException e1) {
-										e1.printStackTrace();
-									}
-									
+								if (!userCourses.equals("{}")) {
+									// Parse String to a JSONObject:
+									courseList = parser.parse(userCourses.toString());
 									keys = courseList.keySet();
-								    loop = keys.iterator();	
-								}else{
+									loop = keys.iterator();
+								} else {
 									System.out.println("No courses #match,viewprofile2 tab");
 								}
 								String displayCourses = "";
-								while(loop.hasNext()) {
-									
-									String key = (String)loop.next();
-							    	if (!loop.hasNext()) {
-							    		displayCourses += key;
-									}else{
-								    	displayCourses += key  +", ";
+								while (loop.hasNext()) {
+
+									String key = (String) loop.next();
+									if (!loop.hasNext()) {
+										displayCourses += key;
+									} else {
+										displayCourses += key + ", ";
 									}
-							    }
-								String available = "No  :(  Please check back later.";
-								if(client.toServer(ClientMethods.getOther(s,"Available")).equals("true"))
-								{
-									available="Yes, contact me now!";
 								}
-								results = "Email: " + client.toServer(ClientMethods.getOther(s,"Email")) 
-										+ "\nName: " + client.toServer(ClientMethods.getOther(s,"Firstname"))+" "+ client.toServer(ClientMethods.getOther(s,"Lastname"))
-										+ "\nUniversity: "
-										+ client.toServer(ClientMethods.getOther(s,"CurrentUniversity"))
-										+ "\nStudy: " + client.toServer(ClientMethods.getOther(s,"CurrentStudy"))
-										+ "\nCity:     "
-										+ client.toServer(ClientMethods.getOther(s,"CityOfResidence"))
-										+ "\nAvailable Now?     "
-										+ available;
+								String available = "No  :(  Please check back later.";
+								if (client.toServer(ClientMethods.getOther(s, "Available")).equals("true")) {
+									available = "Yes, contact me now!";
+								}
+								results = "Email: " + client.toServer(ClientMethods.getOther(s, "Email")) + "\nName: "
+										+ client.toServer(ClientMethods.getOther(s, "Firstname")) + " "
+										+ client.toServer(ClientMethods.getOther(s, "Lastname")) + "\nUniversity: "
+										+ client.toServer(ClientMethods.getOther(s, "CurrentUniversity")) + "\nStudy: "
+										+ client.toServer(ClientMethods.getOther(s, "CurrentStudy")) + "\nCity:     "
+										+ client.toServer(ClientMethods.getOther(s, "CityOfResidence"))
+										+ "\nAvailable Now?     " + available;
 								results += "\nCourses: " + displayCourses;
-									
 
 								matchNames.add(results);
 							}
@@ -3085,7 +2282,7 @@ public class Design extends Application {
 
 					// Reset login, RETURN CONTROL TO USER
 					try {
-						curEmail = client.toServer(ClientMethods.getOther(curEmail,"Firstname"));
+						curEmail = client.toServer(ClientMethods.getOther(curEmail, "Firstname"));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -3126,11 +2323,11 @@ public class Design extends Application {
 
 		Pane root = new Pane();
 		root.getStyleClass().add("Background");
-		
+
 		Label checkLabel = new Label("By clicking available now");
 		Label checkLabel2 = new Label("you let others know you are");
 		Label checkLabel3 = new Label("available to work together now.");
-		
+
 		checkLabel.getStyleClass().add("availableLabel");
 		checkLabel2.getStyleClass().add("availableLabel");
 		checkLabel3.getStyleClass().add("availableLabel");
@@ -3140,19 +2337,17 @@ public class Design extends Application {
 
 		checkLabel2.setLayoutX(750);
 		checkLabel2.setLayoutY(179);
-		
+
 		checkLabel3.setLayoutX(750);
 		checkLabel3.setLayoutY(199);
-		
-		
-		
+
 		// Checkbox maken.
 		CheckBox SearchAvailableNow = new CheckBox("Available now?");
 		SearchAvailableNow.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				try {
-					client.toServer(ClientMethods.change("Available",String.valueOf(newValue)));
+					client.toServer(ClientMethods.change("Available", String.valueOf(newValue)));
 					System.out.println(newValue);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -3188,7 +2383,7 @@ public class Design extends Application {
 
 		SearchOptions.setLayoutX(1125);
 		SearchOptions.setLayoutY(145);
-		
+
 		Label expl = new Label("helo");
 		expl.setText("Search for others who are available now.");
 		expl.setLayoutX(451);
@@ -3197,9 +2392,9 @@ public class Design extends Application {
 
 		Pane rootMatchTabe = new Pane();
 		rootMatchTabe.getStyleClass().add("Background");
-	
-		rootMatchTabe.getChildren().addAll(checkLabel,checkLabel2,checkLabel3,expl2, expl, viewProfile2, filterTable, SearchAvailableNow, enterSearch,
-				line2, searchCourse, viewProfile, line, UrgentBox, SearchOptions,
+
+		rootMatchTabe.getChildren().addAll(checkLabel, checkLabel2, checkLabel3, expl2, expl, viewProfile2, filterTable,
+				SearchAvailableNow, enterSearch, line2, searchCourse, viewProfile, line, UrgentBox, SearchOptions,
 				/* SearchOptionsBox, SearchBox, */ matchButton, /* SearchButton, */noResults, SearchResultList,
 				overzicht, bovens, picaviews, imgviews, helpout, matchNow);
 		countMatch++;
@@ -3209,7 +2404,7 @@ public class Design extends Application {
 		sceneeMatchTab.getStylesheets().add("Match.css");
 		primaryStage.show();
 	}
-	
+
 	/**
 	 * SETTING TAB. NOT VERY IMPORTANT
 	 */
@@ -3350,38 +2545,36 @@ public class Design extends Application {
 		imgviews.setLayoutX(50);
 		imgviews.setLayoutY(25);
 
-		
 		Label old = new Label();
 		old.setText("Old Password:");
 		old.getStyleClass().add("changeLabel");
 		old.setLayoutX(300);
 		old.setLayoutY(210);
-		
+
 		Label fail = new Label("Incorrect information supplied.");
 		fail.setLayoutX(450);
 		fail.setLayoutY(450);
 		fail.getStyleClass().add("fail");
 		fail.setVisible(false);
-		
+
 		Label success = new Label();
 		success.setLayoutX(450);
 		success.setLayoutY(450);
 		success.getStyleClass().add("fail");
 		success.setVisible(false);
-		
+
 		Label neww = new Label();
 		neww.setText("New Password:");
 		neww.getStyleClass().add("changeLabel");
 		neww.setLayoutX(300);
 		neww.setLayoutY(250);
-		
+
 		Label changePassword = new Label();
 		changePassword.setText("Change your password:");
 		changePassword.getStyleClass().add("changeLabel");
 		changePassword.setLayoutX(450);
 		changePassword.setLayoutY(170);
 		changePassword.setVisible(true);
-		
 
 		Label enter = new Label();
 		enter.setText("Enter password:");
@@ -3396,29 +2589,25 @@ public class Design extends Application {
 		deleteAccount.setLayoutX(950);
 		deleteAccount.setLayoutY(170);
 		deleteAccount.setVisible(true);
-		
+
 		Label deleteAccount1 = new Label();
 		deleteAccount1.setText("We and your friends will miss you...");
 		deleteAccount1.getStyleClass().add("changeLabel");
 		deleteAccount1.setLayoutX(800);
 		deleteAccount1.setLayoutY(210);
 		deleteAccount1.setVisible(true);
-		
-		
-		
+
 		PasswordField oldPasswordField = new PasswordField();
 		oldPasswordField.setPromptText("Enter old password");
 		oldPasswordField.getStyleClass().add("changeFields");
 		oldPasswordField.setLayoutX(450);
 		oldPasswordField.setLayoutY(210);
 
-		
 		PasswordField passwordField = new PasswordField();
 		passwordField.setPromptText("Enter password");
 		passwordField.getStyleClass().add("changeFields");
 		passwordField.setLayoutX(950);
 		passwordField.setLayoutY(250);
-
 
 		PasswordField newPasswordField = new PasswordField();
 		newPasswordField.setPromptText("Enter new password");
@@ -3435,16 +2624,16 @@ public class Design extends Application {
 			public void handle(ActionEvent args) {
 				String checkOld = oldPasswordField.getText();
 				String neww = newPasswordField.getText();
-				if(!(checkOld.equals("")||neww.equals(""))){
-					
+				if (!(checkOld.equals("") || neww.equals(""))) {
+
 					String old = null;
 					try {
 						old = client.toServer(ClientMethods.get("Password"));
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
-					
-					if(old.equals(checkOld)){
+
+					if (old.equals(checkOld)) {
 						try {
 							client.toServer(ClientMethods.change("Password", neww));
 						} catch (IOException e) {
@@ -3455,16 +2644,16 @@ public class Design extends Application {
 						newPasswordField.clear();
 						success.setText("Password Changed!");
 						success.setVisible(true);
-					}else{
+					} else {
 						fail.setVisible(true);
 					}
-					
-				}else{
+
+				} else {
 					fail.setVisible(true);
 				}
 			}
 		});
-		
+
 		Button deleteAccountBttn = new Button();
 		deleteAccountBttn.setText("Delete My Account");
 		deleteAccountBttn.getStyleClass().add("settingsButtons");
@@ -3473,8 +2662,8 @@ public class Design extends Application {
 		deleteAccountBttn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
 				String checkCur = passwordField.getText();
-				if(!checkCur.equals("")){
-					
+				if (!checkCur.equals("")) {
+
 					String old = null;
 					String curEmail = null;
 					try {
@@ -3483,8 +2672,8 @@ public class Design extends Application {
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
-					
-					if(old.equals(checkCur)){
+
+					if (old.equals(checkCur)) {
 						try {
 							client.toServer(ClientMethods.removeAccount(curEmail));
 						} catch (IOException e) {
@@ -3496,14 +2685,14 @@ public class Design extends Application {
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-						
-					}else{
+
+					} else {
 						fail.setVisible(true);
 					}
-				}else{
+				} else {
 					fail.setVisible(true);
 				}
-				
+
 			}
 		});
 
@@ -3512,11 +2701,11 @@ public class Design extends Application {
 		line.setEndX(740);
 		line.setStartY(160);
 		line.setEndY(350);
-	
-		
+
 		Pane root = new Pane();
-		root.getChildren().addAll(enter,success,fail,line,old,neww,passwordField,changePassword, deleteAccount,deleteAccount1, oldPasswordField, newPasswordField,
-				confirmPasswordChange, deleteAccountBttn, overzicht, bovens, picaviews, imgviews, helpout);
+		root.getChildren().addAll(enter, success, fail, line, old, neww, passwordField, changePassword, deleteAccount,
+				deleteAccount1, oldPasswordField, newPasswordField, confirmPasswordChange, deleteAccountBttn, overzicht,
+				bovens, picaviews, imgviews, helpout);
 		root.getStyleClass().add("Background");
 		Scene OptiesScene = new Scene(root, 1600, 900);
 		primaryStage.setScene(OptiesScene);
@@ -3524,232 +2713,235 @@ public class Design extends Application {
 		OptiesScene.getStylesheets().add("Opties.css");
 		primaryStage.show();
 	}
-	
+
 	/**
-	 * HELP TAB.  NOT VERY IMPORTANT
+	 * HELP TAB. NOT VERY IMPORTANT
 	 */
 	public void helpTab(final Stage primaryStage, final Scene sceneMatchTab, Pane rootMatchTab, Scene sceneProfileTabe,
-				final Scene scenetest, Pane rootProfileTabe, Pane rootCourseTab, Scene CourseScene) {
+			final Scene scenetest, Pane rootProfileTabe, Pane rootCourseTab, Scene CourseScene) {
 
-			primaryStage.setTitle("HelpTab");
+		int countHelp = 0;
+		TreeView<String> totLijst;
 
-			TreeItem<String> root, match, change, login, delete, edit, settings, howdelete, report, other;
+		primaryStage.setTitle("HelpTab");
 
-			root = new TreeItem<>();
-			root.setExpanded(true);
+		TreeItem<String> root, match, change, login, delete, edit, settings, howdelete, report, other;
 
-			match = onderdeel("I lost all my matches.", root);
-			onderdeel(
-					"Try logging out and logging back in. As long as you haven't deleted your account you should not worry!",
-					match);
+		root = new TreeItem<>();
+		root.setExpanded(true);
 
-			change = onderdeel("How do I change my name or age?", root);
-			onderdeel(
-					"You should go to your profile tab. There you can find your current name and age. By double clicking the wanted item (E.G. age) you can edit it. Fake names or ages will not be tolerated.",
-					change);
+		match = onderdeel("I lost all my matches.", root);
+		onderdeel(
+				"Try logging out and logging back in. As long as you haven't deleted your account you should not worry!",
+				match);
 
-			login = onderdeel("I can't log in.", root);
-			onderdeel(
-					"Shut everything down and try to log in again. If you were unsuccessfull again, please contact us (c0d3bust3rs@hotmail.com). ",
-					login);
+		change = onderdeel("How do I change my name or age?", root);
+		onderdeel(
+				"You should go to your profile tab. There you can find your current name and age. By double clicking the wanted item (E.G. age) you can edit it. Fake names or ages will not be tolerated.",
+				change);
 
-			delete = onderdeel("Will all my data be lost if I delete the app?", root);
-			onderdeel("As long as you don't delete your account, deleting the app won't delete all the data.", delete);
+		login = onderdeel("I can't log in.", root);
+		onderdeel(
+				"Shut everything down and try to log in again. If you were unsuccessfull again, please contact us (c0d3bust3rs@hotmail.com). ",
+				login);
 
-			edit = onderdeel("How do I edit my profile?", root);
-			onderdeel("You should go to your profile tab. By double clicking an item you can edit the data.", edit);
+		delete = onderdeel("Will all my data be lost if I delete the app?", root);
+		onderdeel("As long as you don't delete your account, deleting the app won't delete all the data.", delete);
 
-			settings = onderdeel("I can't change my settings.", root);
-			onderdeel("Please contact us (c0d3bust3rs@hotmail.com).", settings);
+		edit = onderdeel("How do I edit my profile?", root);
+		onderdeel("You should go to your profile tab. By double clicking an item you can edit the data.", edit);
 
-			howdelete = onderdeel("How do I delete my account?", root);
-			onderdeel(
-					"Go to the options tab and click on delete account. Fill in your password (for savety reasons) and you can delete your account.",
-					howdelete);
+		settings = onderdeel("I can't change my settings.", root);
+		onderdeel("Please contact us (c0d3bust3rs@hotmail.com).", settings);
 
-			report = onderdeel("How do I report someone?", root);
-			onderdeel(
-					"Please contact us (c0d3bust3rs@hotmail.com). Make sure you explain the situation and give us all the required information(name of the person).",
-					report);
+		howdelete = onderdeel("How do I delete my account?", root);
+		onderdeel(
+				"Go to the options tab and click on delete account. Fill in your password (for savety reasons) and you can delete your account.",
+				howdelete);
 
-			other = onderdeel("I got another question.", root);
-			onderdeel("Please contact us (c0d3bust3rs@hotmail.com).", other);
+		report = onderdeel("How do I report someone?", root);
+		onderdeel(
+				"Please contact us (c0d3bust3rs@hotmail.com). Make sure you explain the situation and give us all the required information(name of the person).",
+				report);
 
-			totLijst = new TreeView<>(root);
-			totLijst.setLayoutX(300);
-			totLijst.setLayoutY(250);
-			totLijst.setMinHeight(550);
-			totLijst.setMinWidth(1300);
-			totLijst.setShowRoot(false);
-			totLijst.getStyleClass().add("totLijst");
+		other = onderdeel("I got another question.", root);
+		onderdeel("Please contact us (c0d3bust3rs@hotmail.com).", other);
 
-			Label faq = new Label("Frequently Asked Questions");
-			faq.getStyleClass().add("FAQ");
-			faq.setLayoutX(750);
-			faq.setLayoutY(150);
+		totLijst = new TreeView<>(root);
+		totLijst.setLayoutX(300);
+		totLijst.setLayoutY(250);
+		totLijst.setMinHeight(550);
+		totLijst.setMinWidth(1300);
+		totLijst.setShowRoot(false);
+		totLijst.getStyleClass().add("totLijst");
 
-			/**
-			 * een button help. De setaction moet gelinkt worden aan een nieuwe
-			 * page, maar welke? (Dario nodig)
-			 */
-			Button help = new Button("Help");
-			help.setMinWidth(90);
-			help.getStyleClass().add("help");
+		Label faq = new Label("Frequently Asked Questions");
+		faq.getStyleClass().add("FAQ");
+		faq.setLayoutX(750);
+		faq.setLayoutY(150);
 
-			/**
-			 * Een button voor logout. De set action moet nog gemaakt worden om
-			 * terug te gaan naar de hoofdpagina? (Dario nodig)
-			 */
-			Button logout = new Button("Log out");
-			logout.setMinWidth(80);
-			logout.getStyleClass().add("logout");
-			logout.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
+		/**
+		 * een button help. De setaction moet gelinkt worden aan een nieuwe
+		 * page, maar welke? (Dario nodig)
+		 */
+		Button help = new Button("Help");
+		help.setMinWidth(90);
+		help.getStyleClass().add("help");
 
-					try {
-						start(primaryStage);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+		/**
+		 * Een button voor logout. De set action moet nog gemaakt worden om
+		 * terug te gaan naar de hoofdpagina? (Dario nodig)
+		 */
+		Button logout = new Button("Log out");
+		logout.setMinWidth(80);
+		logout.getStyleClass().add("logout");
+		logout.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent args) {
 
+				try {
+					start(primaryStage);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			});
 
-			/**
-			 * Een box voor de help en logout buttons (dario nodig)
-			 */
-			HBox helpout = new HBox();
-			helpout.getChildren().addAll(help, logout);
-			helpout.getStyleClass().add("helpoutbox");
+			}
+		});
 
-			/**
-			 * Een foto die hooft bij profile button (Dario nodig)
-			 */
-			Image prfoto = new Image(getClass().getResourceAsStream("huisteken.jpg"));
-			ImageView profileimage = new ImageView(prfoto);
-			Button profile = new Button("Profile", profileimage);
-			profile.getStyleClass().add("profile");
-			profile.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// profileTab(primaryStage, scenetest, rootProfileTabe,
-					// sceneProfileTabe,sceneMatchTab,rootMatchTab);
-					try {
-						profileTab(primaryStage, scenetest, rootProfileTabe, sceneProfileTabe, sceneMatchTab, rootMatchTab,
-								rootCourseTab, CourseScene);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					// 1final Stage primaryStage, final Scene scenetest, Pane
-					// rootProfileTabe, Scene sceneProfileTabe, final Scene
-					// sceneMatchTab, Pane rootMatchTab) throws IOException{
+		/**
+		 * Een box voor de help en logout buttons (dario nodig)
+		 */
+		HBox helpout = new HBox();
+		helpout.getChildren().addAll(help, logout);
+		helpout.getStyleClass().add("helpoutbox");
 
-				}
-			});
-
-			/**
-			 * Een foto die hoort bij course button (Dario nodig)
-			 */
-			Image crfoto = new Image(getClass().getResourceAsStream("courseteken.jpg"));
-			ImageView coursefoto = new ImageView(crfoto);
-			Button courses = new Button("Courses", coursefoto);
-			courses.getStyleClass().add("courses");
-			courses.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					coursesTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
+		/**
+		 * Een foto die hooft bij profile button (Dario nodig)
+		 */
+		Image prfoto = new Image(getClass().getResourceAsStream("huisteken.jpg"));
+		ImageView profileimage = new ImageView(prfoto);
+		Button profile = new Button("Profile", profileimage);
+		profile.getStyleClass().add("profile");
+		profile.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent args) {
+				// profileTab(primaryStage, scenetest, rootProfileTabe,
+				// sceneProfileTabe,sceneMatchTab,rootMatchTab);
+				try {
+					profileTab(primaryStage, scenetest, rootProfileTabe, sceneProfileTabe, sceneMatchTab, rootMatchTab,
 							rootCourseTab, CourseScene);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			});
+				// 1final Stage primaryStage, final Scene scenetest, Pane
+				// rootProfileTabe, Scene sceneProfileTabe, final Scene
+				// sceneMatchTab, Pane rootMatchTab) throws IOException{
 
-			/**
-			 * Een foto die hoort bij match button (Dario nodig)
-			 */
-			Image mfoto = new Image(getClass().getResourceAsStream("matchteken.jpg"));
-			ImageView matchfoto = new ImageView(mfoto);
-			Button matcht = new Button("Match", matchfoto);
-			matcht.getStyleClass().add("match");
-			matcht.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// final Stage primaryStage, final Scene sceneMatchTab, Pane
-					// rootMatchTab, Scene sceneProfileTabe
-					matchTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
-							rootCourseTab, CourseScene);
-				}
-			});
+			}
+		});
 
-			/**
-			 * Een foto die hoort bij settings button (dario nodig)
-			 */
-			Image setfoto = new Image(getClass().getResourceAsStream("settingsteken.jpg"));
-			ImageView settingsfoto = new ImageView(setfoto);
-			Button settingz = new Button("Settings", settingsfoto);
-			settingz.getStyleClass().add("settings");
-			settingz.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					// final Stage primaryStage, final Scene sceneMatchTab, Pane
-					// rootMatchTab, Scene sceneProfileTabe
-					settingsTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
-							rootCourseTab, CourseScene);
-				}
-			});
+		/**
+		 * Een foto die hoort bij course button (Dario nodig)
+		 */
+		Image crfoto = new Image(getClass().getResourceAsStream("courseteken.jpg"));
+		ImageView coursefoto = new ImageView(crfoto);
+		Button courses = new Button("Courses", coursefoto);
+		courses.getStyleClass().add("courses");
+		courses.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent args) {
+				coursesTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
+						rootCourseTab, CourseScene);
+			}
+		});
 
-			/**
-			 * Een VBox voor alle buttons links op de pagina (Dario nodig)
-			 */
-			VBox overzicht = new VBox();
-			overzicht.getChildren().addAll(profile, courses, matcht, settingz);
-			overzicht.getStyleClass().add("overzicht");
-			courses.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent args) {
-					coursesTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
-							rootCourseTab, CourseScene);
-				}
-			});
+		/**
+		 * Een foto die hoort bij match button (Dario nodig)
+		 */
+		Image mfoto = new Image(getClass().getResourceAsStream("matchteken.jpg"));
+		ImageView matchfoto = new ImageView(mfoto);
+		Button matcht = new Button("Match", matchfoto);
+		matcht.getStyleClass().add("match");
+		matcht.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent args) {
+				// final Stage primaryStage, final Scene sceneMatchTab, Pane
+				// rootMatchTab, Scene sceneProfileTabe
+				matchTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
+						rootCourseTab, CourseScene);
+			}
+		});
 
-			/**
-			 * Een foto met daarin de logo.
-			 */
-			Image logo = new Image("log.jpg");
-			ImageView imgview = new ImageView(logo);
-			Image motto = new Image("motto.jpg");
-			ImageView picaview = new ImageView(motto);
+		/**
+		 * Een foto die hoort bij settings button (dario nodig)
+		 */
+		Image setfoto = new Image(getClass().getResourceAsStream("settingsteken.jpg"));
+		ImageView settingsfoto = new ImageView(setfoto);
+		Button settingz = new Button("Settings", settingsfoto);
+		settingz.getStyleClass().add("settings");
+		settingz.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent args) {
+				// final Stage primaryStage, final Scene sceneMatchTab, Pane
+				// rootMatchTab, Scene sceneProfileTabe
+				settingsTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
+						rootCourseTab, CourseScene);
+			}
+		});
 
-			HBox boven = new HBox();
-			boven.setMinSize(1550, 85);
-			boven.getChildren().addAll(picaview, imgview);
-			boven.getStyleClass().add("bovenstuk");
+		/**
+		 * Een VBox voor alle buttons links op de pagina (Dario nodig)
+		 */
+		VBox overzicht = new VBox();
+		overzicht.getChildren().addAll(profile, courses, matcht, settingz);
+		overzicht.getStyleClass().add("overzicht");
+		courses.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent args) {
+				coursesTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
+						rootCourseTab, CourseScene);
+			}
+		});
 
-			boven.setLayoutX(50);
+		/**
+		 * Een foto met daarin de logo.
+		 */
+		Image logo = new Image("log.jpg");
+		ImageView imgview = new ImageView(logo);
+		Image motto = new Image("motto.jpg");
+		ImageView picaview = new ImageView(motto);
 
-			picaview.setLayoutX(730);
-			picaview.setLayoutY(30);
+		HBox boven = new HBox();
+		boven.setMinSize(1550, 85);
+		boven.getChildren().addAll(picaview, imgview);
+		boven.getStyleClass().add("bovenstuk");
 
-			imgview.setLayoutX(50);
-			imgview.setLayoutY(25);
+		boven.setLayoutX(50);
 
-			helpout.setLayoutX(1410);
-			helpout.setLayoutY(25);
+		picaview.setLayoutX(730);
+		picaview.setLayoutY(30);
 
-			overzicht.setLayoutX(50);
-			overzicht.setLayoutY(100);
-			overzicht.setMinHeight(630);
+		imgview.setLayoutX(50);
+		imgview.setLayoutY(25);
 
-			Pane design = new Pane();
-			// if(countHelp ==0){
-			design.getChildren().addAll(totLijst, boven, picaview, imgview, helpout, overzicht, faq);
-			// }
-			countHelp++;
-			Scene scene = new Scene(design, 1600, 900);
-			design.getStylesheets().add("layout.css");
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		}
-	
-	
+		helpout.setLayoutX(1410);
+		helpout.setLayoutY(25);
+
+		overzicht.setLayoutX(50);
+		overzicht.setLayoutY(100);
+		overzicht.setMinHeight(630);
+
+		Pane design = new Pane();
+		// if(countHelp ==0){
+		design.getChildren().addAll(totLijst, boven, picaview, imgview, helpout, overzicht, faq);
+		// }
+		countHelp++;
+		Scene scene = new Scene(design, 1600, 900);
+		design.getStylesheets().add("layout.css");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+
 	/**
-	 * THIS IS AN EXAMPLE OF A METHOD WHICH IS NOT INTERGRATED INTO THE TABS'S CODES. 
-	 * THIS IS WHAT YOU NEED TO GET OUT FROM THE TABS SO YOU CAN TEST THEM.
-	 */	
+	 * THIS IS AN EXAMPLE OF A METHOD WHICH IS NOT INTERGRATED INTO THE TABS'S
+	 * CODES. THIS IS WHAT YOU NEED TO GET OUT FROM THE TABS SO YOU CAN TEST
+	 * THEM.
+	 */
 	public TreeItem<String> onderdeel(String string, TreeItem<String> ouder) {
 
 		TreeItem<String> item = new TreeItem<>(string);
@@ -3759,5 +2951,47 @@ public class Design extends Application {
 
 	}
 
+	public void constructEdit(String desc, String standard, String key, Label edited, Stage primary) {
+		try {
+			TextField temp = new TextField();
+			temp.getStyleClass().add("fillbox");
+			Label description = new Label(desc);
+			description.getStyleClass().add("description");
+			Popup pop = PopupBuilder.create().content(temp).y(MouseInfo.getPointerInfo().getLocation().getY() - 10)
+					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+			Popup pop2 = PopupBuilder.create().content(description)
+					.y(MouseInfo.getPointerInfo().getLocation().getY() + 30)
+					.x(MouseInfo.getPointerInfo().getLocation().getX() - 20).width(0).height(0).build();
+			temp.setText(client.toServer(ClientMethods.get(key)));
+			temp.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent args) {
+					try {
+						// newinfo is variable with edited info
+						String newInfo = temp.getText();
+						if (newInfo.trim().isEmpty()) {
+							if (edited != null)
+								edited.setText(standard);
+							temp.setText(standard);
+							client.toServer(ClientMethods.change(key, standard));
+						} else {
+							if (edited != null)
+								edited.setText(newInfo);
+							temp.setText(newInfo);
+							client.toServer(ClientMethods.change(key, newInfo));
+						}
+						pop.hide();
+						pop2.hide();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			pop.show(primary);
+			pop2.show(primary);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+	}
+
 }
-	
