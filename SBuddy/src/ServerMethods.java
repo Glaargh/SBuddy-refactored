@@ -48,12 +48,17 @@ private  user User;
 	public  String Login(String LoginCredentials) 
 	{
 		String loginrespond = null;
-		 try 
+		try 
 	        {
-			  	String[] arr = LoginCredentials.split("¿");  
-			  	User = new user(arr[1]);
+				JSONParser parser = new JSONParser();
+				
+				JSONObject json = (JSONObject) parser.parse(LoginCredentials);
+				String id = (String) json.get("id");
+				String password = (String) json.get("password");
+				
+			  	User = new user(id);
 			
-			  	if(User.get("Password").equals(arr[2]))
+			  	if(User.get("Password").equals(password))
 			  	{
 			  		loginrespond= "true";
 			  	}
@@ -66,13 +71,20 @@ private  user User;
 	}
 	
 	
-	public  String Register(String Stringreg) 
+	public  String Register(String Stringreg) throws ParseException 
 	{// INCOMING-REGISTER¿120567@wolfert.nl¿pass¿Steve¿Lei 
 		String respond = "false";
-		String[] regarray = Stringreg.split("¿");
 		JSONParser parser = new JSONParser();
+
+		JSONObject json = (JSONObject) parser.parse(Stringreg);
+		
+		String id = (String) json.get("id");
+		String password = (String) json.get("password");
+		String fName = (String) json.get("firstname");
+		String lName = (String) json.get("lastname");
+			
 		JSONArray Database = read(pathdatabase);
-    	 if(StringExist(Database,regarray[1]))
+    	 if(StringExist(Database,id))
     	 {
     		 respond = "false";
     	 }
@@ -87,10 +99,10 @@ private  user User;
              
              //information for register phase
              try {
-             obj.put("Firstname", regarray[3]);
-             obj.put("Lastname", regarray[4]);
-             obj.put("Email", regarray[1]);
-             obj.put("Password", regarray[2]);
+             obj.put("Firstname",fName);
+             obj.put("Lastname", lName);
+             obj.put("Email", id);
+             obj.put("Password",password);
          	} catch (Exception e) {
 				respond = "false";
 			}
@@ -114,18 +126,8 @@ private  user User;
              JSONObject courses = new JSONObject();    
              obj.put("Course list", courses);        
              
-          /*   //chat client
-             JSONObject chat = new JSONObject();
-             String time =  ZonedDateTime.now().format(DateTimeFormatter.ofPattern("E h:ma"));
-             JSONArray SBuddybot = new JSONArray();
-             SBuddybot.add("SBuddybot"+"("+time+"): " +"Welcome to SBuddy, you have any trouble using this app, please click on 'Help'. "
-             		+ "Happy Study!");
-             chat.put("SBuddybot", SBuddybot);
-             obj.put("ChatDatabase", chat);*/
-             
-             //Here things are added together
              userinfo.add(obj);
-             mainobj.put(regarray[1], userinfo);
+             mainobj.put(id, userinfo);
              ///////////////////////////////////
              
         	 Database.add(mainobj);
@@ -134,7 +136,7 @@ private  user User;
 			} catch (IOException e) {
 				respond = "false";
 			}
-             user usr = new user (regarray[1]);
+             user usr = new user (id);
              try {
 				usr.modify("JoinDate", ZonedDateTime.now().format(DateTimeFormatter.ofPattern("h:m:a:d:M:y")));
             	
@@ -151,39 +153,82 @@ private  user User;
 	public  String modify(String modifycommand)
 	{
 		String response = "true";
-			modifycommand = modifycommand.substring(modifycommand.indexOf(" ")).trim();
-			String key = modifycommand.substring(0, modifycommand.indexOf(" ")).trim();
-			String value = modifycommand.substring(modifycommand.indexOf(" ")).trim();
-			
-			try {
-				User.modify(key,value);
-			} catch (IOException e) {
-				response = "false";
-			}
+		JSONParser parser = new JSONParser();
+		JSONObject json;
+		try {
+			json = (JSONObject) parser.parse(modifycommand);
+			String key = (String) json.get("key");
+			String value = (String) json.get("value");
+			User.modify(key,value);
+		} catch (ParseException|IOException e1) {
+			response = "false";
+		}
 		return response;
 		
 	}
 	public  String get(String modifycommand)
 	{
-		String key = modifycommand.substring(modifycommand.indexOf(" ")).trim();
-		return User.get(key);
+		JSONParser parser = new JSONParser();
+		JSONObject json;
+		
+		try {
+			json = (JSONObject) parser.parse(modifycommand);
+			String key = (String) json.get("key");
+			return User.get(key);
+		} catch (ParseException e) {
+			return "false";
+		}
+		
 	}
 	
 	public  String addormodifycourse(String modifycommand) throws IOException 
     {
-        String[] course = modifycommand.split("¿");
-        return User.addormodifycourse(course[1], course[2]);
+		
+		JSONParser parser = new JSONParser();
+		JSONObject json;
+		
+		try {
+			json = (JSONObject) parser.parse(modifycommand);
+			String head = (String) json.get("head");
+			String description = (String) json.get("description");
+			return User.addormodifycourse(head, description);
+		} catch (ParseException e) {
+			return "false";
+		}
     }
+	
 	public  String removecourse(String modifycommand) throws IOException
-	{  String[] course = modifycommand.split("¿");
-		return User.removecourse(course[1]);
+	{  
+		JSONParser parser = new JSONParser();
+		JSONObject json;
+		
+		try {
+			json = (JSONObject) parser.parse(modifycommand);
+			String course = (String) json.get("course");
+			return User.removecourse(course);
+		} catch (ParseException e) {
+			return "false";
+		}
+		
 	}
 	public  String getothers(String modifycommand)
     {//INCOMING-FROMOTHERSGET¿pimdhn@gmail.com¿Lastname
-        String[] arr = modifycommand.split("¿");
-        user otheruser = new user(arr[1]);
-        return otheruser.get(arr[2]);
+		JSONParser parser = new JSONParser();
+		JSONObject json;
+		
+		try {
+			json = (JSONObject) parser.parse(modifycommand);
+			String key = (String) json.get("key");
+			String id = (String) json.get("id");
+			System.out.println(key);
+	        user otheruser = new user(id);
+	        return otheruser.get(key);
+		} catch (ParseException e) {
+			return "false";
+		}
     }
+	
+	
 	
     private  boolean StringExist(JSONArray jsonArray, String usernameToFind) 
     {//method to find out if the inserted string (email) already exist in the system.
@@ -192,163 +237,130 @@ private  user User;
     public  String remove(String removecommand)
     {//INCOMING-REMOVE¿jUnittest@gmail.com
     	JSONArray Database = read(pathdatabase);
-    	String[] arr = removecommand.split("¿");
-    	 String response = "false";
-    	 JSONObject mainobj = new JSONObject();
-				 	for(int i = 0; i<Database.size(); i++)
-				 	{
-				 		try {
-							mainobj= (JSONObject) new JSONParser().parse(Database.get(i).toString());
-						} catch (ParseException e) {
-							response = "false";
-						}	
-				 		if(mainobj.containsKey(arr[1]))
-				 		{
-				 			Database.remove(i);	
-				 			 try {
-								write(Database, pathdatabase);
-							} catch (IOException e) {
-								response = "false";
-							} 			
-				 			response= "true";
-				 			break;
-				 		}
-				 	}
-		 return response;
+    	String response = "false";
+    	JSONObject mainobj = new JSONObject();
+    	for(int i = 0; i<Database.size(); i++)
+    	{
+    		String id = "";
+    		try {
+    			JSONObject json = (JSONObject) new JSONParser().parse(removecommand);
+    			id = (String) json.get("id");
+    			
+    			mainobj= (JSONObject) new JSONParser().parse(Database.get(i).toString());
+    		} catch (ParseException e) {
+    			response = "false";
+    		}	
+    		if(mainobj.containsKey(id))
+    		{
+    			Database.remove(i);	
+    			try {
+    				write(Database, pathdatabase);
+    			} catch (IOException e) {
+    				response = "false";
+    			} 			
+    			response= "true";
+    			break;
+    		}
+    	}
+    	return response;
     }
     
     
     public  boolean SearchEngineTRUEFALSE1(String username, String key, String tosearch)
     {
     	JSONArray databaseupdated = read(pathdatabase);
-    	 JSONObject mainobj = new JSONObject();
+    	JSONObject mainobj = new JSONObject();
     	JSONArray userinfo = new JSONArray();
-    	 JSONObject obj = new JSONObject();
-    	 boolean response = false;
-    	 user usertosearch = new user(username);
-				 	
+    	JSONObject obj = new JSONObject();
+    	boolean response = false;
+    	user usertosearch = new user(username);
+    	
 		if((usertosearch.get(key).toLowerCase().contains(tosearch.toLowerCase().trim())))
 		{
-				response = true;
-		}
-		else
-		{
-			 response = false;
+			response = true;
+		} else {
+			response = false;
 		}		 	
-		 return response;
+		return response;
     }
+    
     public  String SearchEngine(String removecommand)
     {//INCOMING-SEARCH¿Email¿pimdhn@gmail.com
-    	String[] arr = removecommand.split("¿");
     	JSONArray databaseupdated = read(pathdatabase);
     	ArrayList<String> matchlist = new ArrayList<String>();
-    	 String response = "false";
-    	 JSONObject mainobj = new JSONObject();
+    	JSONObject mainobj = new JSONObject();
     	JSONArray userinfo = new JSONArray();
-    	 JSONObject obj = new JSONObject();
-				 	for(int i = 0; i<databaseupdated.size(); i++)
-				 	{
-				 		try {
-							mainobj= (JSONObject) new JSONParser().parse(databaseupdated.get(i).toString());
-							userinfo =(JSONArray) new JSONParser().parse(mainobj.get(mainobj.keySet().toString().substring(1,mainobj.keySet().toString().length()-1)).toString());
-						  	obj = (JSONObject) new JSONParser().parse(userinfo.get(0).toString());	
-						} catch (ParseException e) {
-							response = "false";
-						}
-				 		if(SearchEngineTRUEFALSE1(mainobj.keySet().toString().substring(1,mainobj.keySet().toString().length()-1),arr[1],arr[2]))
-				 		{
-				 			matchlist.add(obj.get("Email").toString());
-				 		}
-				 	}
-		 return matchlist.toString();
+    	JSONObject obj = new JSONObject();
+    	for(int i = 0; i<databaseupdated.size(); i++)
+    	{
+    		String option = "";
+    		String value = "";
+    		try {
+    			JSONObject json = (JSONObject) new JSONParser().parse(removecommand);
+    			option = (String) json.get("option");
+    			value = (String) json.get("value");
+    			mainobj= (JSONObject) new JSONParser().parse(databaseupdated.get(i).toString());
+    			userinfo =(JSONArray) new JSONParser().parse(mainobj.get(mainobj.keySet().toString().substring(1,mainobj.keySet().toString().length()-1)).toString());
+    			obj = (JSONObject) new JSONParser().parse(userinfo.get(0).toString());	
+    		} catch (ParseException e) {
+    			return "false";
+    		}
+    		if(SearchEngineTRUEFALSE1(mainobj.keySet().toString().substring(1,mainobj.keySet().toString().length()-1),option,value))
+    		{
+    			matchlist.add(obj.get("Email").toString());
+    		}
+    	}
+    	return matchlist.toString();
     }
     
     public  boolean SearchEngineTRUEFALSE(String username, String tosearch)
     {
     	JSONArray databaseupdated = read(pathdatabase);
-    	 JSONObject mainobj = new JSONObject();
+    	JSONObject mainobj = new JSONObject();
     	JSONArray userinfo = new JSONArray();
-    	 JSONObject obj = new JSONObject();
-    	 boolean response = false;
-    	 user usertosearch = new user(username);
-    
-    	 if(usertosearch.get("Available").equals("true")&&usertosearch.toString().toLowerCase().contains(tosearch.toLowerCase()))
-		{
-				response = true;
-		}
+    	JSONObject obj = new JSONObject();
+    	boolean response = false;
+    	user usertosearch = new user(username);
+    	
+    	if(usertosearch.get("Available").equals("true")&&usertosearch.toString().toLowerCase().contains(tosearch.toLowerCase()))
+    		response = true;
 		 	
 		 return response;
     }
+    
     public  String MatchEngine(String removecommand)
     {//INCOMING-MATCH¿Computer Science¿Technical University of Delft¿Rotterdam
-    	String[] arr = removecommand.split("¿");
+    	
     	JSONArray databaseupdated = read(pathdatabase);
     	ArrayList<String> matchlist = new ArrayList<String>();
-    	 String response = "false";
-    	 JSONObject mainobj = new JSONObject();
+    	JSONObject mainobj = new JSONObject();
     	JSONArray userinfo = new JSONArray();
-    	 JSONObject obj = new JSONObject();
-				 	for(int i = 0; i<databaseupdated.size(); i++)
-				 	{
-				 		try {
-							mainobj= (JSONObject) new JSONParser().parse(databaseupdated.get(i).toString());
-							userinfo =(JSONArray) new JSONParser().parse(mainobj.get(mainobj.keySet().toString().substring(1,mainobj.keySet().toString().length()-1)).toString());
-						  	obj = (JSONObject) new JSONParser().parse(userinfo.get(0).toString());	
-						} catch (ParseException e) {
-							response = "false";
-						}
+    	JSONObject obj = new JSONObject();
+    	for(int i = 0; i<databaseupdated.size(); i++)
+    	{
+    		String study;
+    		String uni;
+    		String city;
+    		try {
+    			JSONParser parser = new JSONParser();
+    			JSONObject json = (JSONObject) parser.parse(removecommand);
+    			
+    			study = (String) json.get("study");
+    			uni = (String) json.get("uni");
+    			city = (String) json.get("city");
 				 			
-				 		if(SearchEngineTRUEFALSE(mainobj.keySet().toString().substring(1,mainobj.keySet().toString().length()-1),arr[1])||SearchEngineTRUEFALSE(mainobj.keySet().toString().substring(1,mainobj.keySet().toString().length()-1),arr[2])||SearchEngineTRUEFALSE(mainobj.keySet().toString().substring(1,mainobj.keySet().toString().length()-1),arr[3]))
-				 		{
-				 			matchlist.add(obj.get("Email").toString());
-				 		}
-				 	}
-		 return matchlist.toString();
-    }
-  
-  
+    			mainobj= (JSONObject) parser.parse(databaseupdated.get(i).toString());
+    			userinfo =(JSONArray) parser.parse(mainobj.get(mainobj.keySet().toString().substring(1,mainobj.keySet().toString().length()-1)).toString());
+    			obj = (JSONObject) parser.parse(userinfo.get(0).toString());	
+						  	
+    			if(SearchEngineTRUEFALSE(mainobj.keySet().toString().substring(1,mainobj.keySet().toString().length()-1),study)||SearchEngineTRUEFALSE(mainobj.keySet().toString().substring(1,mainobj.keySet().toString().length()-1),uni)||SearchEngineTRUEFALSE(mainobj.keySet().toString().substring(1,mainobj.keySet().toString().length()-1),city))
+    				matchlist.add(obj.get("Email").toString());
+    		} catch (ParseException e) {
+    			return "false";
+    		}
+    		
+    		
+    	}
+    	return matchlist.toString();
+    }	
 }
-/*public  JSONObject createjson(String ID, String pass, String first, String last)
-{
-	JSONArray userinfo = new JSONArray();
-    JSONObject obj = new JSONObject();
-    JSONObject mainobj = new JSONObject();
-    
-    //information for register phase
-    obj.put("Firstname", first);
-    obj.put("Lastname",last);
-    obj.put("Email", ID);
-    obj.put("Password", pass);
-    //information for profile tab
-    obj.put("Piclink", "http://www.theblaze.com/wp-content/uploads/2011/10/Facebook-no-profile-picture-icon-620x389.jpg");
-    obj.put("Placepic", "http://image.shutterstock.com/display_pic_with_logo/2678914/287804864/stock-vector-school-building-icon-287804864.jpg");
-    obj.put("Gender", "Please fill in");
-    obj.put("Age", "Please fill in");
-    obj.put("Description", "Please fill in");
-    obj.put("CountryOfResidence", "The Netherlands");
-    obj.put("CityOfResidence", "Please fill in");
-    //contact information
-    obj.put("Phone", "Please fill in");
-    //career information
-    obj.put("CurrentUniversity", "Please fill in");
-    obj.put("CurrentStudy", "Please fill in");
-    obj.put("StudyPeriod", "Please fill in");
-    obj.put("JoinDate", "null");
-    //Interested courses
-    JSONArray courses = new JSONArray();
-    courses.add(null);
-    obj.put("Course list", courses);        
-    //chat client
-    JSONObject chat = new JSONObject();
-    String time =  ZonedDateTime.now().format(DateTimeFormatter.ofPattern("E h:ma"));
-    JSONArray SBuddybot = new JSONArray();
-    SBuddybot.add("SBuddybot"+"("+time+"): " +"Welcome to SBuddy, you have any trouble using this app, please click on 'Help'. "
-    		+ "Happy Study!");
-    chat.put("SBuddybot", SBuddybot);
-    obj.put("ChatDatabase", chat);
-    //Here things are added together
-    userinfo.add(obj);
-    mainobj.put(ID, userinfo);
-    
-    return mainobj;
-}*/
