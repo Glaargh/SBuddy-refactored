@@ -640,8 +640,7 @@ public class Design extends Application {
 		String studyKey = "CurrentStudy";
 		String standardStudy = "None";
 
-		currentstud
-				.setOnMouseClicked(e -> constructEdit(studyDesc, standardStudy, studyKey, currentstud, primaryStage));
+		currentstud.setOnMouseClicked(e -> constructEdit(studyDesc, standardStudy, studyKey, currentstud, primaryStage));
 
 		/**
 		 * Een label en een textfield waar je in kan voeren wat je
@@ -780,7 +779,6 @@ public class Design extends Application {
 
 		String cityDesciption = "Your city name in English  \nPress \"Enter\" when finished. ";
 		String standardCity = "None";
-		// key = "CityOfResidence"
 
 		cit.setOnMouseClicked(e -> constructEdit(cityDesciption, standardCity, "CityOfResidence", cit, primaryStage));
 
@@ -805,7 +803,6 @@ public class Design extends Application {
 
 		String emailDescription = "Your e-mail address \nPress \"Enter\" when finished. ";
 		String standardMail = "None";
-		// key = "Email"
 		email.setOnMouseClicked(e -> constructEdit(emailDescription, standardMail, "Email", email, primaryStage));
 
 		/**
@@ -886,8 +883,7 @@ public class Design extends Application {
 		String delftDescription = "Please add an URL link for you university or secondary picture. \n Upload an picture on the internet and get the URL \nWe recommend www.tinypic.com  \n Your picture will be changed the next time you logs in \nPress \"Enter\" when finished. ";
 		String standardDelft = "http://i67.tinypic.com/15fje5g.jpg";
 		// key: "Placepic"
-		delftview
-				.setOnMouseClicked(e -> constructEdit(delftDescription, standardDelft, "Placepic", null, primaryStage));
+		delftview.setOnMouseClicked(e -> constructEdit(delftDescription, standardDelft, "Placepic", null, primaryStage));
 
 		for (Label l : clickSizableLabels) {
 			l.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -1032,50 +1028,14 @@ public class Design extends Application {
 		TableView<Courses> table = new TableView<Courses>();
 		// WE USE variable data, which is the data of the table, to change and
 		// add info to our table
-		ObservableList<Courses> data = FXCollections.observableArrayList();
-
-		/**
-		 * We need to display course discription and course name in the table.
-		 * To get a users course info, we once again use String courses =
-		 * client.toServer(ClientMethods.get("Course list")). This will return a
-		 * string with the following pattern (check again to confirm), String
-		 * courses = {"calculus":"I really hate it", "Algebra":
-		 * "I really love it"} THE FOLLOWING CODE SNIPPET USES AN ITERATOR AND
-		 * SEPERATES the above JSON object, putting everything into key value
-		 * pairs. THIS CODE IS BEST TO PLACED OUTSIDE GUI, THE PARSING DONE HERE
-		 * IS EXCESSIVE FOR GUI:
-		 */
-		Set keys = null;
-		Iterator loop = null;
-		JSONObject courseList = null;
-		String incomingCourses = "";
 		try {
-			incomingCourses = client.toServer(ClientMethods.get("Course list"));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+			String incomingCourses = client.toServer(ClientMethods.get("Course list"));
+			
+			ObservableList<Courses> data = FXCollections.observableArrayList();
+			
+			parser.parseCourses(incomingCourses,data);
 
-		if (!incomingCourses.equals("{}")) {
-			// Parse String to a JSONObject:
-			courseList = parser.parse(incomingCourses.toString());
-
-			keys = courseList.keySet();
-			loop = keys.iterator();
-			while (loop.hasNext()) {
-				// KEY is course name
-				// VALUE is course description
-				String key = (String) loop.next();
-				String value = (String) courseList.get(key);
-				// HERE EVERY COURSE AND COURSE DESCRIPTION IS PLACED INTO THE
-				// TABLE THROUGH THE LOOP:
-				data.add(new Courses(key, value, ""));
-				// WE USE variable data, which is the data of the table, to
-				// change and add info to our table
-			}
-		} else {
-			System.out.println("No courses #course tab");
-		}
-
+	
 		primaryStage.setTitle("Courses");
 		primaryStage.setWidth(1600);
 		primaryStage.setHeight(900);
@@ -1088,7 +1048,7 @@ public class Design extends Application {
 		TableColumn courseCol = new TableColumn("Course");
 		courseCol.setMinWidth(300);
 		courseCol.setCellValueFactory(new PropertyValueFactory<Courses, String>("firstName"));
-
+		
 		/**
 		 * HERE WE DEFINE THE COLUMN FOR COURSE DESCRIPTION.
 		 */
@@ -1362,6 +1322,9 @@ public class Design extends Application {
 		primaryStage.setScene(CourseScenee);
 		CourseScenee.getStylesheets().add("design.css");
 		primaryStage.show();
+	} catch (IOException e1){
+		e1.printStackTrace();
+	}
 	}
 
 	/**
