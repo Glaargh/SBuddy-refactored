@@ -15,7 +15,6 @@ public class Client implements Runnable
     private int serverPort;
     private boolean running;
     
-    
     /**
      * Construct the class by passing on arguments for the IP and the port of the server
      * @param args
@@ -23,8 +22,7 @@ public class Client implements Runnable
     public Client(String[] args) {
     	serverIP = args.length >= 1 ? args[0] : "";
     	serverPort = args.length == 2 ? Integer.parseInt(args[1]): 0;
-    	running= false;
-    	
+    	running = false;
     }
     
     /**
@@ -33,7 +31,7 @@ public class Client implements Runnable
     public void run()
     {
         try{
-        	running= true;
+        	running = true;
             //1. creating a socket to connect to the server
         	System.out.println("Connecting...");
             requestSocket = new Socket(serverIP, serverPort);
@@ -58,22 +56,21 @@ public class Client implements Runnable
 				sendMessage(message);
             }
             
-            running= false;
-            
-          
+            running = false;
         }
         catch(UnknownHostException unknownHost){
-        	running=false;
+        	running = false;
             System.err.println("You are trying to connect to an unknown host!");
         }
         catch(IOException ioException){
-        	running=false;
+        	running = false;
             ioException.printStackTrace();
         }
         finally{
         	running = false;
             //4: Closing connection
             try{
+            	
                 in.close();
                 out.close();
                 requestSocket.close();
@@ -121,8 +118,7 @@ public class Client implements Runnable
      * Check whether the server is running
      * @return boolean
      */
-    public boolean isRunning(){
+    public boolean isRunning() {
     	return running;
-    	
     }
 }
