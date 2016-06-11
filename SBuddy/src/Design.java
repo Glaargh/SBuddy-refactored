@@ -1,12 +1,7 @@
 import java.awt.MouseInfo;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Scanner;
-import java.util.Set;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -37,7 +32,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -46,9 +40,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.text.Font;
 
-
 /**
- * @author C0d3Bust3rs Revision: C0d3Bust3rs 2.0 Date: 28-04-2016 READ JAVADOC
+ * @author C0d3Bust3rs Revision: C0d3Bust3rs 2.0 Date: 11-06-2016 READ JAVADOC
  *         CAREFULY WHILE ATTEMPTING TO MODIFY CODE. ANY RECKLESS MODIFICATION
  *         MIGHT RESULT IN HIDDEN FAILURES OF THIS PROGRAM WHICH ARE COSTLY TO
  *         FIX.
@@ -94,8 +87,10 @@ public class Design extends Application {
 		Label labels;
 		Label labelss;
 
-		// .setOnCloseRequest will terminate the server session when exiting
-		// GUI.
+		/**
+		 * .setOnCloseRequest will terminate the server session when exiting
+		 * GUI.
+		 */
 		primaryStage.setOnCloseRequest(event -> {
 			System.out.println("Stage is closing");
 			try {
@@ -133,9 +128,7 @@ public class Design extends Application {
 		// **********************************************************PANE OF
 		// PROFILE TAB*********************
 
-		/**
-		 * Placeholder voor logo. Hier wordt naam gegeven.
-		 */
+		// Placeholder for logo. Hier wordt naam gegeven.
 		Image logo = new Image("log.jpg");
 		ImageView imgview = new ImageView(logo);
 
@@ -146,20 +139,16 @@ public class Design extends Application {
 		labels.setLayoutY(120);
 		labelss = new Label();
 
-		/**
-		 * Maken van email form. Zetten van voorgeplaatste text met
-		 * setPromptText("Email")
-		 */
+		// Making of email form. Showing pre text with
+		// setPromptText("Email")
 		final TextField email = new TextField();
 		email.setPromptText("Email");
 		HBox hb1 = new HBox();
 		hb1.getChildren().addAll(email);
 		hb1.setSpacing(10);
 
-		/**
-		 * Maken van password form. Zetten van voorgeplaatste text met
-		 * setPromptText("Password")
-		 */
+		// Making of password form. Showing pre text with
+		// setPromptText("Password")
 		final PasswordField password = new PasswordField();
 		password.setPromptText("Password");
 		HBox hb2 = new HBox();
@@ -168,8 +157,7 @@ public class Design extends Application {
 		labels.setVisible(false);
 
 		/**
-		 * CODE IS MAINLY JAVAFX, NO MAJOR REFACTORS NEEDED LOGIN BUTTON, WE GET
-		 * EMAIL AND PASSWORD BY .getText().
+		 * WE GET MAIL AND PASSWORD BY .getText().
 		 */
 		Button button1 = new Button("Log in");
 		button1.setOnAction(new EventHandler<ActionEvent>() {
@@ -207,44 +195,35 @@ public class Design extends Application {
 		button1.setLayoutX(500);
 		button1.setLayoutY(1000);
 
-		/**
-		 * Zetten van style van de button op de .my_customLabel uit de css.
-		 */
+		// Style of the button on .my_customLabel from css.
 		button1.getStyleClass().add("my_customLabel");
 
-		/**
-		 * Zelfde doen voor TextFields met .topFields.
-		 */
+		// Same for TextFields met .topFields.
 		password.getStyleClass().add("topFields");
 		email.getStyleClass().add("topFields");
 
-		/**
-		 * De login form en button in een HBox zetten voor makkelijk
-		 * verplaatsen.
-		 */
+		// The login form and button in one HBox so we can move it nicely.
 		HBox LoginHolder = new HBox();
 		LoginHolder.getStyleClass().add("lgin");
 		LoginHolder.getChildren().addAll(hb1, hb2, button1);
 
-		/**
-		 * Placeholderfunctie voor de button die een passwoord naar de
-		 * emailadres moet sturen als het geklikt wordt.
-		 */
 		Button button2 = new Button("Forgot your password?");
+
+		/**
+		 * Placeholder function for the button which should send the password to
+		 * the email adres if clicked.
+		 */
 		button2.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
 				lb_text.setText("Your password will be sent to your emailaddress shortly.");
 			}
 		});
 		button2.setVisible(false);
-		/**
-		 * Geven van style .ForgotPassword uit css.
-		 */
+
+		// Giving of style .ForgotPassword from css.
 		button2.getStyleClass().add("ForgotPassword");
 
-		/**
-		 * Maken van text boven de form en geven van bijbehorende styles.
-		 */
+		// Making of text above the form and giving it the right styles
 		Label find = new Label("Find a study buddy");
 		find.getStyleClass().add("find");
 		Label free = new Label("get started - it's ");
@@ -254,9 +233,7 @@ public class Design extends Application {
 		freeholder.getChildren().addAll(free, free2);
 		freeholder.getStyleClass().add("freeholder");
 
-		/**
-		 * Maken van form voor registreren (voornaam).
-		 */
+		// Making of form for registreren (voornaam).
 		Label label1 = new Label("First name:");
 		label1.getStyleClass().add("firstname");
 		final TextField firstname = new TextField();
@@ -264,9 +241,8 @@ public class Design extends Application {
 		hb3.getChildren().addAll(label1, firstname);
 		hb3.getStyleClass().add("first");
 		hb3.setSpacing(10);
-		/**
-		 * Maken van form voor achternaam.
-		 */
+
+		// Making of form for achternaam.
 		Label label2 = new Label("Last name:");
 		label2.getStyleClass().add("lastname");
 		final TextField lastname = new TextField();
@@ -275,9 +251,7 @@ public class Design extends Application {
 		hb4.getStyleClass().add("second");
 		hb4.setSpacing(14);
 
-		/**
-		 * Maken van form voor email.
-		 */
+		// Making of form for email.
 		Label label3 = new Label("Email:");
 		label3.getStyleClass().add("email");
 		final TextField emailaddress = new TextField();
@@ -286,9 +260,7 @@ public class Design extends Application {
 		hb5.getStyleClass().add("third");
 		hb5.setSpacing(58);
 
-		/**
-		 * Maken van form voor passwoord.
-		 */
+		// Making of form for passwoord.
 		Label label4 = new Label("Password:");
 		label4.getStyleClass().add("passwd");
 		final TextField passwords = new TextField();
@@ -298,8 +270,8 @@ public class Design extends Application {
 		hb6.setSpacing(15);
 
 		/**
-		 * CODE IS MAINLY JAVAFX, NO MAJOR REFACTORS NEEDED. JOIN NOW BUTTON
-		 * WHICH ALSO USES .getText() to retrieve email and password info.
+		 * JOIN NOW BUTTON WHICH ALSO USES .getText() to retrieve email and
+		 * password info.
 		 */
 		Button button3 = new Button("Join now");
 		button3.setOnAction(new EventHandler<ActionEvent>() {
@@ -335,10 +307,8 @@ public class Design extends Application {
 			}
 		});
 
-		/**
-		 * Plaatsen in HBox voor makkelijk verplaatsen en geven van style aan de
-		 * relevante onderdelen.
-		 */
+		// Making HBox so you can transfer easily and giving the style to the
+		// relevant parts
 		VBox logInfoHolder = new VBox();
 		logInfoHolder.getChildren().addAll(hb3, hb4, hb5, hb6, button3, labelss);
 		hb3.getStyleClass().add("RegInfoContents");
@@ -359,10 +329,7 @@ public class Design extends Application {
 		button3.getStyleClass().add("Button3Recolor");
 		hb6.setSpacing(20);
 
-		/**
-		 * Plaatsen van alles in een Vbox voor display.
-		 */
-
+		// Placing everything in VBox for display
 		root.getChildren().addAll(filler, imgview, LoginHolder, labels, button2, lb_text, find, freeholder,
 				logInfoHolder);
 		// Van 700 naar 755
@@ -381,20 +348,13 @@ public class Design extends Application {
 		logInfoHolder.setLayoutX(905);
 		logInfoHolder.setLayoutY(300);
 
-		/**
-		 * Scene maken en zetten als de scene voor primaryStage.
-		 */
-
+		// Scene maken en zetten als de scene voor primaryStage.
 		primaryStage.setScene(scenetest);
 
-		/**
-		 * De css toevoegen aan onze scene.
-		 */
+		// add css to scene
 		scenetest.getStylesheets().add("Voorpagina.css");
 
-		/**
-		 * De scene laten zien.
-		 */
+		// show the scene
 		primaryStage.show();
 	}
 
@@ -426,9 +386,7 @@ public class Design extends Application {
 			}
 		});
 
-		/**
-		 * Een button voor logout. IT WILL OPEN INITIAL LOGIN SCENE
-		 */
+		// Button for logout. IT WILL OPEN INITIAL LOGIN SCENE
 		Button logout = new Button("Log out");
 		logout.setMinWidth(80);
 		logout.getStyleClass().add("logout");
@@ -442,24 +400,17 @@ public class Design extends Application {
 			}
 		});
 
-		/**
-		 * Een box voor de help en logout buttons
-		 */
+		// Help and logout in one box
 		HBox helpout = new HBox();
 		helpout.getChildren().addAll(help, logout);
 		helpout.getStyleClass().add("helpoutbox");
 
-		/**
-		 * Een button voor delete all om alle ingevoerde data in de profiletab
-		 * te verwijderen
-		 */
+		// A button to delete all the input data in the profiletab
 		Button deleteall = new Button("Delete all");
 		deleteall.setMinSize(70, 30);
 		deleteall.getStyleClass().add("deleteall");
 
-		/**
-		 * Een foto die hoort bij profile button
-		 */
+		// A picture for profile
 		Image prfoto = new Image(getClass().getResourceAsStream("huisteken.jpg"));
 		ImageView profileimage = new ImageView(prfoto);
 		Button profile = new Button("Profile", profileimage);
@@ -511,9 +462,7 @@ public class Design extends Application {
 			}
 		});
 
-		/**
-		 * Een VBox voor alle buttons links op de pagina
-		 */
+		// A VBox for all the buttons on the page
 		VBox overzicht = new VBox();
 		overzicht.getChildren().addAll(profile, courses, match, settings);
 		overzicht.getStyleClass().add("overzicht");
@@ -540,10 +489,6 @@ public class Design extends Application {
 
 		ArrayList<Node> clickableNodes = new ArrayList<Node>();
 		clickableNodes.add(Voornaam);
-		/**
-		 * All .setOnMouseEntered and .setOnMouseExited are for the cursor to
-		 * change style on hover:
-		 */
 
 		String VNaamDesc = "Your firstname \nPress \"Enter\" when finished. ";
 		String VNaamKey = "Firstname";
@@ -552,10 +497,6 @@ public class Design extends Application {
 		Voornaam.setOnMouseClicked(e -> constructEdit(VNaamDesc, standardVNaam, VNaamKey, Voornaam, primaryStage));
 
 		clickableNodes.add(Lastname);
-		/**
-		 * All .setOnMouseEntered and .setOnMouseExited are for the cursor to
-		 * change style on hover:
-		 */
 
 		String lnameDesc = "Your lastname\nPress \"Enter\" when finished. ";
 		String lnameKey = "Lastname";
@@ -563,11 +504,10 @@ public class Design extends Application {
 
 		Lastname.setOnMouseClicked(e -> constructEdit(lnameDesc, standardLName, lnameKey, Lastname, primaryStage));
 
-		/**
-		 * Een textfield waar je een korte beschrijving kan geven over je zelf
-		 * DIT MOET Niet een text field zijn meer maar een string waar je er op
-		 * klik komt er text field om te veranderen.
-		 */
+		// A textfield where you should give a small description about yourself.
+		// This should not be a text field, but just a String. If you click on
+		// it
+		// a text field will appear to edit.
 		String programa = client.toServer(ClientMethods.get("CurrentStudy"));
 		Label student = new Label("Student " + programa);
 		student.getStyleClass().add("labelSSS4");
@@ -590,10 +530,8 @@ public class Design extends Application {
 		Label summary = new Label("Summary");
 		summary.getStyleClass().add("summary");
 
-		/**
-		 * Een textfield waar je een iets uitgebreidere samenvatting kan geven
-		 * over jezelf
-		 */
+		// This text field gives the user the chance to give a bigger
+		// description about himself
 		String descr = client.toServer(ClientMethods.get("Description"));
 		final Label descriptn = new Label(descr);
 		descriptn.getStyleClass().add("labelSSS1");
@@ -605,12 +543,9 @@ public class Design extends Application {
 		summy.setSpacing(10);
 		summy.getStyleClass().add("summy");
 
-		/**
-		 * All .setOnMouseEntered and .setOnMouseExited are for the cursor to
-		 * change style on hover:
-		 */
+		// All .setOnMouseEntered and .setOnMouseExited are for the cursor to
+		// change style on hover:
 		clickableNodes.add(descriptn);
-
 		String descDesc = "Tell us about yourself \nWhat do you like? \nWhat are you interested in? \nPress \"Enter\" when finished. ";
 		String descKey = "Description";
 		String standardDesc = "None";
@@ -618,10 +553,8 @@ public class Design extends Application {
 		Label career = new Label("Career information");
 		career.getStyleClass().add("summary");
 
-		/**
-		 * Een label en een textfield waar je in kan voeren welke studie je op
-		 * dit moment doet
-		 */
+		
+		//A label and a textfield where you should write what your current study is 
 		Label curs = new Label("Current Study: ");
 		curs.getStyleClass().add("curslabel");
 		String study = client.toServer(ClientMethods.get("CurrentStudy"));
@@ -642,10 +575,8 @@ public class Design extends Application {
 
 		currentstud.setOnMouseClicked(e -> constructEdit(studyDesc, standardStudy, studyKey, currentstud, primaryStage));
 
-		/**
-		 * Een label en een textfield waar je in kan voeren wat je
-		 * waarschijnlijke studieperiode is
-		 */
+	
+		//A label and a textfield to write what your study period is 
 		Label studyper = new Label("Study period: ");
 		studyper.getStyleClass().add("curslabel");
 		String studyp = client.toServer(ClientMethods.get("StudyPeriod"));
@@ -665,10 +596,7 @@ public class Design extends Application {
 
 		stper.setOnMouseClicked(e -> constructEdit(stpdDesc, standardStpd, stpdKey, stper, primaryStage));
 
-		/**
-		 * Een label en een textfield waar je in kan voeren aan welke
-		 * universiteit je op dit moment studeert
-		 */
+		//A label and a textfield to fill in which university you currently are studying
 		Label university = new Label("Current University: ");
 		university.getStyleClass().add("curslabel");
 		String un = client.toServer(ClientMethods.get("CurrentUniversity"));
@@ -688,9 +616,7 @@ public class Design extends Application {
 		Label basicinfo = new Label("Basic information");
 		basicinfo.getStyleClass().add("summary");
 
-		/**
-		 * Een label en een textfield waar je in kan voeren je leeftijd
-		 */
+		// A label and a textfield to fill in your age
 		Label agelable = new Label("Age :");
 		agelable.getStyleClass().add("curslabel");
 		String ag = client.toServer(ClientMethods.get("Age"));
@@ -708,10 +634,7 @@ public class Design extends Application {
 		// key: Age
 		age.setOnMouseClicked(e -> constructEdit(ageDescription, standardAge, "Age", age, primaryStage));
 
-		/**
-		 * Een label en een textfield waar je in kan voeren of je een man of een
-		 * vrouw bent
-		 */
+		//A label and a textfield to field in your gender
 		Label gender = new Label("Gender: ");
 		gender.getStyleClass().add("curslabel");
 		// Info get from server is placed in geslacht label:
@@ -732,10 +655,7 @@ public class Design extends Application {
 		geslacht.setOnMouseClicked(
 				e -> constructEdit(geslachtDescription, standardGeslacht, "Gender", geslacht, primaryStage));
 
-		/**
-		 * Een label en een textfield waar je in kan voeren waar je vandaan komt
-		 * (land)
-		 */
+		// A label and a textfield to fill in your country of residence
 		Label country = new Label("Country: ");
 		country.getStyleClass().add("curslabel");
 		// 1)Change inital text field to label:
@@ -760,10 +680,7 @@ public class Design extends Application {
 		countryof.setOnMouseClicked(
 				e -> constructEdit(countryDescription, standardCountry, countryKey, countryof, primaryStage));
 
-		/**
-		 * Een label en een textfield waar je in kan voeren waar je vandaan komt
-		 * (stad)
-		 */
+		// A label and a textfield to fill in your city of residence
 		Label city = new Label("City: ");
 		city.getStyleClass().add("curslabel");
 		final Label cit = new Label();
@@ -779,16 +696,14 @@ public class Design extends Application {
 
 		String cityDesciption = "Your city name in English  \nPress \"Enter\" when finished. ";
 		String standardCity = "None";
+		// key = "CityOfResidence"
 
 		cit.setOnMouseClicked(e -> constructEdit(cityDesciption, standardCity, "CityOfResidence", cit, primaryStage));
 
 		Label contact = new Label("Contact information");
 		contact.getStyleClass().add("summary");
 
-		/**
-		 * Een label en een textfield waar je in kan voeren wat je email adres
-		 * is
-		 */
+		// A label and a textfield to fill in your Email
 		Label eml = new Label("Email: ");
 		eml.getStyleClass().add("curslabel");
 		String el = client.toServer(ClientMethods.get("Email"));
@@ -803,12 +718,10 @@ public class Design extends Application {
 
 		String emailDescription = "Your e-mail address \nPress \"Enter\" when finished. ";
 		String standardMail = "None";
+		// key = "Email"
 		email.setOnMouseClicked(e -> constructEdit(emailDescription, standardMail, "Email", email, primaryStage));
 
-		/**
-		 * Een label en een textfield waar je in kan voeren wat je telefoon
-		 * nummer is
-		 */
+		//A label and a textfield to fill in your phone number
 		Label phone = new Label("Tel: ");
 		phone.getStyleClass().add("curslabel");
 		String tel = client.toServer(ClientMethods.get("Phone"));
@@ -863,7 +776,6 @@ public class Design extends Application {
 		/**
 		 * Foto van TU Delft, ook dit kan je veranderen naar een foto naar keus.
 		 */
-
 		String userPlacePic = client.toServer(ClientMethods.get("Placepic"));
 		ImageView delftview = ImageViewBuilder.create().image(new Image("http://i68.tinypic.com/2vjt0xz.jpg")).build();
 		try {
@@ -883,7 +795,8 @@ public class Design extends Application {
 		String delftDescription = "Please add an URL link for you university or secondary picture. \n Upload an picture on the internet and get the URL \nWe recommend www.tinypic.com  \n Your picture will be changed the next time you logs in \nPress \"Enter\" when finished. ";
 		String standardDelft = "http://i67.tinypic.com/15fje5g.jpg";
 		// key: "Placepic"
-		delftview.setOnMouseClicked(e -> constructEdit(delftDescription, standardDelft, "Placepic", null, primaryStage));
+		delftview
+				.setOnMouseClicked(e -> constructEdit(delftDescription, standardDelft, "Placepic", null, primaryStage));
 
 		for (Label l : clickSizableLabels) {
 			l.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -920,9 +833,7 @@ public class Design extends Application {
 			});
 		}
 
-		/**
-		 * Een foto met daarin de logo.
-		 */
+		//A pic of the logo
 		Image logo = new Image("log.jpg");
 		ImageView imgview = new ImageView(logo);
 		Image motto = new Image("motto.jpg");
@@ -933,18 +844,14 @@ public class Design extends Application {
 		boven.getChildren().addAll(picaview, imgview);
 		boven.getStyleClass().add("bovenstuk");
 
-		/**
-		 * De zwarte lijn die career informatie scheidt van Basic Informatie.
-		 */
+		//Black line that separates career information and basic information
 		Line line = new Line();
 		line.setStartX(750);
 		line.setStartY(500);
 		line.setEndX(750);
 		line.setEndY(727);
 
-		/**
-		 * De zwarte lijn die basic informatie scheidt van Contact Informatie
-		 */
+		//Black line that separates basic information and contact information
 		Line line2 = new Line();
 		line2.setStartX(1150);
 		line2.setStartY(500);
@@ -1026,93 +933,88 @@ public class Design extends Application {
 
 		// These are the tables storing course info
 		TableView<Courses> table = new TableView<Courses>();
+
 		// WE USE variable data, which is the data of the table, to change and
 		// add info to our table
 		try {
 			String incomingCourses = client.toServer(ClientMethods.get("Course list"));
-			
+
 			ObservableList<Courses> data = FXCollections.observableArrayList();
-			
-			parser.parseCourses(incomingCourses,data);
 
-	
-		primaryStage.setTitle("Courses");
-		primaryStage.setWidth(1600);
-		primaryStage.setHeight(900);
+			parser.parseCourses(incomingCourses, data);
 
-		final Label label = new Label("Course Overview");
-		label.setFont(new Font("Arial", 20));
-		table.setEditable(true);
+			primaryStage.setTitle("Courses");
+			primaryStage.setWidth(1600);
+			primaryStage.setHeight(900);
 
-		@SuppressWarnings("rawtypes")
-		TableColumn courseCol = new TableColumn("Course");
-		courseCol.setMinWidth(300);
-		courseCol.setCellValueFactory(new PropertyValueFactory<Courses, String>("firstName"));
-		
-		/**
-		 * HERE WE DEFINE THE COLUMN FOR COURSE DESCRIPTION.
-		 */
-		TableColumn gradeCol = new TableColumn("Description");
-		gradeCol.setMinWidth(800);
-		gradeCol.setCellValueFactory(new PropertyValueFactory<Courses, String>("lastName"));
-		gradeCol.setCellFactory(TextFieldTableCell.forTableColumn());
-		/**
-		 * Allows for changing of cell info (.setOnEditCommit) as well as the
-		 * user info in database with
-		 * (client.toServer("INCOMING-COURSECHANGE¿"+h.getFirstName()+ "¿"+
-		 * changedValue); ):
-		 */
-		gradeCol.setOnEditCommit(new EventHandler<CellEditEvent<Courses, String>>() {
-			@Override
-			public void handle(CellEditEvent<Courses, String> t) {
+			final Label label = new Label("Course Overview");
+			label.setFont(new Font("Arial", 20));
+			table.setEditable(true);
 
-				// Choose selected (clicked on cell) item on table and edit that
-				// specific info:
-				Courses h = table.getSelectionModel().getSelectedItem();
-				System.out.println(h.getLastName());
+			@SuppressWarnings("rawtypes")
+			TableColumn courseCol = new TableColumn("Course");
+			courseCol.setMinWidth(300);
+			courseCol.setCellValueFactory(new PropertyValueFactory<Courses, String>("firstName"));
 
-				String changedValue = t.getNewValue();
-				System.out.println(changedValue);
+			//HERE WE DEFINE THE COLUMN FOR COURSE DESCRIPTION.
+			TableColumn gradeCol = new TableColumn("Description");
+			gradeCol.setMinWidth(800);
+			gradeCol.setCellValueFactory(new PropertyValueFactory<Courses, String>("lastName"));
+			gradeCol.setCellFactory(TextFieldTableCell.forTableColumn());
+			/**
+			 * Allows for changing of cell info (.setOnEditCommit) as well as
+			 * the user info in database with
+			 * (client.toServer("INCOMING-COURSECHANGE¿"+h.getFirstName()+ "¿"+
+			 * changedValue); ):
+			 */
+			gradeCol.setOnEditCommit(new EventHandler<CellEditEvent<Courses, String>>() {
+				@Override
+				public void handle(CellEditEvent<Courses, String> t) {
 
-				try {
-					client.toServer(ClientMethods.courseChange(h.getFirstName(), changedValue));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				for (int i = 0; i < data.size(); i++) {
-					if (data.get(i).getLastName().equals(h.getLastName())) {
-						data.get(i).setLastName(changedValue);
+					// Choose selected (clicked on cell) item on table and edit
+					// that specific info:
+					Courses h = table.getSelectionModel().getSelectedItem();
+					System.out.println(h.getLastName());
+
+					String changedValue = t.getNewValue();
+					System.out.println(changedValue);
+
+					try {
+						client.toServer(ClientMethods.courseChange(h.getFirstName(), changedValue));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					for (int i = 0; i < data.size(); i++) {
+						if (data.get(i).getLastName().equals(h.getLastName())) {
+							data.get(i).setLastName(changedValue);
+						}
 					}
 				}
-			}
-		});
+			});
 
-		// Table gets the info from observiable list of strings data:
-		table.setItems(data);
-		// Add columns to table
-		table.getColumns().addAll(courseCol, gradeCol);
-		table.getStyleClass().add("table");
+			// Table gets the info from observiable list of strings data:
+			table.setItems(data);
+			// Add columns to table
+			table.getColumns().addAll(courseCol, gradeCol);
+			table.getStyleClass().add("table");
 
-		final TextField addCourse = new TextField();
-		addCourse.setPromptText("Course");
-		final TextField addGrade = new TextField();
-		addGrade.setPromptText("Description");
-		final TextField addHelp = new TextField();
-		addHelp.setPromptText("Offer or need help?");
+			final TextField addCourse = new TextField();
+			addCourse.setPromptText("Course");
+			final TextField addGrade = new TextField();
+			addGrade.setPromptText("Description");
+			final TextField addHelp = new TextField();
+			addHelp.setPromptText("Offer or need help?");
 
-		addCourse.setMaxWidth(200);
-		addGrade.setMaxWidth(200);
-		addHelp.setMaxWidth(200);
+			addCourse.setMaxWidth(200);
+			addGrade.setMaxWidth(200);
+			addHelp.setMaxWidth(200);
 
-		/**
-		 * HERE WE DEFINE HOW TO ADD INFO TO TABLE AND USER DATABASE:
-		 */
-		Button addButton = new Button("Add");
-		addButton.getStyleClass().add("toevoeg");
-		addButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-
+			/**
+			 * HERE WE DEFINE HOW TO ADD INFO TO TABLE AND USER DATABASE:
+			 */
+			Button addButton = new Button("Add");
+			addButton.getStyleClass().add("toevoeg");
+			addButton.setOnAction(e -> {
 				// GET info to be added from textbox:
 				String addCour = addCourse.getText().trim();
 				String addDesc = addGrade.getText().trim();
@@ -1139,210 +1041,202 @@ public class Design extends Application {
 					addGrade.clear();
 					addHelp.clear();
 				}
+			});
 
-			}
-		});
+			/**
+			 * Here we can delete a course from table and user database with
+			 * client.toServer("INCOMING-COURSEREMOVE¿"+deleteCourse); and using
+			 * selectors of table to select which item to delete.
+			 */
+			final Button deleteButton = new Button("Delete");
+			deleteButton.getStyleClass().add("toevoeg");
+			deleteButton.setOnAction(e -> {
+				Courses selectedItem = table.getSelectionModel().getSelectedItem();
+				table.getItems().remove(selectedItem);
+				String deleteCourse = selectedItem.getFirstName();
 
-		/**
-		 * Here we can delete a course from table and user database with
-		 * client.toServer("INCOMING-COURSEREMOVE¿"+deleteCourse); and using
-		 * selectors of table to select which item to delete
-		 */
-		final Button deleteButton = new Button("Delete");
-		deleteButton.getStyleClass().add("toevoeg");
-		deleteButton.setOnAction(e -> {
-			Courses selectedItem = table.getSelectionModel().getSelectedItem();
-			table.getItems().remove(selectedItem);
-			String deleteCourse = selectedItem.getFirstName();
-
-			System.out.println(deleteCourse);
-
-			try {
-				client.toServer(ClientMethods.courseRemove(deleteCourse));
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-		});
-
-		hb.getChildren().clear();
-		hb.getChildren().addAll(addCourse, addGrade, addButton, deleteButton);
-
-		hb.setSpacing(3);
-		hb.setLayoutX(850);
-		hb.setLayoutY(700);
-		table.setLayoutX(350);
-		table.setLayoutY(250);
-
-		Label courseoverview = new Label("Course Overview");
-		courseoverview.getStyleClass().add("courseview");
-		courseoverview.setLayoutX(750);
-		courseoverview.setLayoutY(150);
-
-		/**
-		 * een button help. De setaction moet gelinkt worden aan een nieuwe
-		 * page, maar welke? (Dario nodig)
-		 */
-		Button help = new Button("Help");
-		help.setMinWidth(90);
-		help.getStyleClass().add("help");
-		help.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent args) {
-				helpTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
-						rootCourseTab, CourseScene);
-			}
-		});
-
-		/**
-		 * Een button voor logout. De set action moet nog gemaakt worden om
-		 * terug te gaan naar de hoofdpagina? (Dario nodig)
-		 */
-		Button logout = new Button("Log out");
-		logout.setMinWidth(80);
-		logout.getStyleClass().add("logout");
-		logout.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent args) {
+				System.out.println(deleteCourse);
 
 				try {
-					start(primaryStage);
-				} catch (Exception e) {
-					e.printStackTrace();
+					client.toServer(ClientMethods.courseRemove(deleteCourse));
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
+			});
 
-			}
-		});
+			hb.getChildren().clear();
+			hb.getChildren().addAll(addCourse, addGrade, addButton, deleteButton);
 
-		/**
-		 * Een box voor de help en logout buttons (dario nodig)
-		 */
-		HBox helpout = new HBox();
-		helpout.getChildren().addAll(help, logout);
-		helpout.getStyleClass().add("helpoutbox");
+			hb.setSpacing(3);
+			hb.setLayoutX(850);
+			hb.setLayoutY(700);
+			table.setLayoutX(350);
+			table.setLayoutY(250);
 
-		/**
-		 * Een foto die hooft bij profile button (Dario nodig)
-		 */
-		Image prfoto = new Image(getClass().getResourceAsStream("huisteken.jpg"));
-		ImageView profileimage = new ImageView(prfoto);
-		Button profile = new Button("Profile", profileimage);
-		profile.getStyleClass().add("profile");
-		profile.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent args) {
-				try {
-					profileTab(primaryStage, scenetest, rootProfileTabe, sceneProfileTabe, sceneMatchTab, rootMatchTab,
+			Label courseoverview = new Label("Course Overview");
+			courseoverview.getStyleClass().add("courseview");
+			courseoverview.setLayoutX(750);
+			courseoverview.setLayoutY(150);
+
+			/**
+			 * A help button. The set action must be linked to a new page.
+			 */
+			Button help = new Button("Help");
+			help.setMinWidth(90);
+			help.getStyleClass().add("help");
+			help.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent args) {
+					helpTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
 							rootCourseTab, CourseScene);
-				} catch (IOException e) {
-
-					e.printStackTrace();
 				}
-			}
-		});
+			});
 
-		/**
-		 * Een foto die hoort bij course button (Dario nodig)
-		 */
-		Image crfoto = new Image(getClass().getResourceAsStream("courseteken.jpg"));
-		ImageView coursefoto = new ImageView(crfoto);
-		Button courses = new Button("Courses", coursefoto);
-		courses.getStyleClass().add("courses");
+			/**
+			 * A logout button. 
+			 */
+			Button logout = new Button("Log out");
+			logout.setMinWidth(80);
+			logout.getStyleClass().add("logout");
+			logout.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent args) {
 
-		/**
-		 * Een foto die hoort bij match button (Dario nodig)
-		 */
-		Image mfoto = new Image(getClass().getResourceAsStream("matchteken.jpg"));
-		ImageView matchfoto = new ImageView(mfoto);
-		Button match = new Button("Match", matchfoto);
-		match.getStyleClass().add("match");
-		match.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent args) {
-				// final Stage primaryStage, final Scene sceneMatchTab, Pane
-				// rootMatchTab, Scene sceneProfileTabe
-				matchTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
-						rootCourseTab, CourseScene);
-			}
-		});
+					try {
+						start(primaryStage);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 
-		/**
-		 * Een foto die hoort bij settings button (dario nodig)
-		 */
-		Image setfoto = new Image(getClass().getResourceAsStream("settingsteken.jpg"));
-		ImageView settingsfoto = new ImageView(setfoto);
-		Button settings = new Button("Settings", settingsfoto);
-		settings.getStyleClass().add("settings");
-		settings.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent args) {
+				}
+			});
 
-				settingsTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
-						rootCourseTab, CourseScene);
-			}
-		});
 
-		/**
-		 * Een VBox voor alle buttons links op de pagina (Dario nodig)
-		 */
-		VBox overzicht = new VBox();
-		overzicht.getChildren().addAll(profile, courses, match, settings);
-		overzicht.getStyleClass().add("overzicht");
-		overzicht.setMinHeight(630);
+			// A box for help and logout buttons.
+			HBox helpout = new HBox();
+			helpout.getChildren().addAll(help, logout);
+			helpout.getStyleClass().add("helpoutbox");
 
-		/**
-		 * Een foto met daarin de logo.
-		 */
-		Image logo = new Image("log.jpg");
-		ImageView imgview = new ImageView(logo);
-		Image motto = new Image("motto.jpg");
-		ImageView picaview = new ImageView(motto);
+			/**
+			 * A picture for profile page.
+			 */
+			Image prfoto = new Image(getClass().getResourceAsStream("huisteken.jpg"));
+			ImageView profileimage = new ImageView(prfoto);
+			Button profile = new Button("Profile", profileimage);
+			profile.getStyleClass().add("profile");
+			profile.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent args) {
+					try {
+						profileTab(primaryStage, scenetest, rootProfileTabe, sceneProfileTabe, sceneMatchTab,
+								rootMatchTab, rootCourseTab, CourseScene);
+					} catch (IOException e) {
 
-		HBox boven = new HBox();
-		boven.setMinSize(1550, 85);
-		boven.getChildren().addAll(picaview, imgview);
-		boven.getStyleClass().add("bovenstuk");
+						e.printStackTrace();
+					}
+				}
+			});
+			
+			//A picture that belongs to course tab.
+			Image crfoto = new Image(getClass().getResourceAsStream("courseteken.jpg"));
+			ImageView coursefoto = new ImageView(crfoto);
+			Button courses = new Button("Courses", coursefoto);
+			courses.getStyleClass().add("courses");
 
-		Pane rootCourse = new Pane();
-		rootCourse.getStyleClass().add("pane");
+			/**
+			 * A picture that belong to match button.
+			 */
+			Image mfoto = new Image(getClass().getResourceAsStream("matchteken.jpg"));
+			ImageView matchfoto = new ImageView(mfoto);
+			Button match = new Button("Match", matchfoto);
+			match.getStyleClass().add("match");
+			match.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent args) {
+					// final Stage primaryStage, final Scene sceneMatchTab, Pane
+					// rootMatchTab, Scene sceneProfileTabe
+					matchTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
+							rootCourseTab, CourseScene);
+				}
+			});
 
-		rootCourse.getChildren().addAll(label, courseoverview, table, hb, boven, picaview, imgview, helpout, overzicht);
+			/**
+			 * A picture that belongs to the settings button
+			 */
+			Image setfoto = new Image(getClass().getResourceAsStream("settingsteken.jpg"));
+			ImageView settingsfoto = new ImageView(setfoto);
+			Button settings = new Button("Settings", settingsfoto);
+			settings.getStyleClass().add("settings");
+			settings.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent args) {
 
-		countCourse++;
+					settingsTab(primaryStage, sceneMatchTab, rootMatchTab, sceneProfileTabe, scenetest, rootProfileTabe,
+							rootCourseTab, CourseScene);
+				}
+			});
 
-		boven.setLayoutX(50);
+			//A VBox for all the button links on the page.
+			VBox overzicht = new VBox();
+			overzicht.getChildren().addAll(profile, courses, match, settings);
+			overzicht.getStyleClass().add("overzicht");
+			overzicht.setMinHeight(630);
 
-		picaview.setLayoutX(730);
-		picaview.setLayoutY(30);
+			//A picture with the logo. 
+			Image logo = new Image("log.jpg");
+			ImageView imgview = new ImageView(logo);
+			Image motto = new Image("motto.jpg");
+			ImageView picaview = new ImageView(motto);
 
-		imgview.setLayoutX(50);
-		imgview.setLayoutY(25);
+			HBox boven = new HBox();
+			boven.setMinSize(1550, 85);
+			boven.getChildren().addAll(picaview, imgview);
+			boven.getStyleClass().add("bovenstuk");
 
-		helpout.setLayoutX(1410);
-		helpout.setLayoutY(25);
+			Pane rootCourse = new Pane();
+			rootCourse.getStyleClass().add("pane");
 
-		overzicht.setLayoutX(50);
-		overzicht.setLayoutY(100);
+			rootCourse.getChildren().addAll(label, courseoverview, table, hb, boven, picaview, imgview, helpout,
+					overzicht);
 
-		Scene CourseScenee = new Scene(rootCourse, 1600, 900);
-		primaryStage.setScene(CourseScenee);
-		CourseScenee.getStylesheets().add("design.css");
-		primaryStage.show();
-	} catch (IOException e1){
-		e1.printStackTrace();
-	}
+			countCourse++;
+
+			boven.setLayoutX(50);
+
+			picaview.setLayoutX(730);
+			picaview.setLayoutY(30);
+
+			imgview.setLayoutX(50);
+			imgview.setLayoutY(25);
+
+			helpout.setLayoutX(1410);
+			helpout.setLayoutY(25);
+
+			overzicht.setLayoutX(50);
+			overzicht.setLayoutY(100);
+
+			Scene CourseScenee = new Scene(rootCourse, 1600, 900);
+			primaryStage.setScene(CourseScenee);
+			CourseScenee.getStylesheets().add("design.css");
+			primaryStage.show();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	/**
-	 * MATCH TAB, THIS IS WHERE THE ESSENTIAL TRANSLATION CODE (JSON DATA FROM SERVER TO DISPLAY VARIABLES) WHICH ARE TESTABLE ARE. LOADS OF PARSING CODES, 
-	 * THESE SHOULD BE PUT INTO THEIR OWN PARSING METHODS WHICH ARE CALLED FROM THE MATCH TAB. 
-	 * VIEWPROFILE  AND VIEWPROFILE2 (BUTTONS) ARE MOST IMPORTANT TO REFACTOR
+	 * MATCH TAB, THIS IS WHERE THE ESSENTIAL TRANSLATION CODE (JSON DATA FROM
+	 * SERVER TO DISPLAY VARIABLES) WHICH ARE TESTABLE ARE. LOADS OF PARSING
+	 * CODES, THESE SHOULD BE PUT INTO THEIR OWN PARSING METHODS WHICH ARE
+	 * CALLED FROM THE MATCH TAB. 
 	 */
 	public void matchTab(final Stage primaryStage, final Scene sceneMatchTab, Pane rootMatchTab, Scene sceneProfileTabe,
 			final Scene scenetest, Pane rootProfileTabe, Pane rootCourseTab, Scene CourseScene) {
-		
+
 		Label noResults = new Label("No results were found.");
 		Button matchButton = new Button("Make match with selected");
 		CheckBox UrgentCheck = new CheckBox("Urgent?");
 		int countMatch = 0;
 		ListView<String> SearchResultList = new ListView<String>();
 		ListView<String> filterTable = new ListView<String>();
-		
-		// here a few operations are performed for positioning/visibility of button and tables:
+
+		// here a few operations are performed for positioning/visibility of
+		// button and tables:
 		filterTable.getItems().clear();
 		SearchResultList.getItems().clear();
 		filterTable.setMinHeight(450);
@@ -1357,13 +1251,16 @@ public class Design extends Application {
 		matchButton.setVisible(false);
 		matchButton.getStyleClass().add("buttonspecific");
 
-		// Hbox voor urgent checkbox
+		// Hbox for urgent checkbox
 		HBox UrgentBox = new HBox();
 		UrgentBox.getChildren().addAll(UrgentCheck);
 		UrgentBox.setSpacing(10);
 		UrgentBox.getStyleClass().add("checkboxBox");
 		UrgentBox.setVisible(false);
-		// BE ABLE TO MARK CHECHBOX ON AND OFF (AVAILABLE AND UNAVAILABLE) 
+
+		/**
+		 * Mark checkbox on and of (available and unavailable)
+		 */
 		UrgentCheck.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -1374,12 +1271,12 @@ public class Design extends Application {
 
 		ArrayList<String> SearchResultInput = new ArrayList<String>();
 
-		// Initialiseren van resultaten als niet zichtbaar.
+		//Initializing the results when not visible.
 		noResults.setVisible(false);
 
 		SearchResultList.getStyleClass().add("SearchResults");
 
-		// if user is available it displays accordingly
+		// If user is available it displays accordingly.
 		boolean userAvailability = false;
 		try {
 			String tempA = client.toServer(ClientMethods.get("Available"));
@@ -1398,10 +1295,9 @@ public class Design extends Application {
 		// SearchOptions.getStyleClass().add("combobox");
 
 		SearchOptions.setValue("Interested Courses");
-	
 
 		/**
-		 * een button help. 
+		 * A button help.
 		 */
 		Button help = new Button("Help");
 		help.setMinWidth(90);
@@ -1414,7 +1310,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een button voor logout.
+		 * A button logout.
 		 */
 		Button logout = new Button("Log out");
 		logout.setMinWidth(90);
@@ -1428,12 +1324,8 @@ public class Design extends Application {
 				}
 			}
 		});
-
-		// Logout
-
-		/**
-		 * Een box voor de help en logout buttons (dario nodig)
-		 */
+		
+		// A box for help and logout 
 		HBox helpout = new HBox();
 		helpout.getChildren().addAll(help, logout);
 		helpout.getStyleClass().add("helpoutbox");
@@ -1459,7 +1351,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een foto die hoort bij course button (Dario nodig)
+		 * A picture that belongs to course button
 		 */
 		Image crfoto = new Image(getClass().getResourceAsStream("courseteken.jpg"));
 		ImageView coursefoto = new ImageView(crfoto);
@@ -1473,7 +1365,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een foto die hoort bij match button (Dario nodig)
+		 * A picture that belongs to match button
 		 */
 		Image mfoto = new Image(getClass().getResourceAsStream("matchteken.jpg"));
 		ImageView matchfoto = new ImageView(mfoto);
@@ -1481,7 +1373,7 @@ public class Design extends Application {
 		match.getStyleClass().add("match");
 
 		/**
-		 * Een foto die hoort bij settings button (dario nodig)
+		 * A picture that belongs to settings button
 		 */
 		Image setfoto = new Image(getClass().getResourceAsStream("settingsteken.jpg"));
 		ImageView settingsfoto = new ImageView(setfoto);
@@ -1494,9 +1386,7 @@ public class Design extends Application {
 			}
 		});
 
-		/**
-		 * Een VBox voor alle buttons links op de pagina (Dario nodig)
-		 */
+		// A Box for all the buttons on the page
 		VBox overzicht = new VBox();
 		overzicht.getChildren().addAll(profile, courses, match, settings);
 		overzicht.getStyleClass().add("overzicht");
@@ -1504,7 +1394,7 @@ public class Design extends Application {
 		overzicht.setLayoutY(100);
 		overzicht.setMinHeight(630);
 
-		// Invoegen van bovenstuk
+		// add bovenstuk
 		Image logos = new Image("log.jpg");
 		ImageView imgviews = new ImageView(logos);
 		Image mottos = new Image("motto.jpg");
@@ -1522,8 +1412,8 @@ public class Design extends Application {
 		imgviews.setLayoutY(25);
 
 		/**
-		 * VIEW PROFILE BUTTON,
-		 * CLICK A USER YOU MATCH WITH THEN PRESS BUTTON FOR POP UP WITH RESPECTIVE INFO
+		 * VIEW PROFILE BUTTON, CLICK A USER YOU MATCH WITH THEN PRESS BUTTON
+		 * FOR POP UP WITH RESPECTIVE INFO
 		 **/
 		Button viewProfile2 = new Button("View Selected Profile");
 		viewProfile2.getStyleClass().add("viewProfile");
@@ -1531,9 +1421,9 @@ public class Design extends Application {
 		viewProfile2.setLayoutY(700);
 		viewProfile2.setVisible(false);
 		/**
-		 * VIEW PROFILE BUTTON
-		 * THIS NEEDS REFACTORING!
-		 * WE PARSE THE INCOMING MATCHES INFO INTO RESPECTIVE PLACES FOR DISPLAY. THE PARSING MUST BE DONE OUTSIDE GUI.
+		 * VIEW PROFILE BUTTON THIS NEEDS REFACTORING! WE PARSE THE INCOMING
+		 * MATCHES INFO INTO RESPECTIVE PLACES FOR DISPLAY. THE PARSING MUST BE
+		 * DONE OUTSIDE GUI.
 		 **/
 		viewProfile2.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
@@ -1544,20 +1434,23 @@ public class Design extends Application {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				// GET THE NAME OF THE PROFILE WE WANT TO VIEW (.getSelectedItem() from table)
+				// GET THE NAME OF THE PROFILE WE WANT TO VIEW
+				// (.getSelectedItem() from table)
 				String emailSelect = filterTable.getSelectionModel().getSelectedItem();
 
 				if (emailSelect.equals("No results..") || filterTable.getSelectionModel().getSelectedItem().isEmpty()) {
 					System.out.println("No results");
 				} else {
-					// WE USE A SCANNER TO GRAB THE NAME, FOR EXAMPLE TO GET RID OF 'NAME' IN "NAME:PIM" AND TO JUST HAVE "PIM"
+					// WE USE A SCANNER TO GRAB THE NAME, FOR EXAMPLE TO GET RID
+					// OF 'NAME' IN "NAME:PIM" AND TO JUST HAVE "PIM"
 					Scanner sc = new Scanner(emailSelect);
 					sc.useDelimiter("\n");
 					emailSelect = sc.next().substring(7);
-					
+
 					String[] userInfo = parser.parseUserInfo(client, emailSelect);
-					
-					// WE GET ALL OTHER INFO OF SELECTED USER WITH (client.toServer("INCOMING-FROMOTHERSGET¿) LIKE BELOW:
+
+					// WE GET ALL OTHER INFO OF SELECTED USER WITH
+					// (client.toServer("INCOMING-FROMOTHERSGET¿) LIKE BELOW:
 					String n = userInfo[0];
 					String sur = userInfo[1];
 					String a = userInfo[2];
@@ -1569,7 +1462,7 @@ public class Design extends Application {
 					String num = userInfo[8];
 					String email = userInfo[9];
 					String piclink = userInfo[10];
-					
+
 					// PLACE THE INFO IN THE LABELS:
 					Label name = new Label();
 					name.setText("Full name:          " + n + " " + sur);
@@ -1592,7 +1485,7 @@ public class Design extends Application {
 					Label description = new Label(userInfo[11]);
 					description.getStyleClass().add("e");
 					description.setWrapText(true);
-					
+
 					ListView<String> tempC = new ListView<String>();
 					tempC.setMaxHeight(130);
 					if (incomingCourses.equals("{}")) {
@@ -1605,9 +1498,9 @@ public class Design extends Application {
 					Label courses = new Label();
 					courses.setText("Courses:            ");
 					courses.getStyleClass().add("e");
-					
+
 					// CREATE RESPECTIVE LABELS AND BOXES FOR DISPLAY PURPOSES
-					
+
 					Label number = new Label();
 					number.setText("Number: " + num);
 					number.getStyleClass().add("e");
@@ -1639,7 +1532,7 @@ public class Design extends Application {
 					view1.getStyleClass().add("popView");
 
 					VBox view = new VBox();
-					view.getChildren().addAll(view1,description, courses, tempC);
+					view.getChildren().addAll(view1, description, courses, tempC);
 					view.setMaxWidth(825);
 					view.setMinHeight(275);
 					view.setSpacing(15);
@@ -1664,17 +1557,18 @@ public class Design extends Application {
 					});
 
 					pop.show(primaryStage);
-					// WE SEND A REQUEST TO SERVER ASKING FOR OUR OWN (THE ONE LOGGED IN) EMAIL, THIS RETURNS CONTROL TO THE USER BEING LOGGED IN SO WE
+					// WE SEND A REQUEST TO SERVER ASKING FOR OUR OWN (THE ONE
+					// LOGGED IN) EMAIL, THIS RETURNS CONTROL TO THE USER BEING
+					// LOGGED IN SO WE
 					// DO FURTHER REQUEST OUT OF USERS PERSPECTIVE.
 					try {
-						client.toServer(ClientMethods.getOther(curEmail,"Piclink"));
+						client.toServer(ClientMethods.getOther(curEmail, "Piclink"));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 			}
 		});
-
 
 		/**
 		 * READ comments by viewProfile2 for explanation what this button does,
@@ -1694,7 +1588,7 @@ public class Design extends Application {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				// Get name of person to view profie of.
+				// Get name of person to view profile of.
 				String emailSelect = SearchResultList.getSelectionModel().getSelectedItem();
 				System.out.println("No results....." + emailSelect);
 				if (emailSelect.equals("No results..")
@@ -1704,10 +1598,10 @@ public class Design extends Application {
 					Scanner sc = new Scanner(emailSelect);
 					sc.useDelimiter("\n");
 					emailSelect = sc.next().substring(7);
-					String[] userInfo= parser.parseUserInfo(client, emailSelect);
-					
-					
-					//WE GET ALL OTHER INFO OF SELECTED USER WITH(client.toServer("INCOMING-FROMOTHERSGET¿) LIKE BELOW:	
+					String[] userInfo = parser.parseUserInfo(client, emailSelect);
+
+					// WE GET ALL OTHER INFO OF SELECTED USER WITH
+					// (client.toServer("INCOMING-FROMOTHERSGET¿) LIKE BELOW:
 					String n = userInfo[0];
 					String sur = userInfo[1];
 					String a = userInfo[2];
@@ -1715,7 +1609,7 @@ public class Design extends Application {
 					String co = userInfo[4];
 					String un = userInfo[5];
 					String st = userInfo[6];
-					String incomingCourses= userInfo[7];
+					String incomingCourses = userInfo[7];
 					String num = userInfo[8];
 					String email = userInfo[9];
 					String piclink = userInfo[10];
@@ -1749,11 +1643,10 @@ public class Design extends Application {
 					} else {
 						parser.parseCourses(incomingCourses, tempC);
 					}
-
 					Label courses = new Label();
 					courses.setText("Courses:            ");
 					courses.getStyleClass().add("e");
-				
+
 					Label number = new Label();
 					number.setText("Number: " + num);
 					number.getStyleClass().add("e");
@@ -1781,7 +1674,7 @@ public class Design extends Application {
 					view1.setSpacing(15);
 					view1.getStyleClass().add("popView");
 					VBox view = new VBox();
-					view.getChildren().addAll(view1,description, courses, tempC);
+					view.getChildren().addAll(view1, description, courses, tempC);
 					view.setMaxWidth(825);
 					view.setMinHeight(275);
 					view.setSpacing(15);
@@ -1807,7 +1700,7 @@ public class Design extends Application {
 					pop.show(primaryStage);
 					// Return control
 					try {
-						client.toServer(ClientMethods.getOther(curEmail,"Piclink"));
+						client.toServer(ClientMethods.getOther(curEmail, "Piclink"));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -1839,15 +1732,17 @@ public class Design extends Application {
 					} else {
 						currentOption = "Course list";
 					}
-					
-					//set up variables for parsing of temp:
+
+					// set up variables for parsing of temp:
 					String temp = "";
 					String results = "";
 					String curEmail = "";
 					ArrayList<String> matchEmails = new ArrayList<String>();
 					ArrayList<String> matchInfo = new ArrayList<String>();
-					
-					// HERE WE RECEIVE ALL MATCHES BY SEARCH USING: " client.toServer("INCOMING-SEARCH¿" + currentOption + "¿" + currentValue);"
+
+					// HERE WE RECEIVE ALL MATCHES BY SEARCH USING: "
+					// client.toServer("INCOMING-SEARCH¿" + currentOption + "¿"
+					// + currentValue);"
 					try {
 						curEmail = client.toServer(ClientMethods.get("Email"));
 						temp = client.toServer(ClientMethods.search(currentOption, currentValue));
@@ -1867,32 +1762,8 @@ public class Design extends Application {
 					if (temp.equals("[]")) {
 						System.out.println("No Results..");
 					} else {
-	
-						parser.parseMatchedEmails(temp,matchEmails,curEmail);
 
-						// Get info of matched emails using the command to get other peoples info  client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Email")
-						//+ "\nName: " + client.toServer("INCOMING-FROMOTHERSGET
-						for (String s : matchEmails) {
-							String userCourses = "";
-							try {
-								userCourses = client.toServer(ClientMethods.getOther(s,"Course list"));
-							} catch (IOException e1) {
-								e1.printStackTrace();
-							}
-							if (userCourses.equals("{}")) {
-								
-								results = parser.parseMatches(client, s, "","");
-								matchInfo.add(results);
-							} else {
-								// PARSE MATCHES COURSES:
-								
-								String displayCourses = (String) parser.parseCourses(userCourses.toString(), "");
-								String available = parser.parseAvailability(client,s);
-								
-								results = parser.parseMatches(client, s, displayCourses,available);
-								matchInfo.add(results);
-							}
-						}
+						parser.parseMatchedEmails(temp, matchEmails, curEmail);
 
 						// Get info of matched emails using the command to get
 						// other peoples info
@@ -1903,25 +1774,25 @@ public class Design extends Application {
 						for (String s : matchEmails) {
 							String userCourses = "";
 							try {
-								userCourses = client.toServer(ClientMethods.getOther(s,"Course list"));
+								userCourses = client.toServer(ClientMethods.getOther(s, "Course list"));
 							} catch (IOException e1) {
 								e1.printStackTrace();
 							}
 							if (userCourses.equals("{}")) {
-								
-								results = parser.parseMatches(client, s, "","");
+
+								results = parser.parseMatches(client, s, "", "");
 								matchInfo.add(results);
 							} else {
 								// PARSE MATCHES COURSES:
-								
+
 								String displayCourses = (String) parser.parseCourses(userCourses.toString(), "");
-								String available = parser.parseAvailability(client,s);
-								
-								results = parser.parseMatches(client, s, displayCourses,available);
+								String available = parser.parseAvailability(client, s);
+
+								results = parser.parseMatches(client, s, displayCourses, available);
 								matchInfo.add(results);
 							}
 						}
-						
+
 						// Display THE INFO OF MATCHES IN THE TABLE:
 						for (String j : matchInfo) {
 							if (j.contains(curEmail)) {
@@ -1957,17 +1828,14 @@ public class Design extends Application {
 
 		});
 
-		/**
-		 * MATCHNOW BUTTON, FINDS AND DISPLAYS ALL MATCHES
-		 * NEEDS REFACTORING!
-		 * */
+		// MATCHNOW BUTTON, FINDS AND DISPLAYS ALL MATCHES 
 		Button matchNow = new Button("Match Now!");
 		matchNow.getStyleClass().add("matchbut");
 		matchNow.setLayoutX(470);
 		matchNow.setLayoutY(130);
 		/**
 		 * WHEN WE CLICK ON MATCHNOW:
-		 * */
+		 */
 		matchNow.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
 				SearchResultList.getItems().clear();
@@ -1981,9 +1849,10 @@ public class Design extends Application {
 					String userUni = client.toServer(ClientMethods.get("CurrentUniversity"));
 					String userCity = client.toServer(ClientMethods.get("CityOfResidence"));
 					/**
-					 * WE USE client.toServer("INCOMING-MATCH"  method to get all matches .
-					 *  variable usersMatch will contain all other matches info which we parse below.
-					 * */
+					 * WE USE client.toServer("INCOMING-MATCH" method to get all
+					 * matches . variable usersMatch will contain all other
+					 * matches info which we parse below.
+					 */
 					usersMatch = client.toServer(ClientMethods.match(userStudy, userUni, userCity));
 
 				} catch (IOException e) {
@@ -1996,12 +1865,12 @@ public class Design extends Application {
 					System.out.println("No Results#####");
 					SearchResultList.getItems().add("No Results..");
 				} else {
-					
-					parser.parseMatchedEmails(usersMatch,matchEmails,curEmail);
 
-					
+					parser.parseMatchedEmails(usersMatch, matchEmails, curEmail);
+
 					for (String s : matchEmails) {
-						// GET INFO OF USERS TO DISPLAY USING: client.toServer("INCOMING-FROMOTHERSGET
+						// GET INFO OF USERS TO DISPLAY USING:
+						// client.toServer("INCOMING-FROMOTHERSGET
 						String userCourses = "";
 						try {
 							userCourses = client.toServer(ClientMethods.getOther(s, "Course list"));
@@ -2015,7 +1884,7 @@ public class Design extends Application {
 							matchNames.add(results);
 						} else {
 							String displayCourses = (String) parser.parseCourses(userCourses.toString(), "");
-							String available = parser.parseAvailability(client,s);
+							String available = parser.parseAvailability(client, s);
 
 							results = parser.parseMatches(client, s, displayCourses, available);
 
@@ -2025,7 +1894,7 @@ public class Design extends Application {
 
 					// Reset login, RETURN CONTROL TO USER
 					try {
-						curEmail = client.toServer(ClientMethods.getOther(curEmail,"Firstname"));
+						curEmail = client.toServer(ClientMethods.getOther(curEmail, "Firstname"));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -2041,7 +1910,6 @@ public class Design extends Application {
 				}
 			}
 		});
-		
 
 		Line line = new Line();
 		line.setStartX(350);
@@ -2054,7 +1922,7 @@ public class Design extends Application {
 		line2.setStartY(225);
 		line2.setEndX(1550);
 		line2.setEndY(225);
-		// Maken van Button en geven van functie en text.
+	
 		final Button SearchButton = new Button();
 		// Add style
 		SearchButton.getStyleClass().add("buttonspecific");
@@ -2085,7 +1953,9 @@ public class Design extends Application {
 		checkLabel3.setLayoutX(750);
 		checkLabel3.setLayoutY(199);
 
-		// Checkbox maken.
+		/**
+		 * A Checkbox for availability
+		 */
 		CheckBox SearchAvailableNow = new CheckBox("Available now?");
 		SearchAvailableNow.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
@@ -2100,7 +1970,7 @@ public class Design extends Application {
 		});
 		SearchAvailableNow.setSelected(userAvailability);
 
-		// Locatie geven
+		// Giving locations
 		SearchOptions.setLayoutX(1125);
 		SearchOptions.setLayoutY(110);
 		SearchAvailableNow.setLayoutX(750);
@@ -2150,17 +2020,15 @@ public class Design extends Application {
 	}
 
 	/**
-	 * SETTING TAB. NOT VERY IMPORTANT
+	 * SETTING TAB. NOT VERY IMPORTANT.
 	 */
 	public void settingsTab(final Stage primaryStage, final Scene sceneMatchTab, Pane rootMatchTab,
 
 			Scene sceneProfileTabe, final Scene scenetest, Pane rootProfileTabe, Pane rootCourseTab,
 			Scene CourseScene) {
-
-		// Invoegen van sidebar
+		
 		/**
-		 * een button help. De setaction moet gelinkt worden aan een nieuwe
-		 * page, maar welke? (Dario nodig)
+		 * A help button.
 		 */
 		Button help = new Button("Help");
 		help.setMinWidth(90);
@@ -2173,8 +2041,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een button voor logout. De set action moet nog gemaakt worden om
-		 * terug te gaan naar de hoofdpagina? (Dario nodig)
+		 * A logout button.
 		 */
 		Button logout = new Button("Log out");
 		logout.setMinWidth(90);
@@ -2190,7 +2057,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een box voor de help en logout buttons (dario nodig)
+		 * A box for help and logout buttons.
 		 */
 		HBox helpout = new HBox();
 		helpout.getChildren().addAll(help, logout);
@@ -2199,7 +2066,7 @@ public class Design extends Application {
 		helpout.setLayoutY(25);
 
 		/**
-		 * Een foto die hooft bij profile button (Dario nodig)
+		 * A picture that belongs to profile button.
 		 */
 		Image prfoto = new Image(getClass().getResourceAsStream("huisteken.jpg"));
 		ImageView profileimage = new ImageView(prfoto);
@@ -2224,7 +2091,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een foto die hoort bij course button (Dario nodig)
+		 * A picture that belongs to course button. 
 		 */
 		Image crfoto = new Image(getClass().getResourceAsStream("courseteken.jpg"));
 		ImageView coursefoto = new ImageView(crfoto);
@@ -2238,7 +2105,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een foto die hoort bij match button (Dario nodig)
+		 * A picture that belongs to match button.
 		 */
 		Image mfoto = new Image(getClass().getResourceAsStream("matchteken.jpg"));
 		ImageView matchfoto = new ImageView(mfoto);
@@ -2253,17 +2120,13 @@ public class Design extends Application {
 			}
 		});
 
-		/**
-		 * Een foto die hoort bij settings button (dario nodig)
-		 */
+		// A picture for settings
 		Image setfoto = new Image(getClass().getResourceAsStream("settingsteken.jpg"));
 		ImageView settingsfoto = new ImageView(setfoto);
 		Button settings = new Button("Settings", settingsfoto);
 		settings.getStyleClass().add("settings");
 
-		/**
-		 * Een VBox voor alle buttons links op de pagina (Dario nodig)
-		 */
+		//A Vbox for all the button on the page
 		VBox overzicht = new VBox();
 		overzicht.getChildren().addAll(profile, courses, match, settings);
 		overzicht.getStyleClass().add("overzicht");
@@ -2271,7 +2134,7 @@ public class Design extends Application {
 		overzicht.setLayoutY(100);
 		overzicht.setMinHeight(630);
 
-		// Invoegen van bovenstuk
+		// Add bovenstuk
 		Image logos = new Image("log.jpg");
 		ImageView imgviews = new ImageView(logos);
 		Image mottos = new Image("motto.jpg");
@@ -2552,14 +2415,14 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een box voor de help en logout buttons (dario nodig)
+		 * A box for help and logout buttons.
 		 */
 		HBox helpout = new HBox();
 		helpout.getChildren().addAll(help, logout);
 		helpout.getStyleClass().add("helpoutbox");
 
 		/**
-		 * Een foto die hooft bij profile button (Dario nodig)
+		 * A picture that belongs to profile button.
 		 */
 		Image prfoto = new Image(getClass().getResourceAsStream("huisteken.jpg"));
 		ImageView profileimage = new ImageView(prfoto);
@@ -2584,7 +2447,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een foto die hoort bij course button (Dario nodig)
+		 * A picture that belongs to course button
 		 */
 		Image crfoto = new Image(getClass().getResourceAsStream("courseteken.jpg"));
 		ImageView coursefoto = new ImageView(crfoto);
@@ -2598,7 +2461,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een foto die hoort bij match button (Dario nodig)
+		 * A picture that belongs to match button.
 		 */
 		Image mfoto = new Image(getClass().getResourceAsStream("matchteken.jpg"));
 		ImageView matchfoto = new ImageView(mfoto);
@@ -2614,7 +2477,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een foto die hoort bij settings button (dario nodig)
+		 * A picture that belongs to settings button.
 		 */
 		Image setfoto = new Image(getClass().getResourceAsStream("settingsteken.jpg"));
 		ImageView settingsfoto = new ImageView(setfoto);
@@ -2630,7 +2493,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * Een VBox voor alle buttons links op de pagina (Dario nodig)
+		 * A Vbox for all the buttons on the page.
 		 */
 		VBox overzicht = new VBox();
 		overzicht.getChildren().addAll(profile, courses, matcht, settingz);
@@ -2642,9 +2505,7 @@ public class Design extends Application {
 			}
 		});
 
-		/**
-		 * Een foto met daarin de logo.
-		 */
+		//A picture with logo
 		Image logo = new Image("log.jpg");
 		ImageView imgview = new ImageView(logo);
 		Image motto = new Image("motto.jpg");
