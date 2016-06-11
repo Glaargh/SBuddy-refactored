@@ -1328,13 +1328,6 @@ public class Design extends Application {
 	}
 
 	/**
-	 * MATCH TAB, THIS IS WHERE THE ESSENTIAL TRANSLATION CODE (JSON DATA FROM
-	 * SERVER TO DISPLAY VARIABLES) WHICH ARE TESTABLE ARE. LOADS OF PARSING
-	 * CODES, THESE SHOULD BE PUT INTO THEIR OWN PARSING METHODS WHICH ARE
-	 * CALLED FROM THE MATCH TAB. VIEWPROFILE AND VIEWPROFILE2 (BUTTONS) ARE
-	 * MOST IMPORTANT TO REFACTOR
-	 */
-	/**
 	 * MATCH TAB, THIS IS WHERE THE ESSENTIAL TRANSLATION CODE (JSON DATA FROM SERVER TO DISPLAY VARIABLES) WHICH ARE TESTABLE ARE. LOADS OF PARSING CODES, 
 	 * THESE SHOULD BE PUT INTO THEIR OWN PARSING METHODS WHICH ARE CALLED FROM THE MATCH TAB. 
 	 * VIEWPROFILE  AND VIEWPROFILE2 (BUTTONS) ARE MOST IMPORTANT TO REFACTOR
@@ -1711,149 +1704,110 @@ public class Design extends Application {
 					Scanner sc = new Scanner(emailSelect);
 					sc.useDelimiter("\n");
 					emailSelect = sc.next().substring(7);
-					String n = null;
-					String sur = null;
-					String a = null;
-					String c = null;
-					String co = null;
-					String un = null;
-					String st = null;
-					String num = null;
-					String piclink = null;
+					String[] userInfo= parser.parseUserInfo(client, emailSelect);
+					
+					
+					//WE GET ALL OTHER INFO OF SELECTED USER WITH(client.toServer("INCOMING-FROMOTHERSGET¿) LIKE BELOW:	
+					String n = userInfo[0];
+					String sur = userInfo[1];
+					String a = userInfo[2];
+					String c = userInfo[3];
+					String co = userInfo[4];
+					String un = userInfo[5];
+					String st = userInfo[6];
+					String incomingCourses= userInfo[7];
+					String num = userInfo[8];
+					String email = userInfo[9];
+					String piclink = userInfo[10];
 
-					Set keys = null;
-					Iterator loop = null;
-					JSONObject courseList = null;
-					String incomingCourses = "";
-					try {
-						n = client.toServer(ClientMethods.getOther(emailSelect, "Firstname"));
-						sur = client.toServer(ClientMethods.getOther(emailSelect, "Lastname"));
-						a = client.toServer(ClientMethods.getOther(emailSelect, "Age"));
-						c = client.toServer(ClientMethods.getOther(emailSelect, "CityOfResidence"));
-						co = client.toServer(ClientMethods.getOther(emailSelect, "CountryOfResidence"));
-						un = client.toServer(ClientMethods.getOther(emailSelect, "CurrentUniversity"));
-						st = client.toServer(ClientMethods.getOther(emailSelect, "CurrentStudy"));
-						incomingCourses = client.toServer(ClientMethods.getOther(emailSelect, "Course list"));
-
-						if (incomingCourses.equals("{}")) {
-							incomingCourses = "No results..";
-						} else {
-							if (!incomingCourses.equals("{}")) {
-								// Parse String to a JSONObject:
-								courseList = parser.parse(incomingCourses.toString());
-								keys = courseList.keySet();
-								loop = keys.iterator();
-							} else {
-								System.out.println("No courses #match,viewprofile2 tab");
-							}
-
-						}
-
-						num = client.toServer(ClientMethods.getOther(emailSelect, "Phone"));
-						String email = client.toServer(ClientMethods.getOther(emailSelect, "Email"));
-						piclink = client.toServer(ClientMethods.getOther(emailSelect, "Piclink"));
-						Label name = new Label();
-						name.setText("Full name:          " + n + " " + sur);
-						name.getStyleClass().add("e");
-						Label age = new Label();
-						age.setText("Age:                " + a);
-						age.getStyleClass().add("e");
-						Label city = new Label();
-						city.setText("City:               " + c);
-						city.getStyleClass().add("e");
-						Label country = new Label();
-						country.setText("Country:            " + co);
-						country.getStyleClass().add("e");
-						Label Uni = new Label();
-						Uni.setText("University:         " + un);
-						Uni.getStyleClass().add("e");
-						Label study = new Label();
-						study.setText("Study:              " + st);
-						study.getStyleClass().add("e");
-						Label description = new Label(
-								client.toServer(ClientMethods.getOther(emailSelect, "Description")));
-						description.getStyleClass().add("e");
-						description.setWrapText(true);
-						ListView<String> tempC = new ListView<String>();
-						tempC.setMaxHeight(130);
-						if (incomingCourses.equals("No results..")) {
-							tempC.getItems().add(incomingCourses);
-						} else {
-
-							while (loop.hasNext()) {
-								String key = (String) loop.next();
-								String value = (String) courseList.get(key);
-
-								tempC.getItems().add(key + ":  " + value);
-							}
-						}
-
-						Label courses = new Label();
-						courses.setText("Courses:            ");
-						courses.getStyleClass().add("e");
-
-						Label number = new Label();
-						number.setText("Number: " + num);
-						number.getStyleClass().add("e");
-						Label emailadress = new Label();
-						emailadress.setText("E-mail: " + email);
-						emailadress.getStyleClass().add("e");
-						System.out.println(piclink);
-						Image pic = new Image(piclink);
-						ImageView picc = new ImageView(pic);
-						picc.setFitHeight(275);
-						picc.setFitWidth(350);
-
-						Button closePop = new Button("X");
-						closePop.getStyleClass().add("butonclose");
-
-						VBox view0 = new VBox();
-						view0.getChildren().addAll(closePop, name, age, city, country, Uni, study, number, emailadress);
-						view0.setMinWidth(350);
-						view0.setMinHeight(275);
-						view0.setSpacing(10);
-						view0.getStyleClass().add("popView");
-						view0.getStyleClass().add("LabelPop");
-
-						HBox view1 = new HBox();
-						view1.getChildren().addAll(view0, picc);
-						view1.setMinWidth(650);
-						view1.setMinHeight(275);
-						view1.setSpacing(15);
-						view1.getStyleClass().add("popView");
-
-						VBox view = new VBox();
-						view.getChildren().addAll(view1, description, courses, tempC);
-						view.setMaxWidth(825);
-						view.setMinHeight(275);
-						view.setSpacing(15);
-						view.getStyleClass().add("popView");
-						name.getStyleClass().add("LabelPop");
-						age.getStyleClass().add("LabelPop");
-						city.getStyleClass().add("LabelPop");
-						country.getStyleClass().add("LabelPop");
-						Uni.getStyleClass().add("LabelPop");
-						study.getStyleClass().add("LabelPop");
-						number.getStyleClass().add("LabelPop");
-						emailadress.getStyleClass().add("LabelPop");
-						courses.getStyleClass().add("LabelPop");
-
-						Popup pop = PopupBuilder.create().content(view).y(250).x(850).width(0).height(0).build();
-
-						closePop.setOnAction(new EventHandler<ActionEvent>() {
-							public void handle(ActionEvent args) {
-								pop.hide();
-							}
-						});
-
-						pop.show(primaryStage);
-
-					} catch (IOException e) {
-						e.printStackTrace();
+					Label name = new Label();
+					name.setText("Full name:          " + n + " " + sur);
+					name.getStyleClass().add("e");
+					Label age = new Label();
+					age.setText("Age:                " + a);
+					age.getStyleClass().add("e");
+					Label city = new Label();
+					city.setText("City:               " + c);
+					city.getStyleClass().add("e");
+					Label country = new Label();
+					country.setText("Country:            " + co);
+					country.getStyleClass().add("e");
+					Label Uni = new Label();
+					Uni.setText("University:         " + un);
+					Uni.getStyleClass().add("e");
+					Label study = new Label();
+					study.setText("Study:              " + st);
+					study.getStyleClass().add("e");
+					Label description = new Label(userInfo[11]);
+					description.getStyleClass().add("e");
+					description.setWrapText(true);
+					ListView<String> tempC = new ListView<String>();
+					tempC.setMaxHeight(130);
+					if (incomingCourses.equals("{}")) {
+						incomingCourses = "No results..";
+						tempC.getItems().add(incomingCourses);
+					} else {
+						parser.parseCourses(incomingCourses, tempC);
 					}
+
+					Label courses = new Label();
+					courses.setText("Courses:            ");
+					courses.getStyleClass().add("e");
+				
+					Label number = new Label();
+					number.setText("Number: " + num);
+					number.getStyleClass().add("e");
+					Label emailadress = new Label();
+					emailadress.setText("E-mail: " + email);
+					emailadress.getStyleClass().add("e");
+					System.out.println(piclink);
+					Image pic = new Image(piclink);
+					ImageView picc = new ImageView(pic);
+					picc.setFitHeight(275);
+					picc.setFitWidth(350);
+					Button closePop = new Button("X");
+					closePop.getStyleClass().add("butonclose");
+					VBox view0 = new VBox();
+					view0.getChildren().addAll(closePop, name, age, city, country, Uni, study, number, emailadress);
+					view0.setMinWidth(350);
+					view0.setMinHeight(275);
+					view0.setSpacing(10);
+					view0.getStyleClass().add("popView");
+					view0.getStyleClass().add("LabelPop");
+					HBox view1 = new HBox();
+					view1.getChildren().addAll(view0, picc);
+					view1.setMinWidth(650);
+					view1.setMinHeight(275);
+					view1.setSpacing(15);
+					view1.getStyleClass().add("popView");
+					VBox view = new VBox();
+					view.getChildren().addAll(view1,description, courses, tempC);
+					view.setMaxWidth(825);
+					view.setMinHeight(275);
+					view.setSpacing(15);
+					view.getStyleClass().add("popView");
+					name.getStyleClass().add("LabelPop");
+					age.getStyleClass().add("LabelPop");
+					city.getStyleClass().add("LabelPop");
+					country.getStyleClass().add("LabelPop");
+					Uni.getStyleClass().add("LabelPop");
+					study.getStyleClass().add("LabelPop");
+					number.getStyleClass().add("LabelPop");
+					emailadress.getStyleClass().add("LabelPop");
+					courses.getStyleClass().add("LabelPop");
+
+					Popup pop = PopupBuilder.create().content(view).y(250).x(850).width(0).height(0).build();
+
+					closePop.setOnAction(new EventHandler<ActionEvent>() {
+						public void handle(ActionEvent args) {
+							pop.hide();
+						}
+					});
+
+					pop.show(primaryStage);
 					// Return control
 					try {
-						client.toServer(ClientMethods.getOther(curEmail, "Piclink"));
+						client.toServer(ClientMethods.getOther(curEmail,"Piclink"));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -1880,27 +1834,20 @@ public class Design extends Application {
 
 					if (currentOption.equals("City")) {
 						currentOption = "CityOfResidence";
-					}
-					if (currentOption.equals("Institutes")) {
+					} else if (currentOption.equals("Institutes")) {
 						currentOption = "CurrentUniversity";
-					}
-					if (currentOption.equals("Interested Courses")) {
+					} else {
 						currentOption = "Course list";
 					}
-					// set up variables for parsing of temp:
+					
+					//set up variables for parsing of temp:
 					String temp = "";
 					String results = "";
 					String curEmail = "";
-					String course = "";
 					ArrayList<String> matchEmails = new ArrayList<String>();
 					ArrayList<String> matchInfo = new ArrayList<String>();
-					Set keys = null;
-					Iterator loop = null;
-					JSONObject courseList = null;
-
-					// HERE WE RECEIVE ALL MATCHES BY SEARCH USING: "
-					// client.toServer("INCOMING-SEARCH¿" + currentOption + "¿"
-					// + currentValue);"
+					
+					// HERE WE RECEIVE ALL MATCHES BY SEARCH USING: " client.toServer("INCOMING-SEARCH¿" + currentOption + "¿" + currentValue);"
 					try {
 						curEmail = client.toServer(ClientMethods.get("Email"));
 						temp = client.toServer(ClientMethods.search(currentOption, currentValue));
@@ -1917,25 +1864,33 @@ public class Design extends Application {
 					 * implement a parsing method elsewhere or refactor code.
 					 * 
 					 */
-					Scanner sc;
 					if (temp.equals("[]")) {
 						System.out.println("No Results..");
 					} else {
-						sc = new Scanner(temp);
+	
+						parser.parseMatchedEmails(temp,matchEmails,curEmail);
 
-						sc.useDelimiter(",");
-						String temp2 = "";
-
-						while (sc.hasNext()) {
-							temp2 = sc.next().substring(1);
-							if (!temp2.equals(curEmail)) {
-								// match emails gets all emails of people we
-								// match with
-								if (temp2.endsWith("]")) {
-									matchEmails.add(temp2.substring(0, temp2.length() - 1));
-								} else {
-									matchEmails.add(temp2);
-								}
+						// Get info of matched emails using the command to get other peoples info  client.toServer("INCOMING-FROMOTHERSGET¿" + s + "¿Email")
+						//+ "\nName: " + client.toServer("INCOMING-FROMOTHERSGET
+						for (String s : matchEmails) {
+							String userCourses = "";
+							try {
+								userCourses = client.toServer(ClientMethods.getOther(s,"Course list"));
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+							if (userCourses.equals("{}")) {
+								
+								results = parser.parseMatches(client, s, "","");
+								matchInfo.add(results);
+							} else {
+								// PARSE MATCHES COURSES:
+								
+								String displayCourses = (String) parser.parseCourses(userCourses.toString(), "");
+								String available = parser.parseAvailability(client,s);
+								
+								results = parser.parseMatches(client, s, displayCourses,available);
+								matchInfo.add(results);
 							}
 						}
 
@@ -1946,67 +1901,27 @@ public class Design extends Application {
 						// + "\nName: " +
 						// client.toServer("INCOMING-FROMOTHERSGET
 						for (String s : matchEmails) {
+							String userCourses = "";
 							try {
-
-								String userCourses = "";
-								try {
-									userCourses = client.toServer(ClientMethods.getOther(s, "Course list"));
-								} catch (IOException e1) {
-									e1.printStackTrace();
-								}
-								if (userCourses.equals("{}")) {
-									results = "Email: " + client.toServer(ClientMethods.getOther(s, "Email"))
-											+ "\nName: " + client.toServer(ClientMethods.getOther(s, "Firstname"))
-											+ "\nUni:     "
-											+ client.toServer(ClientMethods.getOther(s, "CurrentUniversity"))
-											+ "\nStudy: " + client.toServer(ClientMethods.getOther(s, "CurrentStudy"))
-											+ "\nCity:     "
-											+ client.toServer(ClientMethods.getOther(s, "CityOfResidence"));
-
-									matchInfo.add(results);
-
-								} else {
-									// PARSE MATCHES COURSES:
-									if (!userCourses.equals("{}")) {
-										// Parse String to a JSONObject:
-										courseList = parser.parse(userCourses.toString());
-
-										keys = courseList.keySet();
-										loop = keys.iterator();
-									} else {
-										System.out.println("No courses #match,viewprofile2 tab");
-									}
-
-									String displayCourses = "";
-									while (loop.hasNext()) {
-										String key = (String) loop.next();
-										if (!loop.hasNext()) {
-											displayCourses += key;
-										} else {
-											displayCourses += key + ", ";
-										}
-									}
-									String available = "No  :(  Please check back later.";
-									if (client.toServer(ClientMethods.getOther(s, "Available")).equals("true")) {
-										available = "Yes, contact me now!";
-									}
-									results = "Email: " + client.toServer(ClientMethods.getOther(s, "Email"))
-											+ "\nName: " + client.toServer(ClientMethods.getOther(s, "Firstname")) + " "
-											+ client.toServer(ClientMethods.getOther(s, "Lastname")) + "\nUni:     "
-											+ client.toServer(ClientMethods.getOther(s, "CurrentUniversity"))
-											+ "\nStudy: " + client.toServer(ClientMethods.getOther(s, "CurrentStudy"))
-											+ "\nCity:     "
-											+ client.toServer(ClientMethods.getOther(s, "CityOfResidence"))
-											+ "\nAvailable Now?     " + available + "\nCourses: " + displayCourses;
-
-									matchInfo.add(results);
-								}
-
-							} catch (IOException e) {
-								e.printStackTrace();
+								userCourses = client.toServer(ClientMethods.getOther(s,"Course list"));
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+							if (userCourses.equals("{}")) {
+								
+								results = parser.parseMatches(client, s, "","");
+								matchInfo.add(results);
+							} else {
+								// PARSE MATCHES COURSES:
+								
+								String displayCourses = (String) parser.parseCourses(userCourses.toString(), "");
+								String available = parser.parseAvailability(client,s);
+								
+								results = parser.parseMatches(client, s, displayCourses,available);
+								matchInfo.add(results);
 							}
 						}
-
+						
 						// Display THE INFO OF MATCHES IN THE TABLE:
 						for (String j : matchInfo) {
 							if (j.contains(curEmail)) {
@@ -2043,21 +1958,22 @@ public class Design extends Application {
 		});
 
 		/**
-		 * MATCHNOW BUTTON, FINDS AND DISPLAYS ALL MATCHES NEEDS REFACTORING!
-		 */
+		 * MATCHNOW BUTTON, FINDS AND DISPLAYS ALL MATCHES
+		 * NEEDS REFACTORING!
+		 * */
 		Button matchNow = new Button("Match Now!");
 		matchNow.getStyleClass().add("matchbut");
 		matchNow.setLayoutX(470);
 		matchNow.setLayoutY(130);
 		/**
 		 * WHEN WE CLICK ON MATCHNOW:
-		 */
+		 * */
 		matchNow.setOnAction(new EventHandler<ActionEvent>() {
-			@SuppressWarnings("resource")
 			public void handle(ActionEvent args) {
 				SearchResultList.getItems().clear();
 				String usersMatch = "";
 				String curEmail = "";
+				String results = "";
 				try {
 					// GET USER LOGGED IN INFO TO SEARCH FOR SIMILAR MATCHES
 					curEmail = client.toServer(ClientMethods.get("Email"));
@@ -2065,10 +1981,9 @@ public class Design extends Application {
 					String userUni = client.toServer(ClientMethods.get("CurrentUniversity"));
 					String userCity = client.toServer(ClientMethods.get("CityOfResidence"));
 					/**
-					 * WE USE client.toServer("INCOMING-MATCH" method to get all
-					 * matches . variable usersMatch will contain all other
-					 * matches info which we parse below.
-					 */
+					 * WE USE client.toServer("INCOMING-MATCH"  method to get all matches .
+					 *  variable usersMatch will contain all other matches info which we parse below.
+					 * */
 					usersMatch = client.toServer(ClientMethods.match(userStudy, userUni, userCity));
 
 				} catch (IOException e) {
@@ -2076,97 +1991,41 @@ public class Design extends Application {
 				}
 				ArrayList<String> matchEmails = new ArrayList<String>();
 				ArrayList<String> matchNames = new ArrayList<String>();
-				Set keys = null;
-				Iterator loop = null;
-				JSONObject courseList = null;
 
-				Scanner sc;
 				if (usersMatch.equals("[]")) {
 					System.out.println("No Results#####");
 					SearchResultList.getItems().add("No Results..");
 				} else {
-					sc = new Scanner(usersMatch);
+					
+					parser.parseMatchedEmails(usersMatch,matchEmails,curEmail);
 
-					sc.useDelimiter(",");
-					String temp = "";
-					// Get email names of matches:
-					while (sc.hasNext()) {
-						temp = sc.next().substring(1);
-						if (!temp.equals(curEmail)) {
-							if (temp.endsWith("]")) {
-								matchEmails.add(temp.substring(0, temp.length() - 1));
-							} else {
-								matchEmails.add(temp);
-							}
-						}
-					}
-
-					String results = "";
+					
 					for (String s : matchEmails) {
+						// GET INFO OF USERS TO DISPLAY USING: client.toServer("INCOMING-FROMOTHERSGET
+						String userCourses = "";
 						try {
-							// GET INFO OF USERS TO DISPLAY USING:
-							// client.toServer("INCOMING-FROMOTHERSGET
-							String userCourses = "";
-							try {
-								userCourses = client.toServer(ClientMethods.getOther(s, "Course list"));
+							userCourses = client.toServer(ClientMethods.getOther(s, "Course list"));
 
-							} catch (IOException e1) {
-								e1.printStackTrace();
-							}
-							if (userCourses.equals("{}")) {
-								System.out.println("empty");
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						if (userCourses.equals("{}")) {
+							System.out.println("empty");
+							results = parser.parseMatches(client, s, "", "");
+							matchNames.add(results);
+						} else {
+							String displayCourses = (String) parser.parseCourses(userCourses.toString(), "");
+							String available = parser.parseAvailability(client,s);
 
-								results = "Email: " + client.toServer(ClientMethods.getOther(s, "Email")) + "\nName: "
-										+ client.toServer(ClientMethods.getOther(s, "Firstname")) + "\nUni:     "
-										+ client.toServer(ClientMethods.getOther(s, "CurrentUniversity")) + "\nStudy: "
-										+ client.toServer(ClientMethods.getOther(s, "CurrentStudy")) + "\nCity:     "
-										+ client.toServer(ClientMethods.getOther(s, "CityOfResidence"));
+							results = parser.parseMatches(client, s, displayCourses, available);
 
-								matchNames.add(results);
-							} else {
-
-								if (!userCourses.equals("{}")) {
-									// Parse String to a JSONObject:
-									courseList = parser.parse(userCourses.toString());
-									keys = courseList.keySet();
-									loop = keys.iterator();
-								} else {
-									System.out.println("No courses #match,viewprofile2 tab");
-								}
-								String displayCourses = "";
-								while (loop.hasNext()) {
-
-									String key = (String) loop.next();
-									if (!loop.hasNext()) {
-										displayCourses += key;
-									} else {
-										displayCourses += key + ", ";
-									}
-								}
-								String available = "No  :(  Please check back later.";
-								if (client.toServer(ClientMethods.getOther(s, "Available")).equals("true")) {
-									available = "Yes, contact me now!";
-								}
-								results = "Email: " + client.toServer(ClientMethods.getOther(s, "Email")) + "\nName: "
-										+ client.toServer(ClientMethods.getOther(s, "Firstname")) + " "
-										+ client.toServer(ClientMethods.getOther(s, "Lastname")) + "\nUniversity: "
-										+ client.toServer(ClientMethods.getOther(s, "CurrentUniversity")) + "\nStudy: "
-										+ client.toServer(ClientMethods.getOther(s, "CurrentStudy")) + "\nCity:     "
-										+ client.toServer(ClientMethods.getOther(s, "CityOfResidence"))
-										+ "\nAvailable Now?     " + available;
-								results += "\nCourses: " + displayCourses;
-
-								matchNames.add(results);
-							}
-
-						} catch (IOException e) {
-							e.printStackTrace();
+							matchNames.add(results);
 						}
 					}
 
 					// Reset login, RETURN CONTROL TO USER
 					try {
-						curEmail = client.toServer(ClientMethods.getOther(curEmail, "Firstname"));
+						curEmail = client.toServer(ClientMethods.getOther(curEmail,"Firstname"));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -2182,6 +2041,7 @@ public class Design extends Application {
 				}
 			}
 		});
+		
 
 		Line line = new Line();
 		line.setStartX(350);

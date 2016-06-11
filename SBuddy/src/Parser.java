@@ -87,7 +87,22 @@ public class Parser {
 		return data;
 	}
 		
-	
+	/**
+	 * Checks for availability of a user s.
+	 * @param client The current Client
+	 * @param id The ID of the user to retrieve the availability from
+	 * @return String
+	 */
+	public String parseAvailability(Client client, String id) {
+		try {
+			String available = "No  :(  Please check back later.";
+			if(client.toServer(ClientMethods.getOther(id,"Available")).equals("true"))
+				available="Yes, contact me now!";
+			return available;
+		} catch (IOException e) {
+			return "";
+		}
+	}
 
 	
 	/**
@@ -117,6 +132,66 @@ public class Parser {
 		}
 	}
 	
+
+	/**
+	 * Will parse a string of matched mails to a readable format and add to an ArrayList<String>
+	 * which is passed on in the second argument.
+	 * @param search String of matched mails
+	 * @param matchEmails The ArrayList<String> to add the matches to
+	 * @param curEmail The user's mail
+	 */
+	public void parseMatchedEmails(String search, ArrayList<String> matchEmails, String curEmail) {
+		Scanner sc = new Scanner(search);
+
+		sc.useDelimiter(",");
+		String temp2 = "";
+
+		while (sc.hasNext()) {
+			temp2 = sc.next().substring(1);
+			if (!temp2.equals(curEmail)) {
+				if (temp2.endsWith("]")) {
+					matchEmails.add(temp2.substring(0, temp2.length() - 1));
+				} else {
+					matchEmails.add(temp2);
+				}
+			}
+		}
+	}
+	
+
+	/**
+	 * Parses basic user information into a displayable result. Use an empty
+	 * String ("") for the third argument if the courses and the availability
+	 * of the user should not be displayed.
+	 * @param client The current Client
+	 * @param id The ID of the user to display
+	 * @param courses The courses string of the user
+	 * @param available The availability of the user.
+	 * @return String
+	 */
+	public String parseMatches(Client client, String id, String courses, String available) {
+		try {
+			String email = "Email: " + client.toServer(ClientMethods.getOther(id,"Email"));
+			String name =  "\nName: " + client.toServer(ClientMethods.getOther(id,"Firstname"));
+			String uni =  "\nUni:     "
+					+ client.toServer(ClientMethods.getOther(id,"CurrentUniversity"));
+			String study = "\nStudy: "
+					+ client.toServer(ClientMethods.getOther(id,"CurrentStudy"));
+			String city = "\nCity:     "
+					+ client.toServer(ClientMethods.getOther(id,"CityOfResidence"));
+			String avai = "";
+			String course = "";
+			
+			if (!courses.equals("")) {
+				avai = "\nAvailable Now?     " + available;
+				course = "\nCourses: " + courses;
+			}
+			return email+name+uni+study+city+avai+course;
+		} catch (IOException e) {
+			return "";
+		}
+		
+	}
 		
 	
 }
