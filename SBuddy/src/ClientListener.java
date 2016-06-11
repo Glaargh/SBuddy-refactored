@@ -31,7 +31,7 @@ public class ClientListener implements Runnable {
      */
     public void run()
     {
-        String message;
+        String message, message2;
     	try{          
             //3. get Input and Output streams
             out = new PrintWriter(connection.getOutputStream(), true);
@@ -44,7 +44,8 @@ public class ClientListener implements Runnable {
 					sendMessage("exit");
 					break;
 				}
-				parseMessage(message);
+				message2 = parseMessage(message);	
+				sendMessage(filterMessage(message2, message));
 			}    
         }
         catch(IOException ioException){
@@ -63,55 +64,61 @@ public class ClientListener implements Runnable {
         }
     }
     
-    public void parseMessage(String message){
+    public String parseMessage(String message){
+    	String action = null;
     	try{
     		System.out.println(connection.getInetAddress().getHostName() 
-					+ "> "  + connection.getPort() + "> "   + message);
-			
+					+ "> "  + connection.getPort() + "> "   + message);			
 			JSONParser parser = new JSONParser();
 			JSONObject json = (JSONObject) parser.parse(message);
-			String action = (String) json.get("action");
-			filterMessage(action, message);
+			action = (String) json.get("action");
     	} catch (ParseException e) {
 			e.printStackTrace();
 		}
+    	return action;
     }
     
-    public void filterMessage(String actionIn, String messageIn){
+    /**
+     * Filters the message with it's corresponding action.
+     * @param actionIn
+     * @param messageIn
+     */
+    public String filterMessage(String actionIn, String messageIn){
+    	String message = null;
     	try{
     		switch (actionIn) {
     		case "login":
-    			sendMessage(srvmt.Login(messageIn));
+    			message = srvmt.Login(messageIn);
     			break;
     		case "register":
-    			sendMessage(srvmt.Register(messageIn)); 
+    			message = srvmt.Register(messageIn); 
     			break;
     		case "get":
-    			sendMessage(srvmt.get(messageIn));
+    			message = (srvmt.get(messageIn));
     			break;
     		case "change":
-    			sendMessage(srvmt.modify(messageIn));
+    			message = (srvmt.modify(messageIn));
     			break;
     		case "getother":
-    			sendMessage(srvmt.getothers(messageIn));
+    			message = (srvmt.getothers(messageIn));
     			break;
     		case "changecourse":
-    			sendMessage(srvmt.addormodifycourse(messageIn));
+    			message = (srvmt.addormodifycourse(messageIn));
     			break;
     		case "removecourse":
-    			sendMessage(srvmt.removecourse(messageIn));
+    			message = (srvmt.removecourse(messageIn));
     			break;
     		case "match":
-    			sendMessage(srvmt.MatchEngine(messageIn));
+    			message = (srvmt.MatchEngine(messageIn));
     			break;
     		case "search":
-    			sendMessage(srvmt.SearchEngine(messageIn));
+    			message = (srvmt.SearchEngine(messageIn));
     			break;
     		case "removeaccount":
-    			sendMessage(srvmt.remove(messageIn));
+    			message = (srvmt.remove(messageIn));
     			break;
     		default:
-    			sendMessage(messageIn);
+    			message = messageIn;
     			break;
     		}
     	}catch (ParseException e) {
@@ -119,6 +126,7 @@ public class ClientListener implements Runnable {
 		}catch(IOException ioException){
             ioException.printStackTrace();
         }
+    	return message;
     }
     
     /**
