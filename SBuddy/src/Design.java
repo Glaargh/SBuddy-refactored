@@ -553,8 +553,8 @@ public class Design extends Application {
 		Label career = new Label("Career information");
 		career.getStyleClass().add("summary");
 
-		
-		//A label and a textfield where you should write what your current study is 
+		// A label and a textfield where you should write what your current
+		// study is
 		Label curs = new Label("Current Study: ");
 		curs.getStyleClass().add("curslabel");
 		String study = client.toServer(ClientMethods.get("CurrentStudy"));
@@ -573,10 +573,10 @@ public class Design extends Application {
 		String studyKey = "CurrentStudy";
 		String standardStudy = "None";
 
-		currentstud.setOnMouseClicked(e -> constructEdit(studyDesc, standardStudy, studyKey, currentstud, primaryStage));
+		currentstud
+				.setOnMouseClicked(e -> constructEdit(studyDesc, standardStudy, studyKey, currentstud, primaryStage));
 
-	
-		//A label and a textfield to write what your study period is 
+		// A label and a textfield to write what your study period is
 		Label studyper = new Label("Study period: ");
 		studyper.getStyleClass().add("curslabel");
 		String studyp = client.toServer(ClientMethods.get("StudyPeriod"));
@@ -596,7 +596,8 @@ public class Design extends Application {
 
 		stper.setOnMouseClicked(e -> constructEdit(stpdDesc, standardStpd, stpdKey, stper, primaryStage));
 
-		//A label and a textfield to fill in which university you currently are studying
+		// A label and a textfield to fill in which university you currently are
+		// studying
 		Label university = new Label("Current University: ");
 		university.getStyleClass().add("curslabel");
 		String un = client.toServer(ClientMethods.get("CurrentUniversity"));
@@ -634,7 +635,7 @@ public class Design extends Application {
 		// key: Age
 		age.setOnMouseClicked(e -> constructEdit(ageDescription, standardAge, "Age", age, primaryStage));
 
-		//A label and a textfield to field in your gender
+		// A label and a textfield to field in your gender
 		Label gender = new Label("Gender: ");
 		gender.getStyleClass().add("curslabel");
 		// Info get from server is placed in geslacht label:
@@ -721,7 +722,7 @@ public class Design extends Application {
 		// key = "Email"
 		email.setOnMouseClicked(e -> constructEdit(emailDescription, standardMail, "Email", email, primaryStage));
 
-		//A label and a textfield to fill in your phone number
+		// A label and a textfield to fill in your phone number
 		Label phone = new Label("Tel: ");
 		phone.getStyleClass().add("curslabel");
 		String tel = client.toServer(ClientMethods.get("Phone"));
@@ -833,7 +834,7 @@ public class Design extends Application {
 			});
 		}
 
-		//A pic of the logo
+		// A pic of the logo
 		Image logo = new Image("log.jpg");
 		ImageView imgview = new ImageView(logo);
 		Image motto = new Image("motto.jpg");
@@ -844,14 +845,14 @@ public class Design extends Application {
 		boven.getChildren().addAll(picaview, imgview);
 		boven.getStyleClass().add("bovenstuk");
 
-		//Black line that separates career information and basic information
+		// Black line that separates career information and basic information
 		Line line = new Line();
 		line.setStartX(750);
 		line.setStartY(500);
 		line.setEndX(750);
 		line.setEndY(727);
 
-		//Black line that separates basic information and contact information
+		// Black line that separates basic information and contact information
 		Line line2 = new Line();
 		line2.setStartX(1150);
 		line2.setStartY(500);
@@ -956,7 +957,7 @@ public class Design extends Application {
 			courseCol.setMinWidth(300);
 			courseCol.setCellValueFactory(new PropertyValueFactory<Courses, String>("firstName"));
 
-			//HERE WE DEFINE THE COLUMN FOR COURSE DESCRIPTION.
+			// HERE WE DEFINE THE COLUMN FOR COURSE DESCRIPTION.
 			TableColumn gradeCol = new TableColumn("Description");
 			gradeCol.setMinWidth(800);
 			gradeCol.setCellValueFactory(new PropertyValueFactory<Courses, String>("lastName"));
@@ -1092,7 +1093,7 @@ public class Design extends Application {
 			});
 
 			/**
-			 * A logout button. 
+			 * A logout button.
 			 */
 			Button logout = new Button("Log out");
 			logout.setMinWidth(80);
@@ -1108,7 +1109,6 @@ public class Design extends Application {
 
 				}
 			});
-
 
 			// A box for help and logout buttons.
 			HBox helpout = new HBox();
@@ -1133,8 +1133,8 @@ public class Design extends Application {
 					}
 				}
 			});
-			
-			//A picture that belongs to course tab.
+
+			// A picture that belongs to course tab.
 			Image crfoto = new Image(getClass().getResourceAsStream("courseteken.jpg"));
 			ImageView coursefoto = new ImageView(crfoto);
 			Button courses = new Button("Courses", coursefoto);
@@ -1171,13 +1171,13 @@ public class Design extends Application {
 				}
 			});
 
-			//A VBox for all the button links on the page.
+			// A VBox for all the button links on the page.
 			VBox overzicht = new VBox();
 			overzicht.getChildren().addAll(profile, courses, match, settings);
 			overzicht.getStyleClass().add("overzicht");
 			overzicht.setMinHeight(630);
 
-			//A picture with the logo. 
+			// A picture with the logo.
 			Image logo = new Image("log.jpg");
 			ImageView imgview = new ImageView(logo);
 			Image motto = new Image("motto.jpg");
@@ -1223,7 +1223,7 @@ public class Design extends Application {
 	 * MATCH TAB, THIS IS WHERE THE ESSENTIAL TRANSLATION CODE (JSON DATA FROM
 	 * SERVER TO DISPLAY VARIABLES) WHICH ARE TESTABLE ARE. LOADS OF PARSING
 	 * CODES, THESE SHOULD BE PUT INTO THEIR OWN PARSING METHODS WHICH ARE
-	 * CALLED FROM THE MATCH TAB. 
+	 * CALLED FROM THE MATCH TAB.
 	 */
 	public void matchTab(final Stage primaryStage, final Scene sceneMatchTab, Pane rootMatchTab, Scene sceneProfileTabe,
 			final Scene scenetest, Pane rootProfileTabe, Pane rootCourseTab, Scene CourseScene) {
@@ -1271,7 +1271,7 @@ public class Design extends Application {
 
 		ArrayList<String> SearchResultInput = new ArrayList<String>();
 
-		//Initializing the results when not visible.
+		// Initializing the results when not visible.
 		noResults.setVisible(false);
 
 		SearchResultList.getStyleClass().add("SearchResults");
@@ -1324,8 +1324,8 @@ public class Design extends Application {
 				}
 			}
 		});
-		
-		// A box for help and logout 
+
+		// A box for help and logout
 		HBox helpout = new HBox();
 		helpout.getChildren().addAll(help, logout);
 		helpout.getStyleClass().add("helpoutbox");
@@ -1828,7 +1828,7 @@ public class Design extends Application {
 
 		});
 
-		// MATCHNOW BUTTON, FINDS AND DISPLAYS ALL MATCHES 
+		// MATCHNOW BUTTON, FINDS AND DISPLAYS ALL MATCHES
 		Button matchNow = new Button("Match Now!");
 		matchNow.getStyleClass().add("matchbut");
 		matchNow.setLayoutX(470);
@@ -1922,7 +1922,7 @@ public class Design extends Application {
 		line2.setStartY(225);
 		line2.setEndX(1550);
 		line2.setEndY(225);
-	
+
 		final Button SearchButton = new Button();
 		// Add style
 		SearchButton.getStyleClass().add("buttonspecific");
@@ -2026,7 +2026,7 @@ public class Design extends Application {
 
 			Scene sceneProfileTabe, final Scene scenetest, Pane rootProfileTabe, Pane rootCourseTab,
 			Scene CourseScene) {
-		
+
 		/**
 		 * A help button.
 		 */
@@ -2091,7 +2091,7 @@ public class Design extends Application {
 		});
 
 		/**
-		 * A picture that belongs to course button. 
+		 * A picture that belongs to course button.
 		 */
 		Image crfoto = new Image(getClass().getResourceAsStream("courseteken.jpg"));
 		ImageView coursefoto = new ImageView(crfoto);
@@ -2126,7 +2126,7 @@ public class Design extends Application {
 		Button settings = new Button("Settings", settingsfoto);
 		settings.getStyleClass().add("settings");
 
-		//A Vbox for all the button on the page
+		// A Vbox for all the button on the page
 		VBox overzicht = new VBox();
 		overzicht.getChildren().addAll(profile, courses, match, settings);
 		overzicht.getStyleClass().add("overzicht");
@@ -2505,7 +2505,7 @@ public class Design extends Application {
 			}
 		});
 
-		//A picture with logo
+		// A picture with logo
 		Image logo = new Image("log.jpg");
 		ImageView imgview = new ImageView(logo);
 		Image motto = new Image("motto.jpg");
