@@ -32,71 +32,24 @@ public class ClientListener implements Runnable {
     public void run()
     {
         String message;
-    	try{
-            
+    	try{          
             //3. get Input and Output streams
             out = new PrintWriter(connection.getOutputStream(), true);
             //out.flush();
             in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            sendMessage("Connection successful");
-            
+            sendMessage("Connection successful");          
             while(!(message=(String)in.readLine()).equals("exit")) {
-				System.out.println(connection.getInetAddress().getHostName() 
-						+ "> "  + connection.getPort() + "> "   + message);
 				
 				if (message.equals("exit")) {
 					sendMessage("exit");
 					break;
 				}
-				
-				JSONParser parser = new JSONParser();
-				
-				JSONObject json = (JSONObject) parser.parse(message);
-				String action = (String) json.get("action");
-				
-				
-				switch (action) {
-				case "login":
-					sendMessage(srvmt.Login(message));
-					break;
-				case "register":
-					sendMessage(srvmt.Register(message)); 
-					break;
-				case "get":
-					sendMessage(srvmt.get(message));
-					break;
-				case "change":
-					sendMessage(srvmt.modify(message));
-					break;
-				case "getother":
-					sendMessage(srvmt.getothers(message));
-					break;
-				case "changecourse":
-					sendMessage(srvmt.addormodifycourse(message));
-					break;
-				case "removecourse":
-					sendMessage(srvmt.removecourse(message));
-					break;
-				case "match":
-					sendMessage(srvmt.MatchEngine(message));
-					break;
-				case "search":
-					sendMessage(srvmt.SearchEngine(message));
-					break;
-				case "removeaccount":
-					sendMessage(srvmt.remove(message));
-					break;
-				default:
-					sendMessage(message);
-					break;
-				}
-            }
+				parseMessage(message);
+			}    
         }
         catch(IOException ioException){
             ioException.printStackTrace();
-        } catch (ParseException e) {
-			e.printStackTrace();
-		}
+        }
         finally{
             //4: Closing connection
             try{
@@ -107,6 +60,64 @@ public class ClientListener implements Runnable {
             catch(IOException ioException){
                 ioException.printStackTrace();
             }
+        }
+    }
+    
+    public void parseMessage(String message){
+    	try{
+    		System.out.println(connection.getInetAddress().getHostName() 
+					+ "> "  + connection.getPort() + "> "   + message);
+			
+			JSONParser parser = new JSONParser();
+			JSONObject json = (JSONObject) parser.parse(message);
+			String action = (String) json.get("action");
+			filterMessage(action, message);
+    	} catch (ParseException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public void filterMessage(String actionIn, String messageIn){
+    	try{
+    		switch (actionIn) {
+    		case "login":
+    			sendMessage(srvmt.Login(messageIn));
+    			break;
+    		case "register":
+    			sendMessage(srvmt.Register(messageIn)); 
+    			break;
+    		case "get":
+    			sendMessage(srvmt.get(messageIn));
+    			break;
+    		case "change":
+    			sendMessage(srvmt.modify(messageIn));
+    			break;
+    		case "getother":
+    			sendMessage(srvmt.getothers(messageIn));
+    			break;
+    		case "changecourse":
+    			sendMessage(srvmt.addormodifycourse(messageIn));
+    			break;
+    		case "removecourse":
+    			sendMessage(srvmt.removecourse(messageIn));
+    			break;
+    		case "match":
+    			sendMessage(srvmt.MatchEngine(messageIn));
+    			break;
+    		case "search":
+    			sendMessage(srvmt.SearchEngine(messageIn));
+    			break;
+    		case "removeaccount":
+    			sendMessage(srvmt.remove(messageIn));
+    			break;
+    		default:
+    			sendMessage(messageIn);
+    			break;
+    		}
+    	}catch (ParseException e) {
+			e.printStackTrace();
+		}catch(IOException ioException){
+            ioException.printStackTrace();
         }
     }
     
