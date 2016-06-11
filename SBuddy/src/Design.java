@@ -1328,65 +1328,28 @@ public class Design extends Application {
 	}
 
 	/**
-	 * THIS IS A CLASS WHICH IS CREATED TO SUPPORT THE USE OF A TABLE IN COURSE
-	 * TAB, TESTABLE
-	 */
-	public static class Courses {
-
-		private final SimpleStringProperty courseName;
-		private final SimpleStringProperty gradeName;
-		private final SimpleStringProperty helpName;
-
-		private Courses(String fName, String lName, String email) {
-			this.courseName = new SimpleStringProperty(fName);
-			this.gradeName = new SimpleStringProperty(lName);
-			this.helpName = new SimpleStringProperty(email);
-		}
-
-		public String getFirstName() {
-			return courseName.get();
-		}
-
-		public void setFirstName(String fName) {
-			courseName.set(fName);
-		}
-
-		public String getLastName() {
-			return gradeName.get();
-		}
-
-		public void setLastName(String fName) {
-			gradeName.set(fName);
-		}
-
-		public String getEmail() {
-			return helpName.get();
-		}
-
-		public void setEmail(String fName) {
-			helpName.set(fName);
-		}
-	}
-
-	/**
 	 * MATCH TAB, THIS IS WHERE THE ESSENTIAL TRANSLATION CODE (JSON DATA FROM
 	 * SERVER TO DISPLAY VARIABLES) WHICH ARE TESTABLE ARE. LOADS OF PARSING
 	 * CODES, THESE SHOULD BE PUT INTO THEIR OWN PARSING METHODS WHICH ARE
 	 * CALLED FROM THE MATCH TAB. VIEWPROFILE AND VIEWPROFILE2 (BUTTONS) ARE
 	 * MOST IMPORTANT TO REFACTOR
 	 */
+	/**
+	 * MATCH TAB, THIS IS WHERE THE ESSENTIAL TRANSLATION CODE (JSON DATA FROM SERVER TO DISPLAY VARIABLES) WHICH ARE TESTABLE ARE. LOADS OF PARSING CODES, 
+	 * THESE SHOULD BE PUT INTO THEIR OWN PARSING METHODS WHICH ARE CALLED FROM THE MATCH TAB. 
+	 * VIEWPROFILE  AND VIEWPROFILE2 (BUTTONS) ARE MOST IMPORTANT TO REFACTOR
+	 */
 	public void matchTab(final Stage primaryStage, final Scene sceneMatchTab, Pane rootMatchTab, Scene sceneProfileTabe,
 			final Scene scenetest, Pane rootProfileTabe, Pane rootCourseTab, Scene CourseScene) {
-
+		
 		Label noResults = new Label("No results were found.");
 		Button matchButton = new Button("Make match with selected");
 		CheckBox UrgentCheck = new CheckBox("Urgent?");
 		int countMatch = 0;
 		ListView<String> SearchResultList = new ListView<String>();
 		ListView<String> filterTable = new ListView<String>();
-
-		// here a few operations are performed for positioning/visibility of
-		// button and tables:
+		
+		// here a few operations are performed for positioning/visibility of button and tables:
 		filterTable.getItems().clear();
 		SearchResultList.getItems().clear();
 		filterTable.setMinHeight(450);
@@ -1407,7 +1370,7 @@ public class Design extends Application {
 		UrgentBox.setSpacing(10);
 		UrgentBox.getStyleClass().add("checkboxBox");
 		UrgentBox.setVisible(false);
-		// BE ABLE TO MARK CHECHBOX ON AND OFF (AVAILABLE AND UNAVAILABLE)
+		// BE ABLE TO MARK CHECHBOX ON AND OFF (AVAILABLE AND UNAVAILABLE) 
 		UrgentCheck.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -1442,9 +1405,10 @@ public class Design extends Application {
 		// SearchOptions.getStyleClass().add("combobox");
 
 		SearchOptions.setValue("Interested Courses");
+	
 
 		/**
-		 * een button help.
+		 * een button help. 
 		 */
 		Button help = new Button("Help");
 		help.setMinWidth(90);
@@ -1565,8 +1529,8 @@ public class Design extends Application {
 		imgviews.setLayoutY(25);
 
 		/**
-		 * VIEW PROFILE BUTTON, CLICK A USER YOU MATCH WITH THEN PRESS BUTTON
-		 * FOR POP UP WITH RESPECTIVE INFO
+		 * VIEW PROFILE BUTTON,
+		 * CLICK A USER YOU MATCH WITH THEN PRESS BUTTON FOR POP UP WITH RESPECTIVE INFO
 		 **/
 		Button viewProfile2 = new Button("View Selected Profile");
 		viewProfile2.getStyleClass().add("viewProfile");
@@ -1574,9 +1538,9 @@ public class Design extends Application {
 		viewProfile2.setLayoutY(700);
 		viewProfile2.setVisible(false);
 		/**
-		 * VIEW PROFILE BUTTON THIS NEEDS REFACTORING! WE PARSE THE INCOMING
-		 * MATCHES INFO INTO RESPECTIVE PLACES FOR DISPLAY. THE PARSING MUST BE
-		 * DONE OUTSIDE GUI.
+		 * VIEW PROFILE BUTTON
+		 * THIS NEEDS REFACTORING!
+		 * WE PARSE THE INCOMING MATCHES INFO INTO RESPECTIVE PLACES FOR DISPLAY. THE PARSING MUST BE DONE OUTSIDE GUI.
 		 **/
 		viewProfile2.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
@@ -1587,181 +1551,137 @@ public class Design extends Application {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				// GET THE NAME OF THE PROFILE WE WANT TO VIEW
-				// (.getSelectedItem() from table)
+				// GET THE NAME OF THE PROFILE WE WANT TO VIEW (.getSelectedItem() from table)
 				String emailSelect = filterTable.getSelectionModel().getSelectedItem();
 
 				if (emailSelect.equals("No results..") || filterTable.getSelectionModel().getSelectedItem().isEmpty()) {
 					System.out.println("No results");
 				} else {
-					// WE USE A SCANNER TO GRAB THE NAME, FOR EXAMPLE TO GET RID
-					// OF 'NAME' IN "NAME:PIM" AND TO JUST HAVE "PIM"
+					// WE USE A SCANNER TO GRAB THE NAME, FOR EXAMPLE TO GET RID OF 'NAME' IN "NAME:PIM" AND TO JUST HAVE "PIM"
 					Scanner sc = new Scanner(emailSelect);
 					sc.useDelimiter("\n");
 					emailSelect = sc.next().substring(7);
-					String n = null;
-					String sur = null;
-					String a = null;
-					String c = null;
-					String co = null;
-					String un = null;
-					String st = null;
-					String num = null;
-					String piclink = null;
-
-					Set keys = null;
-					Iterator loop = null;
-					JSONObject courseList = null;
-					String incomingCourses = "";
-					try {
-						// WE GET ALL OTHER INFO OF SELECTED USER WITH
-						// (client.toServer("INCOMING-FROMOTHERSGET¿) LIKE
-						// BELOW:
-						n = client.toServer(ClientMethods.getOther(emailSelect, "Firstname"));
-						sur = client.toServer(ClientMethods.getOther(emailSelect, "Lastname"));
-						a = client.toServer(ClientMethods.getOther(emailSelect, "Age"));
-						c = client.toServer(ClientMethods.getOther(emailSelect, "CityOfResidence"));
-						co = client.toServer(ClientMethods.getOther(emailSelect, "CountryOfResidence"));
-						un = client.toServer(ClientMethods.getOther(emailSelect, "CurrentUniversity"));
-						st = client.toServer(ClientMethods.getOther(emailSelect, "CurrentStudy"));
-						incomingCourses = client.toServer(ClientMethods.getOther(emailSelect, "Course list"));
-
-						// WE USE ITERATOR TO PARSE THE COURSES INFO OF USER
-						// WE'RE LOOKING AT, LIKE EXPLANED IN THE PROFILE TAB
-						if (incomingCourses.equals("{}")) {
-							incomingCourses = "No results..";
-						} else {
-
-							if (!incomingCourses.equals("{}")) {
-								// Parse String to a JSONObject:
-								courseList = parser.parse(incomingCourses.toString());
-
-								keys = courseList.keySet();
-								loop = keys.iterator();
-							} else {
-								System.out.println("No courses #match,viewprofile2 tab");
-							}
-						}
-
-						num = client.toServer(ClientMethods.getOther(emailSelect, "Phone"));
-						String email = client.toServer(ClientMethods.getOther(emailSelect, "Email"));
-						piclink = client.toServer(ClientMethods.getOther(emailSelect, "Piclink"));
-						// PLACE THE INFO IN THE LABELS:
-						Label name = new Label();
-						name.setText("Full name:          " + n + " " + sur);
-						name.getStyleClass().add("e");
-						Label age = new Label();
-						age.setText("Age:                " + a);
-						age.getStyleClass().add("e");
-						Label city = new Label();
-						city.setText("City:               " + c);
-						city.getStyleClass().add("e");
-						Label country = new Label();
-						country.setText("Country:            " + co);
-						country.getStyleClass().add("e");
-						Label Uni = new Label();
-						Uni.setText("University: " + un);
-						Uni.getStyleClass().add("e");
-						Label study = new Label();
-						study.setText("Study:              " + st);
-						study.getStyleClass().add("e");
-						Label description = new Label(
-								client.toServer(ClientMethods.getOther(emailSelect, "Description")));
-						description.getStyleClass().add("e");
-						description.setWrapText(true);
-						ListView<String> tempC = new ListView<String>();
-						tempC.setMaxHeight(130);
-						if (incomingCourses.equals("No results..")) {
-							tempC.getItems().add(incomingCourses);
-						} else {
-
-							while (loop.hasNext()) {
-								String key = (String) loop.next();
-								String value = (String) courseList.get(key);
-
-								tempC.getItems().add(key + ":  " + value);
-							}
-						}
-
-						Label courses = new Label();
-						courses.setText("Courses:            ");
-						courses.getStyleClass().add("e");
-
-						// CREATE RESPECTIVE LABELS AND BOXES FOR DISPLAY
-						// PURPOSES
-
-						Label number = new Label();
-						number.setText("Number: " + num);
-						number.getStyleClass().add("e");
-						Label emailadress = new Label();
-						emailadress.setText("E-mail: " + email);
-						emailadress.getStyleClass().add("e");
-						System.out.println(piclink);
-						Image pic = new Image(piclink);
-						ImageView picc = new ImageView(pic);
-						picc.setFitHeight(275);
-						picc.setFitWidth(350);
-
-						Button closePop = new Button("X");
-						closePop.getStyleClass().add("butonclose");
-
-						VBox view0 = new VBox();
-						view0.getChildren().addAll(closePop, name, age, city, country, Uni, study, number, emailadress);
-						view0.setMinWidth(350);
-						view0.setMinHeight(275);
-						view0.setSpacing(10);
-						view0.getStyleClass().add("popView");
-						view0.getStyleClass().add("LabelPop");
-
-						HBox view1 = new HBox();
-						view1.getChildren().addAll(view0, picc);
-						view1.setMinWidth(650);
-						view1.setMinHeight(275);
-						view1.setSpacing(15);
-						view1.getStyleClass().add("popView");
-
-						VBox view = new VBox();
-						view.getChildren().addAll(view1, description, courses, tempC);
-						view.setMaxWidth(825);
-						view.setMinHeight(275);
-						view.setSpacing(15);
-						view.getStyleClass().add("popView");
-						name.getStyleClass().add("LabelPop");
-						age.getStyleClass().add("LabelPop");
-						city.getStyleClass().add("LabelPop");
-						country.getStyleClass().add("LabelPop");
-						Uni.getStyleClass().add("LabelPop");
-						study.getStyleClass().add("LabelPop");
-						number.getStyleClass().add("LabelPop");
-						emailadress.getStyleClass().add("LabelPop");
-						courses.getStyleClass().add("LabelPop");
-
-						// PUT ALL ABOVE LABELS IN A POPUP
-						Popup pop = PopupBuilder.create().content(view).y(250).x(850).width(0).height(0).build();
-
-						closePop.setOnAction(new EventHandler<ActionEvent>() {
-							public void handle(ActionEvent args) {
-								pop.hide();
-							}
-						});
-
-						pop.show(primaryStage);
-
-					} catch (IOException e) {
-						e.printStackTrace();
+					
+					String[] userInfo = parser.parseUserInfo(client, emailSelect);
+					
+					// WE GET ALL OTHER INFO OF SELECTED USER WITH (client.toServer("INCOMING-FROMOTHERSGET¿) LIKE BELOW:
+					String n = userInfo[0];
+					String sur = userInfo[1];
+					String a = userInfo[2];
+					String c = userInfo[3];
+					String co = userInfo[4];
+					String un = userInfo[5];
+					String st = userInfo[6];
+					String incomingCourses = userInfo[7];
+					String num = userInfo[8];
+					String email = userInfo[9];
+					String piclink = userInfo[10];
+					
+					// PLACE THE INFO IN THE LABELS:
+					Label name = new Label();
+					name.setText("Full name:          " + n + " " + sur);
+					name.getStyleClass().add("e");
+					Label age = new Label();
+					age.setText("Age:                " + a);
+					age.getStyleClass().add("e");
+					Label city = new Label();
+					city.setText("City:               " + c);
+					city.getStyleClass().add("e");
+					Label country = new Label();
+					country.setText("Country:            " + co);
+					country.getStyleClass().add("e");
+					Label Uni = new Label();
+					Uni.setText("University: " + un);
+					Uni.getStyleClass().add("e");
+					Label study = new Label();
+					study.setText("Study:              " + st);
+					study.getStyleClass().add("e");
+					Label description = new Label(userInfo[11]);
+					description.getStyleClass().add("e");
+					description.setWrapText(true);
+					
+					ListView<String> tempC = new ListView<String>();
+					tempC.setMaxHeight(130);
+					if (incomingCourses.equals("{}")) {
+						incomingCourses = "No results..";
+						tempC.getItems().add(incomingCourses);
+					} else {
+						parser.parseCourses(incomingCourses, tempC);
 					}
-					// WE SEND A REQUEST TO SERVER ASKING FOR OUR OWN (THE ONE
-					// LOGGED IN) EMAIL, THIS RETURNS CONTROL TO THE USER BEING
-					// LOGGED IN SO WE
+
+					Label courses = new Label();
+					courses.setText("Courses:            ");
+					courses.getStyleClass().add("e");
+					
+					// CREATE RESPECTIVE LABELS AND BOXES FOR DISPLAY PURPOSES
+					
+					Label number = new Label();
+					number.setText("Number: " + num);
+					number.getStyleClass().add("e");
+					Label emailadress = new Label();
+					emailadress.setText("E-mail: " + email);
+					emailadress.getStyleClass().add("e");
+					System.out.println(piclink);
+					Image pic = new Image(piclink);
+					ImageView picc = new ImageView(pic);
+					picc.setFitHeight(275);
+					picc.setFitWidth(350);
+
+					Button closePop = new Button("X");
+					closePop.getStyleClass().add("butonclose");
+
+					VBox view0 = new VBox();
+					view0.getChildren().addAll(closePop, name, age, city, country, Uni, study, number, emailadress);
+					view0.setMinWidth(350);
+					view0.setMinHeight(275);
+					view0.setSpacing(10);
+					view0.getStyleClass().add("popView");
+					view0.getStyleClass().add("LabelPop");
+
+					HBox view1 = new HBox();
+					view1.getChildren().addAll(view0, picc);
+					view1.setMinWidth(650);
+					view1.setMinHeight(275);
+					view1.setSpacing(15);
+					view1.getStyleClass().add("popView");
+
+					VBox view = new VBox();
+					view.getChildren().addAll(view1,description, courses, tempC);
+					view.setMaxWidth(825);
+					view.setMinHeight(275);
+					view.setSpacing(15);
+					view.getStyleClass().add("popView");
+					name.getStyleClass().add("LabelPop");
+					age.getStyleClass().add("LabelPop");
+					city.getStyleClass().add("LabelPop");
+					country.getStyleClass().add("LabelPop");
+					Uni.getStyleClass().add("LabelPop");
+					study.getStyleClass().add("LabelPop");
+					number.getStyleClass().add("LabelPop");
+					emailadress.getStyleClass().add("LabelPop");
+					courses.getStyleClass().add("LabelPop");
+
+					// PUT ALL ABOVE LABELS IN A POPUP
+					Popup pop = PopupBuilder.create().content(view).y(250).x(850).width(0).height(0).build();
+
+					closePop.setOnAction(new EventHandler<ActionEvent>() {
+						public void handle(ActionEvent args) {
+							pop.hide();
+						}
+					});
+
+					pop.show(primaryStage);
+					// WE SEND A REQUEST TO SERVER ASKING FOR OUR OWN (THE ONE LOGGED IN) EMAIL, THIS RETURNS CONTROL TO THE USER BEING LOGGED IN SO WE
 					// DO FURTHER REQUEST OUT OF USERS PERSPECTIVE.
 					try {
-						client.toServer(ClientMethods.getOther(curEmail, "Piclink"));
+						client.toServer(ClientMethods.getOther(curEmail,"Piclink"));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 			}
 		});
+
 
 		/**
 		 * READ comments by viewProfile2 for explanation what this button does,

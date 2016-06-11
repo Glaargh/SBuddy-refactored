@@ -87,6 +87,36 @@ public class Parser {
 		return data;
 	}
 		
+	
+
+	
+	/**
+	 * Returns all user information of a passed on ID in a String[]
+	 * @param client The current Client
+	 * @param id The ID of the user to retrieve information from
+	 * @return String[]
+	 */
+	public String[] parseUserInfo(Client client, String id) {
+		String[] returnValues = new String[12];
+		try {
+			returnValues[0] = client.toServer(ClientMethods.getOther(id,"Firstname"));
+			returnValues[1] = client.toServer(ClientMethods.getOther(id , "Lastname"));
+			returnValues[2] = client.toServer(ClientMethods.getOther(id , "Age"));
+			returnValues[3] = client.toServer(ClientMethods.getOther(id , "CityOfResidence"));
+			returnValues[4] = client.toServer(ClientMethods.getOther(id , "CountryOfResidence"));
+			returnValues[5] = client.toServer(ClientMethods.getOther(id , "CurrentUniversity"));
+			returnValues[6] = client.toServer(ClientMethods.getOther(id , "CurrentStudy"));
+			returnValues[7] = client.toServer(ClientMethods.getOther(id , "Course list"));
+			returnValues[8] = client.toServer(ClientMethods.getOther(id,"Phone"));
+			returnValues[9] = client.toServer(ClientMethods.getOther(id,"Email"));
+			returnValues[10] = client.toServer(ClientMethods.getOther(id,"Piclink"));
+			returnValues[11] = client.toServer(ClientMethods.getOther(id,"Description"));
+			return returnValues;
+		} catch (IOException e) {
+			return new String[0];
+		}
+	}
+	
 		
 	
 }
