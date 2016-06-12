@@ -1,11 +1,11 @@
 import java.io.*;
 import java.net.*;
-
-public class Client implements Runnable {
-
 	/**
 	 * Base Client class for connecting to the Provider
 	 */
+public class Client implements Runnable {
+
+	
 
 	private Socket requestSocket;
 	private PrintWriter out;
