@@ -57,9 +57,7 @@ import javafx.scene.text.Font;
 @SuppressWarnings("deprecation")
 public class Design extends Application {
 
-	/**
-	 * VARIABLES, LABELS INITIALIZATION OF THE PROGRAM.
-	 */
+	// VARIABLES, LABELS INITIALIZATION OF THE PROGRAM.
 	private Label lb_text;
 	private boolean urgency = false;
 	private Client client;
