@@ -15,7 +15,8 @@ public class ClientListener implements Runnable {
 	private Socket connection;
 	private PrintWriter out;
     private BufferedReader in;
-    private ServerMethods srvmt = new ServerMethods();
+    private MessageFilter filter = new MessageFilter();
+    private Parser parser = new Parser();
     
     
     /**
@@ -44,8 +45,10 @@ public class ClientListener implements Runnable {
 					sendMessage("exit");
 					break;
 				}
-				message2 = parseMessage(message);	
-				sendMessage(filterMessage(message2, message));
+				System.out.println(connection.getInetAddress().getHostName() 
+						+ "> "  + connection.getPort() + "> "   + message);		
+				message2 = parser.parseMessage(message);	
+				sendMessage(filter.filterMessage(message2, message));
 			}    
         }
         catch(IOException ioException){
@@ -64,7 +67,7 @@ public class ClientListener implements Runnable {
         }
     }
     
-    public String parseMessage(String message){
+   /* public String parseMessage(String message){
     	String action = null;
     	try{
     		System.out.println(connection.getInetAddress().getHostName() 
@@ -76,58 +79,8 @@ public class ClientListener implements Runnable {
 			e.printStackTrace();
 		}
     	return action;
-    }
+    } */
     
-    /**
-     * Filters the message with it's corresponding action.
-     * @param actionIn
-     * @param messageIn
-     */
-    public String filterMessage(String actionIn, String messageIn){
-    	String message = null;
-    	try{
-    		switch (actionIn) {
-    		case "login":
-    			message = srvmt.Login(messageIn);
-    			break;
-    		case "register":
-    			message = srvmt.Register(messageIn); 
-    			break;
-    		case "get":
-    			message = (srvmt.get(messageIn));
-    			break;
-    		case "change":
-    			message = (srvmt.modify(messageIn));
-    			break;
-    		case "getother":
-    			message = (srvmt.getothers(messageIn));
-    			break;
-    		case "changecourse":
-    			message = (srvmt.addormodifycourse(messageIn));
-    			break;
-    		case "removecourse":
-    			message = (srvmt.removecourse(messageIn));
-    			break;
-    		case "match":
-    			message = (srvmt.MatchEngine(messageIn));
-    			break;
-    		case "search":
-    			message = (srvmt.SearchEngine(messageIn));
-    			break;
-    		case "removeaccount":
-    			message = (srvmt.remove(messageIn));
-    			break;
-    		default:
-    			message = messageIn;
-    			break;
-    		}
-    	}catch (ParseException e) {
-			e.printStackTrace();
-		}catch(IOException ioException){
-            ioException.printStackTrace();
-        }
-    	return message;
-    }
     
     /**
      * Sends a message to the client

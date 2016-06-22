@@ -102,6 +102,7 @@ public class Client implements Runnable
     public String getMessage() throws IOException
     {
     	String msg = (String) in.readLine();
+    	System.out.println(msg);
     	return msg;
     }
     
