@@ -70,10 +70,18 @@ public class ClientMethodsTest extends ClientMethods {
 	
 	@Test 
 	public void testMatch(){
-		System.out.println(match("Computer Science", "Technical University of Delft", "Rotterdam"));
+		//System.out.println(match("Computer Science", "Technical University of Delft", "Rotterdam"));
 		assertEquals("{\"uni\":\"Technical University of Delft\",\"study\":\"Computer Science\",\"city\":\"Rotterdam\",\"action\":\"match\"}", match("Computer Science", "Technical University of Delft", "Rotterdam"));
 		assertNotEquals("{\"uni\":\"Technical University of Delft\",\"study\":\"Computer Science\",\"city\":\"Rotterdam\",\"action\":\"match\"}", match("Computer Science", "University of Amsterdam", "Rotterdam"));
 		assertNotEquals("{\"uni\":\"Technical University of Delft\",\"study\":\"Computer Science\",\"city\":\"Amsterdam\",\"action\":\"match\"}", match("Computer Science", "Technical University of Delft", "Rotterdam"));
+	}
+	
+	@Test
+	public void testSearch(){
+		System.out.println(search("CityOfResidence", "Rotterdam"));
+		assertEquals("{\"action\":\"search\",\"value\":\"Rotterdam\",\"option\":\"CityOfResidence\"}", search("CityOfResidence", "Rotterdam"));
+		assertNotEquals("{\"action\":\"search\",\"value\":\"Amsterdam\",\"option\":\"CityOfResidence\"}", search("CityOfResidence", "Rotterdam"));
+		assertNotEquals("{\"action\":\"search\",\"value\":\"Rotterdam\",\"option\":\"CityOfResidence\"}", search("CityOfResidence", "Amsterdam"));
 	}
 	
 	
