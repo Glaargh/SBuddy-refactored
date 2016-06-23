@@ -57,9 +57,7 @@ import javafx.scene.text.Font;
 @SuppressWarnings("deprecation")
 public class Design extends Application {
 
-	/**
-	 * VARIABLES, LABELS INITIALIZATION OF THE PROGRAM.
-	 */
+	// VARIABLES, LABELS INITIALIZATION OF THE PROGRAM.
 	private Label lb_text;
 	private boolean urgency = false;
 	private Client client;
@@ -1421,9 +1419,8 @@ public class Design extends Application {
 		viewProfile2.setLayoutY(700);
 		viewProfile2.setVisible(false);
 		/**
-		 * VIEW PROFILE BUTTON THIS NEEDS REFACTORING! WE PARSE THE INCOMING
-		 * MATCHES INFO INTO RESPECTIVE PLACES FOR DISPLAY. THE PARSING MUST BE
-		 * DONE OUTSIDE GUI.
+		 * VIEW PROFILE BUTTON. WE PARSE THE INCOMING
+		 * MATCHES INFO INTO RESPECTIVE PLACES FOR DISPLAY. 
 		 **/
 		viewProfile2.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent args) {
@@ -1572,8 +1569,7 @@ public class Design extends Application {
 
 		/**
 		 * READ comments by viewProfile2 for explanation what this button does,
-		 * as they both are similar: NEEDS REFACTORING SAME WAY AS viewProfile2
-		 * button
+		 * as they both are similar.
 		 */
 		Button viewProfile = new Button("View Selected Profile");
 		viewProfile.getStyleClass().add("viewProfile");

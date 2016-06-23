@@ -25,11 +25,11 @@ public class userTest {
 
 	@Test
 	public void testUserExist() {
-		user testuser = new user("pimdhn@gmail.com");
+		User testuser = new User("pimdhn@gmail.com");
 		assertFalse(testuser.equals(null));
-		assertTrue(testuser instanceof user);
+		assertTrue(testuser instanceof User);
 		assertTrue(testuser.getExistStatus());
-		user testuser2 = new user("Luat");
+		User testuser2 = new User("Luat");
 		assertFalse(testuser2.equals(""));
 		assertFalse(testuser2.getExistStatus());
 		
@@ -37,14 +37,14 @@ public class userTest {
 	@Test
 	public void testUserNotExist()
 	{
-		user testuser = new user("thisuserdoesnotexist@gmail.com");
+		User testuser = new User("thisuserdoesnotexist@gmail.com");
 		assertFalse(testuser.getExistStatus());
 	}
 
 
 	@Test
 	public void testGet(){
-		user testuser = new user("pimdhn@gmail.com");
+		User testuser = new User("pimdhn@gmail.com");
 		String attribute = "Firstname";
 		assertEquals("Pim",testuser.get(attribute));
 		assertEquals("Pim",testuser.get(attribute));
@@ -52,21 +52,21 @@ public class userTest {
 
 	@Test
 	public void testGet2(){
-		user testuser = new user("120567wolfert@gmail.com");
+		User testuser = new User("120567wolfert@gmail.com");
 		String attribute = "Firstname";
 		assertEquals("Luat",testuser.get(attribute));
 	}
 
 	@Test
 	public void testGet3(){
-		user testuser = new user("pimdhn@gmail.com");
+		User testuser = new User("pimdhn@gmail.com");
 		String attribute = "Lastname";
 		assertEquals("Dhaen",testuser.get(attribute));
 	}
 	
 	@Test
 	public void testGet4(){
-		user testuser = new user("120567wolfert@gmail.com");
+		User testuser = new User("120567wolfert@gmail.com");
 		String attribute = "Lastname";
 		assertEquals("Nguyen",testuser.get(attribute));
 	}
@@ -74,13 +74,13 @@ public class userTest {
 	
 	@Test
 	public void getDatabaseFileTest(){
-		user testuser = new user("pimdhn@gmail.com");
+		User testuser = new User("pimdhn@gmail.com");
 		assertEquals("database.json", testuser.getDatabaseFile());
 	}
 	
 	@Test
 	public void changeDatabaseTest(){
-		user testuser = new user("test");
+		User testuser = new User("test");
 		String file = "deomes.json";
 		testuser.changeDatabase(file);
 		assertEquals(file, testuser.getDatabaseFile());

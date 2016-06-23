@@ -41,7 +41,7 @@ import com.google.gson.JsonParser;
  * Do no use JsonObject instead of JSONObject.
  */
 
-public class user {
+public class User {
 	//change this path before you use this class!
 	private String databasepath = "database.json";
 	private boolean exists;
@@ -51,7 +51,7 @@ public class user {
 	private JSONArray userinfo = new JSONArray();
   	private JSONObject obj = new JSONObject();
     private int position= -1;
-  	public user(String usern)
+  	public User(String usern)
   	{
   		username = usern;
   		JSONParser parser = new JSONParser();
