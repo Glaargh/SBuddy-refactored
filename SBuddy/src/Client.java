@@ -5,8 +5,6 @@ import java.net.*;
 	 */
 public class Client implements Runnable {
 
-	
-
 	private Socket requestSocket;
 	private PrintWriter out;
 	private BufferedReader in;
