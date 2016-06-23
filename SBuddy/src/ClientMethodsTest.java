@@ -44,13 +44,21 @@ public class ClientMethodsTest extends ClientMethods {
 	
 	@Test
 	public void testGetOther(){
-		System.out.println(getOther("Firstname", "Naqib"));
+		//System.out.println(getOther("Firstname", "Naqib"));
 		assertEquals("{\"action\":\"getother\",\"id\":\"Firstname\",\"key\":\"Naqib\"}", getOther("Firstname", "Naqib"));
 		assertNotEquals("{\"action\":\"getother\",\"id\":\"Firstname\",\"key\":\"Naqib\"}", getOther("Lastname", "Naqib"));
 		assertNotEquals("{\"action\":\"getother\",\"id\":\"Firstname\",\"key\":\"Naqib\"}", getOther("Firstname", "Zarin"));
 		assertEquals("{\"action\":\"getother\",\"id\":\"Lastname\",\"key\":\"Zarin\"}", getOther("Lastname", "Zarin"));
 		}
 	
+	@Test 
+	public void testCourseChange(){
+		//System.out.println(courseChange("Calculus", "It is terrible"));
+		assertEquals("{\"head\":\"Calculus\",\"action\":\"changecourse\",\"description\":\"It is terrible\"}", courseChange("Calculus", "It is terrible"));
+		assertNotEquals("{\"head\":\"Calculus\",\"action\":\"changecourse\",\"description\":\"It is terrible\"}", courseChange("Calculus", "Still awesome"));
+		assertEquals("{\"head\":\"OOP Project\",\"action\":\"changecourse\",\"description\":\"Refactored a lot\"}", courseChange("OOP Project", "Refactored a lot"));
+		assertNotEquals("{\"head\":\"OOP Project\",\"action\":\"changecourse\",\"description\":\"Refactored a lot\"}", courseChange("Calculus", "Refactord a lot"));
+	}
 	
 	
 	
