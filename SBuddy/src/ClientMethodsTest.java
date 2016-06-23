@@ -60,6 +60,14 @@ public class ClientMethodsTest extends ClientMethods {
 		assertNotEquals("{\"head\":\"OOP Project\",\"action\":\"changecourse\",\"description\":\"Refactored a lot\"}", courseChange("Calculus", "Refactord a lot"));
 	}
 	
+	@Test
+	public void testCourseRemove(){
+		System.out.println(courseRemove("Calculus"));
+		assertEquals("{\"action\":\"removecourse\",\"course\":\"Calculus\"}", courseRemove("Calculus"));
+		assertNotEquals("{\"action\":\"removecourse\",\"course\":\"Calculus\"}", courseRemove("OOP Project"));
+		assertNotEquals("{\"action\":\"removecourse\",\"course\":\"OOP Project\"}", courseRemove("Calculus"));
+
+	}
 	
 	
 	
