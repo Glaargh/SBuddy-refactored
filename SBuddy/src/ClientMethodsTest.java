@@ -4,7 +4,6 @@ import org.junit.Test;
 public class ClientMethodsTest extends ClientMethods {
 
 	
-	
 
 	@Test
 	public void testLogin() {
@@ -78,16 +77,18 @@ public class ClientMethodsTest extends ClientMethods {
 	
 	@Test
 	public void testSearch(){
-		System.out.println(search("CityOfResidence", "Rotterdam"));
+		//System.out.println(search("CityOfResidence", "Rotterdam"));
 		assertEquals("{\"action\":\"search\",\"value\":\"Rotterdam\",\"option\":\"CityOfResidence\"}", search("CityOfResidence", "Rotterdam"));
 		assertNotEquals("{\"action\":\"search\",\"value\":\"Amsterdam\",\"option\":\"CityOfResidence\"}", search("CityOfResidence", "Rotterdam"));
 		assertNotEquals("{\"action\":\"search\",\"value\":\"Rotterdam\",\"option\":\"CityOfResidence\"}", search("CityOfResidence", "Amsterdam"));
 	}
 	
+	@Test
+	public void testRemoveAccount(){
+		//System.out.println(removeAccount("naqib@hotmail.com"));
+		assertEquals("{\"action\":\"removeaccount\",\"id\":\"naqib@hotmail.com\"}", removeAccount("naqib@hotmail.com"));
+		assertNotEquals("{\"action\":\"removeaccount\",\"id\":\"naqib@hotmail.com\"}", removeAccount("fatima@gmail.com"));
+		assertNotEquals("{\"action\":\"removeaccount\",\"id\":\"fatima@gmail.com\"}", removeAccount("naqib@hotmail.com"));
+	}
 	
-	
-//	@Test
-//	public void testRegister() {
-//		assertEquals(Register("Andy","Zaidman","1444@gmail.com","trololo"),"INCOMING-REGISTER¿1444@gmail.com¿trololo¿Andy¿Zaidman");
-//	}
 }
