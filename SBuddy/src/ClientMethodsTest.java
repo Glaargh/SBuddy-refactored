@@ -9,15 +9,30 @@ public class ClientMethodsTest extends ClientMethods {
 	@Test
 	public void testLogin() {
 		assertEquals("{\"password\":\"naqib1\",\"action\":\"login\",\"id\":\"naqib@hotmail.com\"}", Login("naqib@hotmail.com",  "naqib1"));
+		assertNotEquals("{\"password\":\"naqib1\",\"action\":\"login\",\"id\":\"naqib@hotmail.com\"}", Login("naqib@hotmail.com", "fatima"));
+		assertNotEquals("{\"password\":\"naqib1\",\"action\":\"login\",\"id\":\"naqib@hotmail.com\"}", Login("fatima@gmail.com", "naqib1"));
 		assertNotEquals("{\"password\":\"naqib1\",\"action\":\"login\",\"id\":\"naqib@hotmail.com\"}", Login("fatima@gmail.com", "fatima"));
 	}
 	
 	
 	@Test
 	public void testRegister(){
-		System.out.println(Register("Naqib",  "Zarin", "naqib@hotmail.com", "naqib1"));
+		//System.out.println(Register("Naqib",  "Zarin", "naqib@hotmail.com", "naqib1"));
 		assertEquals("{\"password\":\"naqib1\",\"firstname\":\"Naqib\",\"action\":\"register\",\"id\":\"naqib@hotmail.com\",\"lastname\":\"Zarin\"}", Register("Naqib", "Zarin", "naqib@hotmail.com", "naqib1"));
-		assertNotEquals("{\"password\":\"naqib1\",\"firstname\":\"Naqib\",\"action\":\"register\",\"id\":\"naqib@hotmail.com\",\"lastname\":\"Zarin\"}", Register("Fatima", "Zarin", "fatim@gmail.com", "fatima"));
+		assertNotEquals("{\"password\":\"naqib1\",\"firstname\":\"Naqib\",\"action\":\"register\",\"id\":\"naqib@hotmail.com\",\"lastname\":\"Zarin\"}", Register("Fatima", "Zarin", "naqib@hotmail.com", "naqib1"));
+		assertNotEquals("{\"password\":\"naqib1\",\"firstname\":\"Naqib\",\"action\":\"register\",\"id\":\"naqib@hotmail.com\",\"lastname\":\"Zarin\"}", Register("Naqib", "Fatima", "naqib@hotmail.com", "naqib1"));
+		assertNotEquals("{\"password\":\"naqib1\",\"firstname\":\"Naqib\",\"action\":\"register\",\"id\":\"naqib@hotmail.com\",\"lastname\":\"Zarin\"}", Register("Fatima", "", "naqib@hotmail.com", "naqib1"));
+		assertNotEquals("{\"password\":\"naqib1\",\"firstname\":\"Naqib\",\"action\":\"register\",\"id\":\"naqib@hotmail.com\",\"lastname\":\"Zarin\"}", Register("Naqib", "Zarin", "fatima@gmail.com", "naqib1"));
+		assertNotEquals("{\"password\":\"naqib1\",\"firstname\":\"Naqib\",\"action\":\"register\",\"id\":\"naqib@hotmail.com\",\"lastname\":\"Zarin\"}", Register("Naqib", "Zarin", "naqib@hotmail.com", "fatima1"));
+		assertNotEquals("{\"password\":\"naqib1\",\"firstname\":\"Naqib\",\"action\":\"register\",\"id\":\"naqib@hotmail.com\",\"lastname\":\"Zarin\"}", Register("Fatima", "", "fatima@gmail.com", "fatima"));
+	}
+	
+	@Test
+	public void testGet(){
+		System.out.println(get("Naqib"));
+		assertEquals("{\"action\":\"get\",\"key\":\"Naqib\"}", get("Naqib"));
+		assertNotEquals("{\"action\":\"get\",\"key\":\"Naqib\"}", get("Zarin"));
+		assertEquals("{\"action\":\"get\",\"key\":\"Zarin\"}", get("Zarin"));
 	}
 	
 	
