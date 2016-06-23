@@ -37,15 +37,20 @@ public class ClientMethodsTest extends ClientMethods {
 	
 	@Test
 	public void testChange(){
-		System.out.println(change("Available", "Yes, contact me now"));
+		//System.out.println(change("Available", "Yes, contact me now"));
 		assertEquals("{\"action\":\"change\",\"value\":\"Yes, contact me now\",\"key\":\"Available\"}" ,  change("Available", "Yes, contact me now"));
 		assertNotEquals("{\"action\":\"change\",\"value\":\"Yes, contact me now\",\"key\":\"Available\"}" ,  change("No  :(  Please check back later.", "Yes, contact me now"));
 	}
 	
 	@Test
 	public void testGetOther(){
-	//	System.out.println(getOther(Firstname, "Naqib"));
-	}
+		System.out.println(getOther("Firstname", "Naqib"));
+		assertEquals("{\"action\":\"getother\",\"id\":\"Firstname\",\"key\":\"Naqib\"}", getOther("Firstname", "Naqib"));
+		assertNotEquals("{\"action\":\"getother\",\"id\":\"Firstname\",\"key\":\"Naqib\"}", getOther("Lastname", "Naqib"));
+		assertNotEquals("{\"action\":\"getother\",\"id\":\"Firstname\",\"key\":\"Naqib\"}", getOther("Firstname", "Zarin"));
+		assertEquals("{\"action\":\"getother\",\"id\":\"Lastname\",\"key\":\"Zarin\"}", getOther("Lastname", "Zarin"));
+		}
+	
 	
 	
 	
