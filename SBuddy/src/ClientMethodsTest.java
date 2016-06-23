@@ -62,11 +62,18 @@ public class ClientMethodsTest extends ClientMethods {
 	
 	@Test
 	public void testCourseRemove(){
-		System.out.println(courseRemove("Calculus"));
+		//System.out.println(courseRemove("Calculus"));
 		assertEquals("{\"action\":\"removecourse\",\"course\":\"Calculus\"}", courseRemove("Calculus"));
 		assertNotEquals("{\"action\":\"removecourse\",\"course\":\"Calculus\"}", courseRemove("OOP Project"));
 		assertNotEquals("{\"action\":\"removecourse\",\"course\":\"OOP Project\"}", courseRemove("Calculus"));
-
+	}
+	
+	@Test 
+	public void testMatch(){
+		System.out.println(match("Computer Science", "Technical University of Delft", "Rotterdam"));
+		assertEquals("{\"uni\":\"Technical University of Delft\",\"study\":\"Computer Science\",\"city\":\"Rotterdam\",\"action\":\"match\"}", match("Computer Science", "Technical University of Delft", "Rotterdam"));
+		assertNotEquals("{\"uni\":\"Technical University of Delft\",\"study\":\"Computer Science\",\"city\":\"Rotterdam\",\"action\":\"match\"}", match("Computer Science", "University of Amsterdam", "Rotterdam"));
+		assertNotEquals("{\"uni\":\"Technical University of Delft\",\"study\":\"Computer Science\",\"city\":\"Amsterdam\",\"action\":\"match\"}", match("Computer Science", "Technical University of Delft", "Rotterdam"));
 	}
 	
 	
