@@ -9,7 +9,18 @@ public class ClientMethodsTest extends ClientMethods {
 	@Test
 	public void testLogin() {
 		assertEquals("{\"password\":\"naqib1\",\"action\":\"login\",\"id\":\"naqib@hotmail.com\"}", Login("naqib@hotmail.com",  "naqib1"));
+		assertNotEquals("{\"password\":\"naqib1\",\"action\":\"login\",\"id\":\"naqib@hotmail.com\"}", Login("fatima@gmail.com", "fatima"));
 	}
+	
+	
+	@Test
+	public void testRegister(){
+		System.out.println(Register("Naqib",  "Zarin", "naqib@hotmail.com", "naqib1"));
+		assertEquals("{\"password\":\"naqib1\",\"firstname\":\"Naqib\",\"action\":\"register\",\"id\":\"naqib@hotmail.com\",\"lastname\":\"Zarin\"}", Register("Naqib", "Zarin", "naqib@hotmail.com", "naqib1"));
+		assertNotEquals("{\"password\":\"naqib1\",\"firstname\":\"Naqib\",\"action\":\"register\",\"id\":\"naqib@hotmail.com\",\"lastname\":\"Zarin\"}", Register("Fatima", "Zarin", "fatim@gmail.com", "fatima"));
+	}
+	
+	
 	
 	
 	
