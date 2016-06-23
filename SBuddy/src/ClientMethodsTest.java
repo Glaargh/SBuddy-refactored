@@ -4,7 +4,6 @@ import org.junit.Test;
 public class ClientMethodsTest extends ClientMethods {
 
 	
-	
 
 	@Test
 	public void testLogin() {
@@ -44,19 +43,52 @@ public class ClientMethodsTest extends ClientMethods {
 	
 	@Test
 	public void testGetOther(){
-		System.out.println(getOther("Firstname", "Naqib"));
+		//System.out.println(getOther("Firstname", "Naqib"));
 		assertEquals("{\"action\":\"getother\",\"id\":\"Firstname\",\"key\":\"Naqib\"}", getOther("Firstname", "Naqib"));
 		assertNotEquals("{\"action\":\"getother\",\"id\":\"Firstname\",\"key\":\"Naqib\"}", getOther("Lastname", "Naqib"));
 		assertNotEquals("{\"action\":\"getother\",\"id\":\"Firstname\",\"key\":\"Naqib\"}", getOther("Firstname", "Zarin"));
 		assertEquals("{\"action\":\"getother\",\"id\":\"Lastname\",\"key\":\"Zarin\"}", getOther("Lastname", "Zarin"));
 		}
 	
+	@Test 
+	public void testCourseChange(){
+		//System.out.println(courseChange("Calculus", "It is terrible"));
+		assertEquals("{\"head\":\"Calculus\",\"action\":\"changecourse\",\"description\":\"It is terrible\"}", courseChange("Calculus", "It is terrible"));
+		assertNotEquals("{\"head\":\"Calculus\",\"action\":\"changecourse\",\"description\":\"It is terrible\"}", courseChange("Calculus", "Still awesome"));
+		assertEquals("{\"head\":\"OOP Project\",\"action\":\"changecourse\",\"description\":\"Refactored a lot\"}", courseChange("OOP Project", "Refactored a lot"));
+		assertNotEquals("{\"head\":\"OOP Project\",\"action\":\"changecourse\",\"description\":\"Refactored a lot\"}", courseChange("Calculus", "Refactord a lot"));
+	}
 	
+	@Test
+	public void testCourseRemove(){
+		//System.out.println(courseRemove("Calculus"));
+		assertEquals("{\"action\":\"removecourse\",\"course\":\"Calculus\"}", courseRemove("Calculus"));
+		assertNotEquals("{\"action\":\"removecourse\",\"course\":\"Calculus\"}", courseRemove("OOP Project"));
+		assertNotEquals("{\"action\":\"removecourse\",\"course\":\"OOP Project\"}", courseRemove("Calculus"));
+	}
 	
+	@Test 
+	public void testMatch(){
+		//System.out.println(match("Computer Science", "Technical University of Delft", "Rotterdam"));
+		assertEquals("{\"uni\":\"Technical University of Delft\",\"study\":\"Computer Science\",\"city\":\"Rotterdam\",\"action\":\"match\"}", match("Computer Science", "Technical University of Delft", "Rotterdam"));
+		assertNotEquals("{\"uni\":\"Technical University of Delft\",\"study\":\"Computer Science\",\"city\":\"Rotterdam\",\"action\":\"match\"}", match("Computer Science", "University of Amsterdam", "Rotterdam"));
+		assertNotEquals("{\"uni\":\"Technical University of Delft\",\"study\":\"Computer Science\",\"city\":\"Amsterdam\",\"action\":\"match\"}", match("Computer Science", "Technical University of Delft", "Rotterdam"));
+	}
 	
+	@Test
+	public void testSearch(){
+		//System.out.println(search("CityOfResidence", "Rotterdam"));
+		assertEquals("{\"action\":\"search\",\"value\":\"Rotterdam\",\"option\":\"CityOfResidence\"}", search("CityOfResidence", "Rotterdam"));
+		assertNotEquals("{\"action\":\"search\",\"value\":\"Amsterdam\",\"option\":\"CityOfResidence\"}", search("CityOfResidence", "Rotterdam"));
+		assertNotEquals("{\"action\":\"search\",\"value\":\"Rotterdam\",\"option\":\"CityOfResidence\"}", search("CityOfResidence", "Amsterdam"));
+	}
 	
-//	@Test
-//	public void testRegister() {
-//		assertEquals(Register("Andy","Zaidman","1444@gmail.com","trololo"),"INCOMING-REGISTER¿1444@gmail.com¿trololo¿Andy¿Zaidman");
-//	}
+	@Test
+	public void testRemoveAccount(){
+		//System.out.println(removeAccount("naqib@hotmail.com"));
+		assertEquals("{\"action\":\"removeaccount\",\"id\":\"naqib@hotmail.com\"}", removeAccount("naqib@hotmail.com"));
+		assertNotEquals("{\"action\":\"removeaccount\",\"id\":\"naqib@hotmail.com\"}", removeAccount("fatima@gmail.com"));
+		assertNotEquals("{\"action\":\"removeaccount\",\"id\":\"fatima@gmail.com\"}", removeAccount("naqib@hotmail.com"));
+	}
+	
 }
