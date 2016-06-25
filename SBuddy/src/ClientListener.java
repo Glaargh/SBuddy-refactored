@@ -47,7 +47,8 @@ public class ClientListener implements Runnable {
 				}
 				System.out.println(connection.getInetAddress().getHostName() 
 						+ "> "  + connection.getPort() + "> "   + message);		
-				message2 = parser.parseMessage(message);	
+				message2 = parser.parseMessage(message);
+				System.out.println(message2);
 				sendMessage(filter.filterMessage(message2, message));
 			}    
         }

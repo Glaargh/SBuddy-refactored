@@ -20,6 +20,10 @@ private  user User;
 	public void setDatabase(String input){
 		pathdatabase = input;
 	}
+	
+	public String getDatabase(){
+		return pathdatabase;
+	}
 
 	public  JSONArray read(String path)
 	{

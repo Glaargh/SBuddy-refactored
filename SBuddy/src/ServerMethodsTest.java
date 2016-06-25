@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.json.simple.parser.ParseException;
@@ -15,6 +16,13 @@ public class ServerMethodsTest extends ServerMethods {
 	
 	@Rule 
 	public ExpectedException thrown = ExpectedException.none();
+	
+	@Test
+	public void testSetGetDatabasePath() {
+		ServerMethods svmt = new ServerMethods();
+		svmt.setDatabase(fakeFile);
+		assertEquals(fakeFile, svmt.getDatabase());
+	}
 	
 	@Test
 	public void testNonExistentLogin() 
@@ -88,39 +96,63 @@ public class ServerMethodsTest extends ServerMethods {
 	@Test
 	public void testmodify2() 
 	{// in case a user is logged in
-		String Loginstring = "INCOMING-LOGIN¿120567wolfert@gmail.com¿iamironman96";
+		setDatabase(fakeFile);
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
 		Login(Loginstring);
 		String change = "INCOMING-CHANGE CurrentStudy Wiskunde";
-		assertEquals(modify(change),"true");	
+		
+		assertEquals(modify(change), "false");
 		
 		//this is to change the database back after the test
-		modify("INCOMING-CHANGE CurrentStudy Computer Science");
+		setDatabase("database.json");
 
 	}
-/*
+
 	@Test
 	public void testget() 
 	{// in case a user is logged in
-		String Loginstring = "INCOMING-LOGIN¿120567wolfert@gmail.com¿iamironman96";
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		String input = "{\"action\":\"get\",\"key\":\"Firstname\"}";
 		Login(Loginstring);
-	
-		assertEquals(get("INCOMING-GET CurrentStudy"),"Computer Science");	
-	}
-	@Test
-	public void testremove() 
-	{//create a user first then remove it
-		String register = "INCOMING-REGISTER¿jUnittest@gmail.com¿pass¿Steve¿Lei";
-		Register(register);
-		assertEquals(remove("INCOMING-REMOVE¿jUnittest@gmail.com¿pass"), "true");
-	}
-	@Test
-	public void testremovenotexist() 
-	{//remove a user that does not exist in the database
 		
-		assertEquals(remove("INCOMING-REMOVE¿jUnittest@gmail.com¿pass"), "false");
+		assertEquals(get(input),"Michael");	
+	}
+	
+	@Test
+	public void testget2() 
+	{// in case a user is logged in
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		String input = "{\"action\":\"get\",\"key\":\"Course list\"}";
+		Login(Loginstring);
+		
+		assertEquals(get(input),"{\"Computer Graphics\":\"Need lots of help!\",\"OOP\":\"I'm new, please help me\",\"Artificial Intelligence\":\"Really good at it\",\"Calculus\":\"Looking to improve ,so please help me!\",\"Web en Database\":\"I understand databases, but really struggling at web, can you help me?\"}");	
+	}
+	
+	@Test
+	public void testget3() 
+	{// in case a user is logged in
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		String input = "{\"action\":\"get\",:\"Course list\"}";
+		Login(Loginstring);
+		assertEquals(get(input),"false");	
+	}
+
+	@Test
+	public void testremove() throws ParseException 
+	{//create a user first then remove it
+		String register = "{\"password\":\"jackson1\",\"firstname\":\"Jackson\",\"action\":\"register\",\"id\":\"jackson@hotmail.com\",\"lastname\":\"Tran\"}";
+		Register(register);
+		assertEquals(remove("{\"action\":\"removeaccount\",\"id\":\"jackson@hotmail.com\"}"), "true");
+	}
+
+	@Test
+	public void testRemoveNotExist() 
+	{//remove a user that does not exist in the database
+		assertEquals(remove("{\"action\":\"removeaccount\",\"id\":\"jackson@hotmail.com\"}"), "false");
 	}
 	
 	
+/*	
 	
 
 	
