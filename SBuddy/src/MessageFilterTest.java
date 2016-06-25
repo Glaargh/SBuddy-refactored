@@ -9,24 +9,37 @@ import org.junit.Test;
  * */
 public class MessageFilterTest {
 
-	private ServerMethods srvmt;
-	
-	/**
-	 * Type of incoming message action.
-	 * */
-	private String incomingRequest;
-	
-	/**
-	 * Content of message to send, not important.
-	 * */
-	private final String desc = "Not important";
 	
 	/**
 	 * Main object under test.
 	 * */
 	private MessageFilter myMFilter;
 
+	private ServerMethods srvmt;
+	
+	/**
+	 * The response variable for what messagefilter returns.
+	 * */
 	private String outcome;
+	
+	/**
+	 * Type of incoming message action.
+	 * */
+	private String incomingRequest;
+	
+	/*Commands used*//*TODO*/
+	/**
+	 * User credentials of user to perform actions with.
+	 * */
+	private final String username = "120567wolfert@gmail.com";
+	private final String getAPieceOfInfo = "CurrentStudy";
+	private final String otherUsername = "pimdhn@gmail.com";
+	
+	/*Expected Responses*//*TODO*/
+	private final String expectedTrue = "true";
+	private final String expectedFalse = "false";
+	private final String expectedComputerScience = "Computer Science";
+	private final String expectedDefault = "noob";
 	
 	/**
 	 * Setup commonly used objects. 
@@ -37,81 +50,133 @@ public class MessageFilterTest {
 		myMFilter = new MessageFilter();
 	}
 
+	/*TODO: Incoming message must be username:password combo, now its only user name*/
 	@Test
 	public void testLogin() {
 		incomingRequest = "login";
-		myMFilter.filterMessage(incomingRequest, desc);
-		assertEquals("", outcome);
+		outcome = myMFilter.filterMessage(incomingRequest,/*MUST be username:Password 
+				pair*/username);
+		assertEquals(expectedTrue, outcome);
 	}
 	
+	/*TODO: Incoming message must be username,password,firstname,lastname combo. now its  only username*/
 	@Test
 	public void testRegister() {
-		incomingRequest = "login";
-		myMFilter.filterMessage(incomingRequest, desc);
-		assertEquals("", outcome);
+		incomingRequest = "register";
+		outcome = myMFilter.filterMessage(incomingRequest, username);
+		/*Should not be able to register*/
+		assertEquals(expectedFalse, outcome);
 	}
 	
+	/*TODO: Should be fine, but not sure how String must look (style was, json etc..) cause
+	 * luat parses the string to json then goes get("Key")*/
 	@Test
 	public void testGet() {
-		incomingRequest = "login";
-		myMFilter.filterMessage(incomingRequest, desc);
-		assertEquals("", outcome);
+		/*You have to login user*/
+		srvmt.Login(username);
+		
+		incomingRequest = "get";
+		outcome = myMFilter.filterMessage(incomingRequest, getAPieceOfInfo);
+		assertEquals(expectedComputerScience, outcome);
 	}
 	
+	/*TODO: Need key:Value pair for incoming message*/
 	@Test
 	public void testChange() {
-		incomingRequest = "login";
-		myMFilter.filterMessage(incomingRequest, desc);
-		assertEquals("", outcome);
+		/*You have to login user*/
+		srvmt.Login(username);
+		
+		incomingRequest = "change";
+		outcome = myMFilter.filterMessage(incomingRequest, "CHANGE THIS"/*NEED key:Value message*/);
+		
+		/*Should return true unless an exception is thrown, check modify method.*/
+		assertEquals(expectedTrue, outcome);
 	}
 	
+	/*TODO: The problem is where do we tell the server methods about the other user,
+	 * check how string should look*/
 	@Test
 	public void testGetOther() {
-		incomingRequest = "login";
-		myMFilter.filterMessage(incomingRequest, desc);
-		assertEquals("", outcome);
+		/*You have to login user*/
+		srvmt.Login(username);
+		
+		
+		/*The problem is where do we tell the server methods about the other user*/
+		
+		incomingRequest = "getother";
+		outcome = myMFilter.filterMessage(incomingRequest,
+				getAPieceOfInfo);/*Control is now with other email*/
+		
+		/*Should also just be computer science*/
+		assertEquals(expectedComputerScience, outcome);
 	}
 	
+	/*TODO: */
 	@Test
 	public void testChangeCourse() {
-		incomingRequest = "login";
-		myMFilter.filterMessage(incomingRequest, desc);
-		assertEquals("", outcome);
+		/*You have to login user*/
+		srvmt.Login(username);
+		
+		incomingRequest = "changecourse";
+		outcome = myMFilter.filterMessage(incomingRequest, "CHANGE THIS");
+		
+		assertEquals("CHANGE THIS", outcome);
 	}
 	
+	/*TODO: */
 	@Test
 	public void testRemoveCourse() {
-		incomingRequest = "login";
-		myMFilter.filterMessage(incomingRequest, desc);
-		assertEquals("", outcome);
+		/*You have to login user*/
+		srvmt.Login(username);
+		
+		incomingRequest = "removecourse";
+		outcome = myMFilter.filterMessage(incomingRequest, "CHANGE THIS");
+		
+		assertEquals("CHANGE THIS", outcome);
 	}
 	
+	/*TODO: */
 	@Test
 	public void testMatch() {
-		incomingRequest = "login";
-		myMFilter.filterMessage(incomingRequest, desc);
-		assertEquals("", outcome);
+		/*You have to login user*/
+		srvmt.Login(username);
+		
+		incomingRequest = "match";
+		outcome = myMFilter.filterMessage(incomingRequest, "CHANGE THIS");
+		
+		assertEquals("CHANGE THIS", outcome);
 	}
 	
+	/*TODO: */
 	@Test
 	public void testSearch() {
-		incomingRequest = "login";
-		myMFilter.filterMessage(incomingRequest, desc);
-		assertEquals("", outcome);
+		/*You have to login user*/
+		srvmt.Login(username);
+		
+		incomingRequest = "search";
+		outcome = myMFilter.filterMessage(incomingRequest, "CHANGE THIS");
+		
+		assertEquals("CHANGE THIS", outcome);
 	}
 	
+	/*TODO: */
 	@Test
 	public void testRemoveAccount() {
-		incomingRequest = "login";
-		myMFilter.filterMessage(incomingRequest, desc);
-		assertEquals("", outcome);
+		/*You have to login user*/
+		srvmt.Login(username);
+		
+		incomingRequest = "removeaccount";
+		outcome = myMFilter.filterMessage(incomingRequest, "CHANGE THIS");
+		
+		assertEquals("CHANGE THIS", outcome);
 	}
 	
+	/*TODO: */
 	@Test
 	public void testDefault() {
-		incomingRequest = "login";
-		myMFilter.filterMessage(incomingRequest, desc);
-		assertEquals("", outcome);
+		incomingRequest = "whatever it is default, noobz, it should not recognise this string";
+		outcome = myMFilter.filterMessage(incomingRequest, expectedDefault);
+		assertEquals(expectedDefault, outcome);
 	}
 
 }
