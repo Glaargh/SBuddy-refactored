@@ -125,7 +125,7 @@ public class ServerMethodsTest extends ServerMethods {
 		String input = "{\"action\":\"get\",\"key\":\"Course list\"}";
 		Login(Loginstring);
 		
-		assertEquals(get(input),"{\"Computer Graphics\":\"Need lots of help!\",\"OOP\":\"I'm new, please help me\",\"Artificial Intelligence\":\"Really good at it\",\"Calculus\":\"Looking to improve ,so please help me!\",\"Web en Database\":\"I understand databases, but really struggling at web, can you help me?\"}");	
+		assertEquals(get(input),"{\"Computer Graphics\":\"Need lots of help!\",\"Artificial Intelligence\":\"Really good at it\",\"Calculus\":\"Looking to improve ,so please help me!\",\"Web en Database\":\"I understand databases, but really struggling at web, can you help me?\"}");	
 	}
 	
 	@Test
@@ -149,6 +149,65 @@ public class ServerMethodsTest extends ServerMethods {
 	public void testRemoveNotExist() 
 	{//remove a user that does not exist in the database
 		assertEquals(remove("{\"action\":\"removeaccount\",\"id\":\"jackson@hotmail.com\"}"), "false");
+	}
+	
+	@Test
+	public void testAddOrRemoveCourse() throws IOException {
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String change = "{\"head\":\"OOP\",\"action\":\"changecourse\",\"description\":\"total noob here\"}";
+		assertEquals(addormodifycourse(change),"true");
+		
+		removecourse("{\"action\":\"removecourse\",\"course\":\"OOP\"}");
+	}
+	
+	@Test
+	public void testAddOrRemoveCourse2() throws IOException {
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String change = "{\"head\":\"OOP\",\"action\":\"changecourse\",\"description\":\"total noob here\"}";
+		String change2 = "{\"head\":\"OOP\",\"action\":\"changecourse\",\"description\":\"total noob\"}";
+		addormodifycourse(change);
+		assertEquals(addormodifycourse(change2),"true");
+		
+		removecourse("{\"action\":\"removecourse\",\"course\":\"OOP\"}");
+	}
+	
+	@Test
+	public void testAddOrRemoveCourse3() throws IOException {
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String change = "{\"action\":\"changecourse\",\"description\":\"total noob here\"}";
+		assertEquals(addormodifycourse(change),"true");
+		removecourse("{\"action\":\"removecourse\",\"course\":\"null\"}");	
+	}
+	
+	
+	@Test
+	public void testRemoveCourse() throws IOException {
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String remove = "{\"course\":\"Computer Graphics\"}";
+		assertEquals(removecourse(remove), "true");
+		addormodifycourse("{\"head\":\"Computer Graphics\",\"action\":\"changecourse\",\"description\":\"Need lots of help!\"}");
+	}
+	
+	@Test
+	public void testRemoveCourse2() throws IOException {
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String remove = "{\"course\":\"Linear Algebra\"}";
+		assertEquals(removecourse(remove), "true");
+		
+	}
+	
+	@Test
+	public void testRemoveCourse3() throws IOException {
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String remove = "{\"course\":\"null\"}";
+		assertEquals(removecourse(remove), "true");
+		
 	}
 	
 	
