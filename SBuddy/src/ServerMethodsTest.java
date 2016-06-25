@@ -3,59 +3,90 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 
 import org.json.simple.parser.ParseException;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+
+
 
 public class ServerMethodsTest extends ServerMethods {
+	private String fakeFile = "fake.json";
+	
+	@Rule 
+	public ExpectedException thrown = ExpectedException.none();
 	
 	@Test
-	public void testfalseLogin() 
+	public void testNonExistentLogin() 
 	{// 1993@gmail.com doesn't exist in the database
-		String Loginstring = "INCOMING-LOGIN¿1993@gmail.com¿pass1";
+		String Loginstring = "{\"password\":\"pass1\",\"action\":\"login\",\"id\":\"1993@gmail.com\"}";
 		assertEquals(Login(Loginstring),"false");
 	}
 
 	@Test
 	public void testtrueLogin() 
 	{// 120567wolfert@gmail.com does exist in the database
-		String Loginstring = "INCOMING-LOGIN¿120567wolfert@gmail.com¿iamironman96";
-		assertEquals(Login(Loginstring),"false");
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		assertEquals(Login(Loginstring),"true");
 	}
-/*
+	
 	@Test
-	public void testLoginException() 
-	{// 120567wolfert@gmail.com does exist in the database
-		String Loginstring = "INCOMING-LOGIN";
+	public void testFalseLogin() 
+	{// Logging in with a wrong password
+		String Loginstring = "{\"password\":\"lalala\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
 		assertEquals(Login(Loginstring),"false");
 	}
 
+	
 	@Test
 	public void testRegisterusernamealreadyexist() throws ParseException 
 	{// 120567wolfert@gmail.com already exist in the database
-		String register = "INCOMING-REGISTER¿120567wolfert@gmail.com¿pass¿Steve¿Lei";
+		String register = "{\"password\":\"jackson1\",\"firstname\":\"Jackson\",\"action\":\"register\",\"id\":\"michael@gmail.com\",\"lastname\":\"Tran\"}";
 		//this string is made by the client methods class that will send thru the sockets into this methods when a user registers.
 		//The username which the user choose already exist in the database	
 		assertEquals(Register(register),"false");	
 	}
-/*	
+
 	@Test
-	public void testRegisterusernamenotexistyet() 
+	public void testRegisterusernamenotexistyet() throws ParseException 
 	{// aaaaaaaaaaaa@gmail.com does not exist in the database, so the system will allow a new one to be written to database
-		String register = "INCOMING-REGISTER¿jUnittest@gmail.com¿pass¿Steve¿Lei";
+		String register = "{\"password\":\"jackson1\",\"firstname\":\"Jackson\",\"action\":\"register\",\"id\":\"jackson@hotmail.com\",\"lastname\":\"Tran\"}";
 		assertEquals(Register(register),"true");
-		remove("INCOMING-REMOVE¿jUnittest@gmail.com¿pass");
+		remove("{\"action\":\"removeaccount\",\"id\":\"jackson@hotmail.com\"}");
 		//this is to remove from database after testing
 	}
 	
 	@Test
-	public void testRegisterExeption() 
+	public void testRegisterExeption() throws ParseException 
 	{
 		String register = "INCOMING-esseaaaaaaaaaa@gmail.com¿pass¿Steve¿Lei";
-		assertEquals(Register(register),"false");	
+		thrown.expect(ParseException.class);
+		Register(register);	
 	}
-
+	
+	@Test
+	public void testRegisterWrongCommand() throws ParseException {
+		String Loginstring = "{\"password\":\"pass1\",\"action\":\"login\",\"id\":\"1993@gmail.com\"}";
+		assertEquals(Register(Loginstring),"true");
+		remove("{\"action\":\"removeaccount\",\"id\":\"1993@gmail.com\"}");
+	}
 
 	@Test
 	public void testmodify() 
+	{// in case a user is logged in
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String change = "{\"action\":\"change\",\"value\":\"Trust trust!\",\"key\":\"Description\"}";
+		assertEquals(modify(change),"true");	
+		
+		//this is to change the database back after the test
+		modify("{\"action\":\"change\",\"value\":\"I like this study and working with others\",\"key\":\"Description\"}");
+
+	}
+	
+
+	@Test
+	public void testmodify2() 
 	{// in case a user is logged in
 		String Loginstring = "INCOMING-LOGIN¿120567wolfert@gmail.com¿iamironman96";
 		Login(Loginstring);
@@ -64,7 +95,9 @@ public class ServerMethodsTest extends ServerMethods {
 		
 		//this is to change the database back after the test
 		modify("INCOMING-CHANGE CurrentStudy Computer Science");
+
 	}
+/*
 	@Test
 	public void testget() 
 	{// in case a user is logged in

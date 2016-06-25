@@ -17,6 +17,10 @@ public class ServerMethods {
 private  String pathdatabase = "database.json";
 private  user User;
 	
+	public void setDatabase(String input){
+		pathdatabase = input;
+	}
+
 	public  JSONArray read(String path)
 	{
 		JSONParser parser = new JSONParser();
