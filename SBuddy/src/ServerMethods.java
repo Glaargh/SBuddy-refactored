@@ -238,7 +238,7 @@ private  user User;
 	
 	
 	
-    private  boolean StringExist(JSONArray jsonArray, String usernameToFind) 
+    public  boolean StringExist(JSONArray jsonArray, String usernameToFind) 
     {//method to find out if the inserted string (email) already exist in the system.
         return jsonArray.toString().contains(usernameToFind);
     }
@@ -277,10 +277,6 @@ private  user User;
     
     public  boolean SearchEngineTRUEFALSE1(String username, String key, String tosearch)
     {
-    	JSONArray databaseupdated = read(pathdatabase);
-    	JSONObject mainobj = new JSONObject();
-    	JSONArray userinfo = new JSONArray();
-    	JSONObject obj = new JSONObject();
     	boolean response = false;
     	user usertosearch = new user(username);
     	

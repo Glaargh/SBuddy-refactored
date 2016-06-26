@@ -111,7 +111,7 @@ public class ServerMethodsTest extends ServerMethods {
 	
 	@Test
 	public void testmodify3() 
-	{// in case a user is logged in
+	{// in case a user is not logged in
 	
 		String change = "{\"action\":\"change\",\"value\":\"Trust trust!\",\"key\":\"Description\"}";
 		thrown.expect(NullPointerException.class);
@@ -148,6 +148,14 @@ public class ServerMethodsTest extends ServerMethods {
 		Login(Loginstring);
 		assertEquals(get(input),"false");	
 	}
+	
+	@Test
+	public void testget4() 
+	{// in case a user is not logged in		
+		String input = "{\"action\":\"get\",:\"Course list\"}";
+		assertEquals(get(input),"false");	
+	}
+	
 
 	@Test
 	public void testremove() throws ParseException 
@@ -269,6 +277,101 @@ public class ServerMethodsTest extends ServerMethods {
 		assertEquals(getothers(command), "Dario");
 	}
 	
+	@Test
+	public void testGetOthers2(){
+		String command = "{\"action\":\"getother\",\"id\":\"dario@gmail.com\"";
+		assertEquals(getothers(command), "false");
+	}
+	
+	@Test
+	public void testSearchEngine(){
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String command = "{\"action\":\"search\",\"value\":\"Delft\",\"option\":\"CityOfResidence\"}";
+		assertEquals(SearchEngine(command), "[pimdhn@gmail.com, dario@gmail.com]");
+	}
+	
+	@Test
+	public void testSearchEngine2(){
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String command = "{\"action\":\"search\",\"value\":\"Alkmaar\",\"option\":\"CityOfResidence\"}";
+		assertEquals(SearchEngine(command), "[]");
+	}
+	
+	@Test
+	public void testSearchEngine3(){
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String command = "{\"action\":\"search\",\"value\":\"Delft\",\"option\":\"Course lst\"}";
+		thrown.expect(NullPointerException.class);
+		SearchEngine(command);
+	}
+	
+	@Test
+	public void testSearchEngine4(){
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String command = "{\"action\":\"search\",\"value\":\"Calculus\",\"option\":\"Course list\"}";
+		assertEquals(SearchEngine(command), "[120567wolfert@gmail.com, pimdhn@gmail.com, SteveJobs@gmail.com, Steveemail@gmail.com, naqib@hotmail.com, dario@gmail.com, lufther@gmail.com, michael@gmail.com, josie@gmal.com]");
+	}
+	
+	@Test
+	public void testSearchEngine5(){
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String command = "{\"action\":\"search\",\"value\":\"Computer graphics\",\"option\":\"Course list\"}";
+		assertEquals(SearchEngine(command), "[michael@gmail.com]");
+	}
+	
+	@Test
+	public void testSearchEngine6(){
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String command = "{\"action\":\"search\",\"value\":\"pim\",\"option\":\"Email\"}";
+		assertEquals(SearchEngine(command), "[pimdhn@gmail.com]");
+	}
+	
+	@Test
+	public void testSearchEngine7(){
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String command = "{\"action\":\"search\"";
+		assertEquals(SearchEngine(command), "false");
+	}
+	
+	@Test
+	public void testSearchEngine8(){
+		
+		String command = "{\"action\":\"search\",\"value\":\"pim\",\"option\":\"Email\"}";
+		assertEquals(SearchEngine(command), "[pimdhn@gmail.com]");
+	}
+	
+	@Test
+	public void testStringExist(){
+		ServerMethods svmt = new ServerMethods();
+		JSONArray Database = read(getDatabase());
+		assertTrue(svmt.StringExist(Database, "michael@gmail.com"));
+	}
+	
+	@Test
+	public void testStringExist2(){
+		ServerMethods svmt = new ServerMethods();
+		JSONArray Database = read(getDatabase());
+		assertFalse(svmt.StringExist(Database, "mke@gmail.com"));
+	}
+	
+	@Test
+	public void testStringExist3(){
+		ServerMethods svmt = new ServerMethods();
+		svmt.setDatabase(fakeFile);
+		JSONArray Database = svmt.read(svmt.getDatabase());
+		
+		thrown.expect(FileNotFoundException.class);
+		svmt.StringExist(Database, "michael@gmail.com");
+		
+		svmt.setDatabase("database.json");
+	}
 /*	
 	
 
