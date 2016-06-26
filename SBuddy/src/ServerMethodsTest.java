@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -107,6 +108,17 @@ public class ServerMethodsTest extends ServerMethods {
 		setDatabase("database.json");
 
 	}
+	
+	@Test
+	public void testmodify3() 
+	{// in case a user is logged in
+	
+		String change = "{\"action\":\"change\",\"value\":\"Trust trust!\",\"key\":\"Description\"}";
+		thrown.expect(NullPointerException.class);
+		modify(change);	
+		
+		
+	}
 
 	@Test
 	public void testget() 
@@ -144,6 +156,15 @@ public class ServerMethodsTest extends ServerMethods {
 		Register(register);
 		assertEquals(remove("{\"action\":\"removeaccount\",\"id\":\"jackson@hotmail.com\"}"), "true");
 	}
+	
+	@Test
+	public void testremove2() throws ParseException 
+	{//create a user first then remove it
+		String register = "{\"password\":\"jackson1\",\"firstname\":\"Jackson\",\"action\":\"register\",\"id\":\"jackson@hotmail.com\",\"lastname\":\"Tran\"}";
+		Register(register);
+		assertEquals(remove("djbcwj vw"), "false");
+		remove("{\"action\":\"removeaccount\",\"id\":\"jackson@hotmail.com\"}");
+	}
 
 	@Test
 	public void testRemoveNotExist() 
@@ -152,7 +173,7 @@ public class ServerMethodsTest extends ServerMethods {
 	}
 	
 	@Test
-	public void testAddOrRemoveCourse() throws IOException {
+	public void testAddOrModifyCourse() throws IOException {
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
 		Login(Loginstring);
 		String change = "{\"head\":\"OOP\",\"action\":\"changecourse\",\"description\":\"total noob here\"}";
@@ -162,7 +183,7 @@ public class ServerMethodsTest extends ServerMethods {
 	}
 	
 	@Test
-	public void testAddOrRemoveCourse2() throws IOException {
+	public void testAddOrModifyCourse2() throws IOException {
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
 		Login(Loginstring);
 		String change = "{\"head\":\"OOP\",\"action\":\"changecourse\",\"description\":\"total noob here\"}";
@@ -174,12 +195,20 @@ public class ServerMethodsTest extends ServerMethods {
 	}
 	
 	@Test
-	public void testAddOrRemoveCourse3() throws IOException {
+	public void testAddOrModifyCourse3() throws IOException {
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
 		Login(Loginstring);
 		String change = "{\"action\":\"changecourse\",\"description\":\"total noob here\"}";
 		assertEquals(addormodifycourse(change),"true");
 		removecourse("{\"action\":\"removecourse\",\"course\":\"null\"}");	
+	}
+	
+	@Test
+	public void testAddOrModifyCourse4() throws IOException {
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String change = "cwvw";
+		assertEquals(addormodifycourse(change),"false");	
 	}
 	
 	
@@ -210,6 +239,35 @@ public class ServerMethodsTest extends ServerMethods {
 		
 	}
 	
+	@Test
+	public void testRemoveCourse4() throws IOException {
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		String remove = "wbcjwv";
+		assertEquals(removecourse(remove), "false");
+		
+	}
+	
+	@Test
+	public void testRead() {
+		JSONArray read = read("database.json");
+		assertEquals(read, read("database.json"));
+	}
+	
+	/*
+	@Test
+	public void testRead2() {
+		thrown.expect(FileNotFoundException.class);
+		read(fakeFile);
+	}
+	
+	*/
+	
+	@Test
+	public void testGetOthers(){
+		String command = "{\"action\":\"getother\",\"id\":\"dario@gmail.com\",\"key\":\"Firstname\"}";
+		assertEquals(getothers(command), "Dario");
+	}
 	
 /*	
 	

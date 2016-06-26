@@ -242,6 +242,7 @@ private  user User;
     {//method to find out if the inserted string (email) already exist in the system.
         return jsonArray.toString().contains(usernameToFind);
     }
+ 
     public  String remove(String removecommand)
     {//INCOMING-REMOVE¿jUnittest@gmail.com
     	JSONArray Database = read(pathdatabase);
