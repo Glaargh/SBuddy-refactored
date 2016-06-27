@@ -190,7 +190,7 @@ public class ServerMethodsTest extends ServerMethods {
 	}
 	
 	/**
-	 * 
+	 * Tests if the remove method succeeds and returns true when using a known username as input.
 	 * @throws ParseException
 	 */
 	@Test
@@ -198,9 +198,13 @@ public class ServerMethodsTest extends ServerMethods {
 	{//create a user first then remove it
 		String register = "{\"password\":\"jackson1\",\"firstname\":\"Jackson\",\"action\":\"register\",\"id\":\"jackson@hotmail.com\",\"lastname\":\"Tran\"}";
 		Register(register);
-		assertEquals(remove("{\"action\":\"removeaccount\",\"id\":\"jackson@hotmail.com\"}"), "true");
+		assertEquals(remove("{\"id\":\"jackson@hotmail.com\"}"), "true");
 	}
 	
+	/**
+	 * Tests if the method returns false by use of nonsense as input.
+	 * @throws ParseException
+	 */
 	@Test
 	public void testremove2() throws ParseException 
 	{//create a user first then remove it
@@ -209,13 +213,20 @@ public class ServerMethodsTest extends ServerMethods {
 		assertEquals(remove("djbcwj vw"), "false");
 		remove("{\"action\":\"removeaccount\",\"id\":\"jackson@hotmail.com\"}");
 	}
-
+	
+	/**
+	 * Returns false if the remove method is called with an unknown user as inpt.
+	 */
 	@Test
 	public void testRemoveNotExist() 
 	{//remove a user that does not exist in the database
 		assertEquals(remove("{\"action\":\"removeaccount\",\"id\":\"jackson@hotmail.com\"}"), "false");
 	}
 	
+	/**
+	 * Returns true if the method succeeds in adding or changing an existent course.
+	 * @throws IOException
+	 */
 	@Test
 	public void testAddOrModifyCourse() throws IOException {
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
@@ -226,20 +237,13 @@ public class ServerMethodsTest extends ServerMethods {
 		removecourse("{\"action\":\"removecourse\",\"course\":\"OOP\"}");
 	}
 	
+
+	/**
+	 * Method succeeds and returns true if no head is given.
+	 * @throws IOException
+	 */
 	@Test
 	public void testAddOrModifyCourse2() throws IOException {
-		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
-		Login(Loginstring);
-		String change = "{\"head\":\"OOP\",\"action\":\"changecourse\",\"description\":\"total noob here\"}";
-		String change2 = "{\"head\":\"OOP\",\"action\":\"changecourse\",\"description\":\"total noob\"}";
-		addormodifycourse(change);
-		assertEquals(addormodifycourse(change2),"true");
-		
-		removecourse("{\"action\":\"removecourse\",\"course\":\"OOP\"}");
-	}
-	
-	@Test
-	public void testAddOrModifyCourse3() throws IOException {
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
 		Login(Loginstring);
 		String change = "{\"action\":\"changecourse\",\"description\":\"total noob here\"}";
@@ -247,15 +251,22 @@ public class ServerMethodsTest extends ServerMethods {
 		removecourse("{\"action\":\"removecourse\",\"course\":\"null\"}");	
 	}
 	
+	/**
+	 * Returns false if nonsense input or no head and no description is given.
+	 * @throws IOException
+	 */
 	@Test
-	public void testAddOrModifyCourse4() throws IOException {
+	public void testAddOrModifyCourse3() throws IOException {
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
 		Login(Loginstring);
 		String change = "cwvw";
 		assertEquals(addormodifycourse(change),"false");	
 	}
 	
-	
+	/**
+	 * Returns true if a existent course in the user's course list is removed.
+	 * @throws IOException
+	 */
 	@Test
 	public void testRemoveCourse() throws IOException {
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
@@ -265,6 +276,10 @@ public class ServerMethodsTest extends ServerMethods {
 		addormodifycourse("{\"head\":\"Computer Graphics\",\"action\":\"changecourse\",\"description\":\"Need lots of help!\"}");
 	}
 	
+	/**
+	 * Returns true if the method is called while the course does not exist in the user's course list.
+	 * @throws IOException
+	 */
 	@Test
 	public void testRemoveCourse2() throws IOException {
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
@@ -274,6 +289,10 @@ public class ServerMethodsTest extends ServerMethods {
 		
 	}
 	
+	/**
+	 * Returns true if the delete button is pressed while no course is selected.
+	 * @throws IOException
+	 */
 	@Test
 	public void testRemoveCourse3() throws IOException {
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
@@ -283,6 +302,10 @@ public class ServerMethodsTest extends ServerMethods {
 		
 	}
 	
+	/**
+	 * Returns false if nonsense is used as input.
+	 * @throws IOException
+	 */
 	@Test
 	public void testRemoveCourse4() throws IOException {
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
@@ -292,6 +315,9 @@ public class ServerMethodsTest extends ServerMethods {
 		
 	}
 	
+	/**
+	 * Tests if a JSONArray is correctly returned.
+	 */
 	@Test
 	public void testRead() {
 		JSONArray read = read("database.json");
@@ -307,18 +333,27 @@ public class ServerMethodsTest extends ServerMethods {
 	
 	*/
 	
+	/**
+	 * Tests if the getothers method returns the correct value with it's corresponding key.
+	 */
 	@Test
 	public void testGetOthers(){
 		String command = "{\"action\":\"getother\",\"id\":\"dario@gmail.com\",\"key\":\"Firstname\"}";
 		assertEquals(getothers(command), "Dario");
 	}
 	
+	/**
+	 * Returns false if no key is given when the method fails in it's execution.
+	 */
 	@Test
 	public void testGetOthers2(){
 		String command = "{\"action\":\"getother\",\"id\":\"dario@gmail.com\"";
 		assertEquals(getothers(command), "false");
 	}
 	
+	/**
+	 * When searching for people by their city, the method returns a list with known people living in that city.
+	 */
 	@Test
 	public void testSearchEngine(){
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
@@ -327,6 +362,9 @@ public class ServerMethodsTest extends ServerMethods {
 		assertEquals(SearchEngine(command), "[pimdhn@gmail.com, dario@gmail.com]");
 	}
 	
+	/**
+	 * Returns a empty list if no people is found living in the requested city.
+	 */
 	@Test
 	public void testSearchEngine2(){
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
@@ -335,54 +373,64 @@ public class ServerMethodsTest extends ServerMethods {
 		assertEquals(SearchEngine(command), "[]");
 	}
 	
+	/**
+	 * Correctly returns a list of all usernames with a certain common cource in their course list.
+	 */
 	@Test
 	public void testSearchEngine3(){
-		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
-		Login(Loginstring);
-		String command = "{\"action\":\"search\",\"value\":\"Delft\",\"option\":\"Course lst\"}";
-		thrown.expect(NullPointerException.class);
-		SearchEngine(command);
-	}
-	
-	@Test
-	public void testSearchEngine4(){
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
 		Login(Loginstring);
 		String command = "{\"action\":\"search\",\"value\":\"Calculus\",\"option\":\"Course list\"}";
 		assertEquals(SearchEngine(command), "[120567wolfert@gmail.com, pimdhn@gmail.com, SteveJobs@gmail.com, Steveemail@gmail.com, naqib@hotmail.com, dario@gmail.com, lufther@gmail.com, michael@gmail.com, josie@gmal.com]");
 	}
 	
+	/**
+	 * Returns a list with only the user's username when seaching for people with a course nobody else has in
+	 * in their course list.
+	 */
 	@Test
-	public void testSearchEngine5(){
+	public void testSearchEngine4(){
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
 		Login(Loginstring);
 		String command = "{\"action\":\"search\",\"value\":\"Computer graphics\",\"option\":\"Course list\"}";
 		assertEquals(SearchEngine(command), "[michael@gmail.com]");
 	}
 	
+	/**
+	 * Correctly returns a list of usenames that has a certain string as part in their username.
+	 */
 	@Test
-	public void testSearchEngine6(){
+	public void testSearchEngine5(){
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
 		Login(Loginstring);
 		String command = "{\"action\":\"search\",\"value\":\"pim\",\"option\":\"Email\"}";
 		assertEquals(SearchEngine(command), "[pimdhn@gmail.com]");
 	}
 	
+	/**
+	 * Returns false for nonsense input or no option and value is given.
+	 */
 	@Test
-	public void testSearchEngine7(){
+	public void testSearchEngine6(){
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
 		Login(Loginstring);
 		String command = "{\"action\":\"search\"";
 		assertEquals(SearchEngine(command), "false");
 	}
 	
+	/**
+	 * Correctly returns a list of usernames when searching for people even when the user is not logged in.
+	 */
 	@Test
-	public void testSearchEngine8(){
+	public void testSearchEngine7(){
 		
 		String command = "{\"action\":\"search\",\"value\":\"pim\",\"option\":\"Email\"}";
 		assertEquals(SearchEngine(command), "[pimdhn@gmail.com]");
 	}
 	
+	/**
+	 * Returns true if a certain username exists in the database.
+	 */
 	@Test
 	public void testStringExist(){
 		ServerMethods svmt = new ServerMethods();
@@ -390,6 +438,9 @@ public class ServerMethodsTest extends ServerMethods {
 		assertTrue(svmt.StringExist(Database, "michael@gmail.com"));
 	}
 	
+	/**
+	 * Returns false if a certain username does not exists in the database.
+	 */
 	@Test
 	public void testStringExist2(){
 		ServerMethods svmt = new ServerMethods();
@@ -412,7 +463,9 @@ public class ServerMethodsTest extends ServerMethods {
 
 	
 
-	
+	/**
+	 * Correctly returns a list of usernames that are available.
+	 */
 	@Test
 	public void testMatchEngine() 
 	{
@@ -420,6 +473,9 @@ public class ServerMethodsTest extends ServerMethods {
 		assertEquals(MatchEngine(command), "[120567wolfert@gmail.com, pimdhn@gmail.com, naqib@hotmail.com, lufther@gmail.com, michael@gmail.com]");
 	}
 	
+	/**
+	 * Returns false if nonsense input is given.
+	 */
 	@Test
 	public void testMatchEngine2() 
 	{
@@ -427,7 +483,10 @@ public class ServerMethodsTest extends ServerMethods {
 		assertEquals(MatchEngine(command), "false");
 	}
 	
-
+	/**
+	 * When a user logs in, changes his availability and then calls the method, the method will correctly returns
+	 * a list containing all available people and the user's username is not part of the list.
+	 */
 	@Test
 	public void testMatchEngine3() 
 	{
@@ -439,6 +498,10 @@ public class ServerMethodsTest extends ServerMethods {
 		modify("{\"action\":\"change\",\"value\":\"true\",\"key\":\"Available\"}");
 	}
 	
+	/**
+	 * When only a university is given, the method will return a list of only people that are studying
+	 * at the requested university.
+	 */
 	@Test
 	public void testMatchEngine4() 
 	{
@@ -448,6 +511,10 @@ public class ServerMethodsTest extends ServerMethods {
 		
 	}
 	
+	/**
+	 * When only the name of a city is given, the method will return a list of only people that
+	 * are residing in the requested city.
+	 */
 	@Test
 	public void testMatchEngine5() 
 	{
@@ -457,108 +524,11 @@ public class ServerMethodsTest extends ServerMethods {
 		
 	}
 	
-/*	
-
-	@Test
-	public void testMatchEngine3() 
-	{
-		String command = "{\"uni\":\"Technical University of Delft\",\"study\":\"Computer Science\"}";
-		assertEquals(MatchEngine(command), "false");
-	}
-	
-	/*
-	@Test
-	public void testMatchEngine1() 
-	{//remove a user that does not exist in the database
-		String command = "INCOMING-MATCH¿dadwwaawd¿awwadwdawd¿awdawdawdawd";
-		assertEquals(MatchEngine(command), "[]");
-	}
-	
-	@Test (expected=Exception.class)
-	public void testMatchEngine2() 
-	{
-		String command = "INCOMING-MATCH¿JUNITTEST";
-		assertEquals(MatchEngine(command), "[test@gmail.com]");
-	}
-	@Test
-	public void testMatchEngine3() 
-	{
-		Register("INCOMING-REGISTER¿wolfertvanborselen@gmail.com¿pass¿Steve¿Lei");
-		Login("INCOMING-LOGIN¿wolfertvanborselen@gmail.com¿pass");
-		modify("INCOMING-CHANGE CurrentStudy teststudy");
-		modify("INCOMING-CHANGE CurrentUniversity testuniversity");
-		modify("INCOMING-CHANGE CityOfResidence teststad");
-		modify("INCOMING-CHANGE Available true");
-		String command = "INCOMING-MATCH¿notexist¿testuniversity¿notexist";
-		assertEquals(MatchEngine(command), "[wolfertvanborselen@gmail.com]");
-		remove("INCOMING-REMOVE¿wolfertvanborselen@gmail.com¿pass");
-	}
-	
-	
-	@Test
-	public void testMatchEngine4() 
-	{//remove a user that does not exist in the database
-		Register("INCOMING-REGISTER¿wolfertvanborselen@gmail.com¿pass¿Steve¿Lei");
-		Login("INCOMING-LOGIN¿wolfertvanborselen@gmail.com¿pass");
-		modify("INCOMING-CHANGE CurrentStudy teststudy");
-		modify("INCOMING-CHANGE CurrentUniversity testuniversity");
-		modify("INCOMING-CHANGE CityOfResidence teststad");
-		modify("INCOMING-CHANGE Available true");
-		String command = "INCOMING-MATCH¿notexist¿notexist¿teststad";
-		assertEquals(MatchEngine(command), "[wolfertvanborselen@gmail.com]");
-		remove("INCOMING-REMOVE¿wolfertvanborselen@gmail.com¿pass");
-	}
-	
-
-	@Test
-	public void testSearchEngine() 
-	{//remove a user that does not exist in the database
-		
-		String command = "INCOMING-SEARCH¿Firstname¿Luat";
-		assertEquals(SearchEngine(command), "[120567wolfert@gmail.com]");
-	}
-		
-	@Test (expected=Exception.class)
-	public void testSearchEngine1() 
-	{//remove a user that does not exist in the database
-		String command = "INCOMING-SEARCH¿Firstname";
-		assertEquals(SearchEngine(command), "[test@gmail.com]");
-	}
-	
-
-	
-	@Test
-	public void testSearchEngineTRUEFALSE1() 
-	{//remove a user that does not exist in the database
-	/*	Register("INCOMING-REGISTER¿wolfertvanborselen@gmail.com¿pass¿Steve¿Lei");
-		Login("INCOMING-LOGIN¿wolfertvanborselen@gmail.com¿pass");
-		modify("INCOMING-CHANGE CurrentUniversity testuniversity");
-		modify("INCOMING-CHANGE Available false");*/
-		//assertTrue(SearchEngineTRUEFALSE1("120567wolfert@gmail.com","Firstname","Luat"));
-	//	assertFalse(SearchEngineTRUEFALSE1("120567wolfert@gmail.com","CurrentUniversity","testuniversity"));
-		//remove("INCOMING-REMOVE¿wolfertvanborselen@gmail.com¿pass");
-//	}
-	
-	
-
-	
-	
-	
-	
-}
-
-
-/*
-
-
-@Test
-public void testwrite1() throws IOException 
-{
-	assertEquals(write(Database,"database.json"),"true");
 }
 
 
 
 
 
-*/
+
+
