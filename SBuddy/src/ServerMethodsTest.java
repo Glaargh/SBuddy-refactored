@@ -18,6 +18,9 @@ public class ServerMethodsTest extends ServerMethods {
 	@Rule 
 	public ExpectedException thrown = ExpectedException.none();
 	
+	/**
+	 * Tests if the path to the json file is returned correctly.
+	 */
 	@Test
 	public void testSetGetDatabasePath() {
 		ServerMethods svmt = new ServerMethods();
@@ -25,13 +28,19 @@ public class ServerMethodsTest extends ServerMethods {
 		assertEquals(fakeFile, svmt.getDatabase());
 	}
 	
+	/**
+	 * Login method returns false if u try to log in with an unknown username.
+	 */
 	@Test
 	public void testNonExistentLogin() 
 	{// 1993@gmail.com doesn't exist in the database
 		String Loginstring = "{\"password\":\"pass1\",\"action\":\"login\",\"id\":\"1993@gmail.com\"}";
 		assertEquals(Login(Loginstring),"false");
 	}
-
+	
+	/**
+	 * Login method returns true if u try to log in with a known username.
+	 */
 	@Test
 	public void testtrueLogin() 
 	{// 120567wolfert@gmail.com does exist in the database
@@ -39,6 +48,9 @@ public class ServerMethodsTest extends ServerMethods {
 		assertEquals(Login(Loginstring),"true");
 	}
 	
+	/**
+	 * Login method returns false if u try to log in with a known username, but wrong password.
+	 */
 	@Test
 	public void testFalseLogin() 
 	{// Logging in with a wrong password
@@ -46,7 +58,11 @@ public class ServerMethodsTest extends ServerMethods {
 		assertEquals(Login(Loginstring),"false");
 	}
 
-	
+	/**
+	 * Register method returns false if u try to register with an already known username/mail.
+	 * @throws ParseException
+	 * 				creates a ParseException object by failure.
+	 */
 	@Test
 	public void testRegisterusernamealreadyexist() throws ParseException 
 	{// 120567wolfert@gmail.com already exist in the database
@@ -55,7 +71,12 @@ public class ServerMethodsTest extends ServerMethods {
 		//The username which the user choose already exist in the database	
 		assertEquals(Register(register),"false");	
 	}
-
+	
+	/**
+	 * Returns true if u try to register with an unknown username/mail.
+	 * @throws ParseException
+	 * 				creates a ParseException object by failure.
+	 */
 	@Test
 	public void testRegisterusernamenotexistyet() throws ParseException 
 	{// aaaaaaaaaaaa@gmail.com does not exist in the database, so the system will allow a new one to be written to database
@@ -65,6 +86,11 @@ public class ServerMethodsTest extends ServerMethods {
 		//this is to remove from database after testing
 	}
 	
+	/**
+	 * Tests if a ParseException is thrown by use of nonsense input.
+	 * @throws ParseException
+	 * 				creates a ParseException object by failure.
+	 */
 	@Test
 	public void testRegisterExeption() throws ParseException 
 	{
@@ -73,6 +99,11 @@ public class ServerMethodsTest extends ServerMethods {
 		Register(register);	
 	}
 	
+	/**
+	 * As long as a password and id is given, this method will work for any seletced action.
+	 * @throws ParseException
+	 * 				creates a ParseException object by failure.
+	 */
 	@Test
 	public void testRegisterWrongCommand() throws ParseException {
 		String Loginstring = "{\"password\":\"pass1\",\"action\":\"login\",\"id\":\"1993@gmail.com\"}";
@@ -80,6 +111,9 @@ public class ServerMethodsTest extends ServerMethods {
 		remove("{\"action\":\"removeaccount\",\"id\":\"1993@gmail.com\"}");
 	}
 
+	/**
+	 * When a user is logged in and makes a change and a key and value is given, the method returns true.
+	 */
 	@Test
 	public void testmodify() 
 	{// in case a user is logged in
@@ -93,22 +127,23 @@ public class ServerMethodsTest extends ServerMethods {
 
 	}
 	
-
+	/**
+	 * modify method returns false if no password and/or id is given or input is nonsense.
+	 */
 	@Test
 	public void testmodify2() 
 	{// in case a user is logged in
-		setDatabase(fakeFile);
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
 		Login(Loginstring);
-		String change = "INCOMING-CHANGE CurrentStudy Wiskunde";
-		
+		String change = "INCOMING-CHANGE CurrentStudy Wiskunde";		
 		assertEquals(modify(change), "false");
-		
-		//this is to change the database back after the test
-		setDatabase("database.json");
-
 	}
 	
+	/**
+	 * modify returns a NullPointerException if the use is not logged in when attempting to make a change.
+	 * 
+	 * @throws NullPointerException
+	 */
 	@Test
 	public void testmodify3() 
 	{// in case a user is not logged in
@@ -119,7 +154,9 @@ public class ServerMethodsTest extends ServerMethods {
 		
 		
 	}
-
+	 /**
+	  * Tests if the correct value corresponding with the key is returned.
+	  */
 	@Test
 	public void testget() 
 	{// in case a user is logged in
@@ -130,18 +167,11 @@ public class ServerMethodsTest extends ServerMethods {
 		assertEquals(get(input),"Michael");	
 	}
 	
+	/**
+	 * Returns false if the input is nonsense or relevant key is missing in the input
+	 */
 	@Test
 	public void testget2() 
-	{// in case a user is logged in
-		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
-		String input = "{\"action\":\"get\",\"key\":\"Course list\"}";
-		Login(Loginstring);
-		
-		assertEquals(get(input),"{\"Computer Graphics\":\"Need lots of help!\",\"Artificial Intelligence\":\"Really good at it\",\"Calculus\":\"Looking to improve ,so please help me!\",\"Web en Database\":\"I understand databases, but really struggling at web, can you help me?\"}");	
-	}
-	
-	@Test
-	public void testget3() 
 	{// in case a user is logged in
 		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
 		String input = "{\"action\":\"get\",:\"Course list\"}";
@@ -149,6 +179,9 @@ public class ServerMethodsTest extends ServerMethods {
 		assertEquals(get(input),"false");	
 	}
 	
+	/**
+	 * Returns false if the user is not logged in when using the get method.
+	 */
 	@Test
 	public void testget4() 
 	{// in case a user is not logged in		
@@ -156,7 +189,10 @@ public class ServerMethodsTest extends ServerMethods {
 		assertEquals(get(input),"false");	
 	}
 	
-
+	/**
+	 * 
+	 * @throws ParseException
+	 */
 	@Test
 	public void testremove() throws ParseException 
 	{//create a user first then remove it
