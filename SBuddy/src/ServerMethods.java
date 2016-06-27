@@ -15,7 +15,7 @@ import com.google.gson.JsonParser;
 public class ServerMethods {
 	 //Put your database path under here(Change \ to / if you gonna copy and paste the path)
 private  String pathdatabase = "database.json";
-private  user User;
+private  User User;
 	
 	public void setDatabase(String input){
 		pathdatabase = input;
@@ -64,7 +64,7 @@ private  user User;
 				String id = (String) json.get("id");
 				String password = (String) json.get("password");
 				
-			  	User = new user(id);
+			  	User = new User(id);
 			
 			  	if(User.get("Password").equals(password))
 			  	{
@@ -144,7 +144,7 @@ private  user User;
 			} catch (IOException e) {
 				respond = "false";
 			}
-             user usr = new user (id);
+             User usr = new User (id);
              try {
 				usr.modify("JoinDate", ZonedDateTime.now().format(DateTimeFormatter.ofPattern("h:m:a:d:M:y")));
             	
@@ -229,7 +229,7 @@ private  user User;
 			String key = (String) json.get("key");
 			String id = (String) json.get("id");
 			System.out.println(key);
-	        user otheruser = new user(id);
+	        User otheruser = new User(id);
 	        return otheruser.get(key);
 		} catch (ParseException e) {
 			return "false";
@@ -278,7 +278,7 @@ private  user User;
     public  boolean SearchEngineTRUEFALSE1(String username, String key, String tosearch)
     {
     	boolean response = false;
-    	user usertosearch = new user(username);
+    	User usertosearch = new User(username);
     	
 		if((usertosearch.get(key).toLowerCase().contains(tosearch.toLowerCase().trim())))
 		{
@@ -321,7 +321,7 @@ private  user User;
     public  boolean SearchEngineTRUEFALSE(String username, String tosearch)
     {
     	boolean response = false;
-    	user usertosearch = new user(username);
+    	User usertosearch = new User(username);
     	
     	if(usertosearch.get("Available").equals("true")&&usertosearch.toString().toLowerCase().contains(tosearch.toLowerCase()))
     		response = true;

@@ -6,14 +6,15 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 /**
- * This class functions as an answer machine for the client. The client makes
- * a request and the request goes through this class to search for an answer in
+ * This class functions as an answer machine for the client. The client makes a
+ * request and the request goes through this class to search for an answer in
  * the database.
  */
 
 public class ClientListener implements Runnable {
 	private Socket connection;
 	private PrintWriter out;
+
     private BufferedReader in;
     private MessageFilter filter = new MessageFilter();
     private Parser parser = new Parser();
@@ -40,11 +41,15 @@ public class ClientListener implements Runnable {
             in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             sendMessage("Connection successful");          
             while(!(message=(String)in.readLine()).equals("exit")) {
-				
+				System.out.println(
+						connection.getInetAddress().getHostName() + "> " + connection.getPort() + "> " + message);
+
+
 				if (message.equals("exit")) {
 					sendMessage("exit");
 					break;
 				}
+
 				System.out.println(connection.getInetAddress().getHostName() 
 						+ "> "  + connection.getPort() + "> "   + message);		
 				message2 = parser.parseMessage(message);
@@ -91,5 +96,5 @@ public class ClientListener implements Runnable {
     {
         out.println(msg);
 		out.flush();
-    }
+	}
 }

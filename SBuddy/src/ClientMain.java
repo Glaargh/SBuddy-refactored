@@ -10,6 +10,10 @@ public class ClientMain extends Application {
 	
 	private Client client;
 	
+	/**
+	 * Launch the client
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -26,16 +30,13 @@ public class ClientMain extends Application {
 		
 		connect(args);
 		
-		
 		Design GUI = new Design(client);
 		GUI.start(primaryStage);
 	}
 	
-	public void connect(String[] connection){
-		client= new Client(connection);
-		Thread ClientSocket= new Thread(client);
+	public void connect(String[] connection) {
+		client = new Client(connection);
+		Thread ClientSocket = new Thread(client);
 		ClientSocket.start();
-		
 	}
-	
 }
