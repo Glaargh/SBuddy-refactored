@@ -320,10 +320,6 @@ private  user User;
     
     public  boolean SearchEngineTRUEFALSE(String username, String tosearch)
     {
-    	JSONArray databaseupdated = read(pathdatabase);
-    	JSONObject mainobj = new JSONObject();
-    	JSONArray userinfo = new JSONArray();
-    	JSONObject obj = new JSONObject();
     	boolean response = false;
     	user usertosearch = new user(username);
     	

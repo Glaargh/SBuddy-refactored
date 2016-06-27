@@ -360,7 +360,7 @@ public class ServerMethodsTest extends ServerMethods {
 		JSONArray Database = read(getDatabase());
 		assertFalse(svmt.StringExist(Database, "mke@gmail.com"));
 	}
-	
+/*
 	@Test
 	public void testStringExist3(){
 		ServerMethods svmt = new ServerMethods();
@@ -372,24 +372,65 @@ public class ServerMethodsTest extends ServerMethods {
 		
 		svmt.setDatabase("database.json");
 	}
-/*	
+*/
+
 	
 
 	
 	@Test
 	public void testMatchEngine() 
 	{
-		Register("INCOMING-REGISTER¿wolfertvanborselen@gmail.com¿pass¿Steve¿Lei");
-		Login("INCOMING-LOGIN¿wolfertvanborselen@gmail.com¿pass");
-		modify("INCOMING-CHANGE CurrentStudy teststudy");
-		modify("INCOMING-CHANGE CurrentUniversity testuniversity");
-		modify("INCOMING-CHANGE CityOfResidence teststad");
-		modify("INCOMING-CHANGE Available true");
-		String command = "INCOMING-MATCH¿teststudy¿testuniversity¿teststad";
-		assertEquals(MatchEngine(command), "[wolfertvanborselen@gmail.com]");
-		remove("INCOMING-REMOVE¿wolfertvanborselen@gmail.com¿pass");
+		String command = "{\"uni\":\"Technical University of Delft\",\"study\":\"Computer Science\",\"city\":\"The Hague\"}";
+		assertEquals(MatchEngine(command), "[120567wolfert@gmail.com, pimdhn@gmail.com, naqib@hotmail.com, lufther@gmail.com, michael@gmail.com]");
+	}
+	
+	@Test
+	public void testMatchEngine2() 
+	{
+		String command = "cwo";
+		assertEquals(MatchEngine(command), "false");
+	}
+	
+
+	@Test
+	public void testMatchEngine3() 
+	{
+		String Loginstring = "{\"password\":\"michael1\",\"action\":\"login\",\"id\":\"michael@gmail.com\"}";
+		Login(Loginstring);
+		modify("{\"action\":\"change\",\"value\":\"false\",\"key\":\"Available\"}");
+		String command = "{\"uni\":\"Technical University of Delft\",\"study\":\"Computer Science\",\"city\":\"The Hague\"}";
+		assertEquals(MatchEngine(command), "[120567wolfert@gmail.com, pimdhn@gmail.com, naqib@hotmail.com, lufther@gmail.com]");
+		modify("{\"action\":\"change\",\"value\":\"true\",\"key\":\"Available\"}");
+	}
+	
+	@Test
+	public void testMatchEngine4() 
+	{
+		
+		String command = "{\"uni\":\"Technical University of Delft\",\"study\":\"cwm\",\"city\":\"kcw\"}";
+		assertEquals(MatchEngine(command), "[120567wolfert@gmail.com, pimdhn@gmail.com, naqib@hotmail.com, lufther@gmail.com, michael@gmail.com]");
 		
 	}
+	
+	@Test
+	public void testMatchEngine5() 
+	{
+		
+		String command = "{\"uni\":\"dcne\",\"study\":\"wkmck\",\"city\":\"Amsterdam\"}";
+		assertEquals(MatchEngine(command), "[Steveemail@gmail.com, lufther@gmail.com, josie@gmal.com]");
+		
+	}
+	
+/*	
+
+	@Test
+	public void testMatchEngine3() 
+	{
+		String command = "{\"uni\":\"Technical University of Delft\",\"study\":\"Computer Science\"}";
+		assertEquals(MatchEngine(command), "false");
+	}
+	
+	/*
 	@Test
 	public void testMatchEngine1() 
 	{//remove a user that does not exist in the database
