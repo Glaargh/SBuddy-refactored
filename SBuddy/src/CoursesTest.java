@@ -92,6 +92,6 @@ public class CoursesTest {
 	@Test
 	public void testSetEmail() {
 		myCourses.setFirstName("OtherThanHi");
-		assertEquals(expectedSetEmail, myCourses.getEmail());
+		assertEquals(expectedEmail, myCourses.getEmail());
 	}
 }
