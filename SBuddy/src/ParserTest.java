@@ -1,8 +1,16 @@
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.Test;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class ParserTest {
 	Parser testParser;
@@ -27,13 +35,20 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testParseCourses() {
-		fail("Not yet implemented");
+	public void testParseCourses() throws ParseException {
+		List list = new ArrayList();
+		ObservableList<Courses> inputlist = FXCollections.observableList(list);
+		//Test using example courses list.
+		String inputString = "{\"Computer Graphic\":\"I need help and if you need some money, please contact me.\",\"Calculus\":\"***Freshmen Only*** I can offer help for a small fee.\",\"Computer Organization\":\"Anyone available on friday and need a study buddy just contact me.\",\"Lineaire Algebra\":\"***Second year*** Would you like to have an awesome study buddy? Message me!\",\"Object Oriented Programming\":\"***Freshmen Only*** Are you bad at it? You need some help? I\'m the right person!\"}";
+		//Test that it returns an instance of ObservableList when given an observablelist.
+		assertTrue(testParser.parseCourses(inputString, inputlist) instanceof ObservableList);
 	}
 
 	@Test
 	public void testParseAvailability() {
-		fail("Not yet implemented");
+		String[] blegh = new String[20];
+		Client client = new Client(blegh);
+		System.out.println(testParser.parseAvailability(client , "blegh"));
 	}
 
 	@Test
