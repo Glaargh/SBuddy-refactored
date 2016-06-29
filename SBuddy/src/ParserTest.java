@@ -9,8 +9,12 @@ import org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.sun.javafx.application.PlatformImpl;
+
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
 
 public class ParserTest {
 	Parser testParser;
@@ -36,12 +40,35 @@ public class ParserTest {
 
 	@Test
 	public void testParseCourses() throws ParseException {
+		//To prevent errors because of a lack of toolkit initialization
+		PlatformImpl.startup(() -> {});
+		
+		String teststring = "";
 		List list = new ArrayList();
 		ObservableList<Courses> inputlist = FXCollections.observableList(list);
+		ListView<String> listview = new ListView<String>();
+		User testuser = new User("");
+		
 		//Test using example courses list.
 		String inputString = "{\"Computer Graphic\":\"I need help and if you need some money, please contact me.\",\"Calculus\":\"***Freshmen Only*** I can offer help for a small fee.\",\"Computer Organization\":\"Anyone available on friday and need a study buddy just contact me.\",\"Lineaire Algebra\":\"***Second year*** Would you like to have an awesome study buddy? Message me!\",\"Object Oriented Programming\":\"***Freshmen Only*** Are you bad at it? You need some help? I\'m the right person!\"}";
-		//Test that it returns an instance of ObservableList when given an observablelist.
+		
+		//Test that it returns an instance of ObservableList when given an observablelist as input.
 		assertTrue(testParser.parseCourses(inputString, inputlist) instanceof ObservableList);
+		//Since a correct list of courses can't be generated easily, comparing the result with anything is nigh impossible.
+		//Test that it returns an instance of listview if given a listview as input.
+		assertTrue(testParser.parseCourses(inputString, listview) instanceof ListView);
+		//Test that it returns an instance of string if given a string as input.
+		assertTrue(testParser.parseCourses(inputString, teststring) instanceof String);
+		//Attempt with non-string object.
+		assertNull(testParser.parseCourses(inputString, testuser));
+		
+		//Test using empty courses list.
+		String empty = "{}";
+		
+		//Test that it returns the object it is given as input if the courses list is empty (and the object type is acceptable).
+		assertEquals(testParser.parseCourses(empty, empty),empty);
+		assertEquals(testParser.parseCourses(empty, listview),listview);
+		assertEquals(testParser.parseCourses(empty, inputlist),inputlist);
 	}
 
 	@Test
