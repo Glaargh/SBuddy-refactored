@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 
 import org.json.simple.parser.ParseException;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -203,5 +204,14 @@ public class MessageFilterTest {
 		outcome = myMFilter.filterMessage(incomingRequest, expectedDefault);
 		assertEquals(expectedDefault, outcome);
 	}
+	
+	//Attempt at testing the exception case
+	/*
+	@Test(expected = Exception.class)
+	public void testException() throws ParseException{
+		myMFilter.filterMessage(new String(), "bla");
+	}*/
+	
+	
 
 }
