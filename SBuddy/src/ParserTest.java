@@ -9,7 +9,7 @@ import org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sun.javafx.application.PlatformImpl;
+//import com.sun.javafx.application.PlatformImpl;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -41,7 +41,7 @@ public class ParserTest implements Runnable {
 	@Test
 	public void testParseCourses() throws ParseException {
 		//To prevent errors because of a lack of toolkit initialization
-		PlatformImpl.startup(() -> {});
+		//PlatformImpl.startup(() -> {});
 		
 		String teststring = "";
 		List list = new ArrayList();
@@ -112,9 +112,17 @@ public class ParserTest implements Runnable {
 		assertEquals(matchEmails,matchEmails2);
 	}
 
-	@Test
+	//@Test
 	public void testParseMatches() {
-		fail("Not yet implemented");
+		(new Thread(new ParserTest())).run();
+		String[] args = {"localhost", "8080"};
+		Client client = new Client(args);
+		client.run();
+		//client.sendMessage(msg);
+		Parser parser = new Parser();
+		parser.parseMatches(client, "pimdhn@gmail.com", "Calculus", "true");
+		
+		
 	}
 
 	@Override
@@ -123,6 +131,7 @@ public class ParserTest implements Runnable {
 		//Duplicate Provider code.
 		System.out.println("Server is running");
 		Provider server = new Provider(8080);
+		String[] a = {"localhost","8080"};
 		server.run();
 	}
 
