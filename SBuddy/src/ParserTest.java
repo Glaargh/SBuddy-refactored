@@ -85,7 +85,25 @@ public class ParserTest {
 
 	@Test
 	public void testParseMatchedEmails() {
-		fail("Not yet implemented");
+		//Create Strings and ArrayList<String> as input.
+		String search = "[120567wolfert@gmail.com, pimdhn@gmail.com, SteveJobs@gmail.com, Steveemail@gmail.com, naqib@gmail.com, dario@gmail.com, lufther@gmail.com, michael@gmail.com, josie@gmail.com]";
+		ArrayList<String> matchEmails = new ArrayList<String>(); 
+		String curEmail = "120567wolfert@gmail.com";
+		
+		//Create ArrayList<String> whose contents are
+		//consistent with the expected effect of the parseMatchedEmails method upon the arraylist used as input.
+		ArrayList<String> matchEmails2 = new ArrayList<String>(); 
+		matchEmails2.add("pimdhn@gmail.com");
+		matchEmails2.add("SteveJobs@gmail.com");
+		matchEmails2.add("Steveemail@gmail.com");
+		matchEmails2.add("naqib@gmail.com");
+		matchEmails2.add("dario@gmail.com");
+		matchEmails2.add("lufther@gmail.com");
+		matchEmails2.add("michael@gmail.com");
+		matchEmails2.add("josie@gmail.com");
+		
+		testParser.parseMatchedEmails(search, matchEmails, curEmail);
+		assertEquals(matchEmails,matchEmails2);
 	}
 
 	@Test
