@@ -16,7 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 
-public class ParserTest {
+public class ParserTest implements Runnable {
 	Parser testParser;
 
 	@Before
@@ -73,9 +73,15 @@ public class ParserTest {
 
 	@Test
 	public void testParseAvailability() {
-		String[] blegh = new String[20];
-		Client client = new Client(blegh);
+		//Duplicate Provider code.
+		//int port = 8080;
+		//Provider server = new Provider(port);
+		//server.run();
+		(new Thread(new ParserTest())).start();
+		String[] args = {"localhost", "8080"};
+		Client client = new Client(args);
 		System.out.println(testParser.parseAvailability(client , "blegh"));
+		//server.terminate();
 	}
 
 	@Test
@@ -109,6 +115,15 @@ public class ParserTest {
 	@Test
 	public void testParseMatches() {
 		fail("Not yet implemented");
+	}
+
+	@Override
+	public void run() {
+		//Make a server
+		//Duplicate Provider code.
+		System.out.println("Server is running");
+		Provider server = new Provider(8080);
+		server.run();
 	}
 
 }
