@@ -14,104 +14,81 @@ import org.json.simple.parser.ParseException;
 public class ClientListener implements Runnable {
 	private Socket connection;
 	private PrintWriter out;
-	private BufferedReader in;
-	private ServerMethods srvmt = new ServerMethods();
-
-	/**
-	 * Construct the class with the Socket
-	 * 
-	 * @param connectionIn
-	 */
-	public ClientListener(Socket connectionIn) {
-		this.connection = connectionIn;
-	}
-
-	/**
-	 * Will respond to the client based on its given action in its JSONObject
-	 */
-	public void run() {
-		String message;
-		try {
-
-			// 3. get Input and Output streams
-			out = new PrintWriter(connection.getOutputStream(), true);
-			// out.flush();
-			in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			sendMessage("Connection successful");
-
-			while (!(message = (String) in.readLine()).equals("exit")) {
-				System.out.println(
-						connection.getInetAddress().getHostName() + "> " + connection.getPort() + "> " + message);
-
+    private BufferedReader in;
+    private MessageFilter filter = new MessageFilter();
+    private Parser parser = new Parser();
+    
+    
+    /**
+     * Construct the class with the Socket
+     * @param connectionIn
+     */
+    public ClientListener(Socket connectionIn){
+    	this.connection = connectionIn;	
+    }
+    
+    /**
+     * Will respond to the client based on its given action in its JSONObject
+     */
+    public void run()
+    {
+        String message, message2;
+    	try{          
+            //3. get Input and Output streams
+            out = new PrintWriter(connection.getOutputStream(), true);
+            //out.flush();
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            sendMessage("Connection successful");          
+            while(!(message=(String)in.readLine()).equals("exit")) {
 				if (message.equals("exit")) {
 					sendMessage("exit");
 					break;
 				}
-
-				JSONParser parser = new JSONParser();
-
-				JSONObject json = (JSONObject) parser.parse(message);
-				String action = (String) json.get("action");
-
-				switch (action) {
-				case "login":
-					sendMessage(srvmt.Login(message));
-					break;
-				case "register":
-					sendMessage(srvmt.Register(message));
-					break;
-				case "get":
-					sendMessage(srvmt.get(message));
-					break;
-				case "change":
-					sendMessage(srvmt.modify(message));
-					break;
-				case "getother":
-					sendMessage(srvmt.getothers(message));
-					break;
-				case "changecourse":
-					sendMessage(srvmt.addormodifycourse(message));
-					break;
-				case "removecourse":
-					sendMessage(srvmt.removecourse(message));
-					break;
-				case "match":
-					sendMessage(srvmt.MatchEngine(message));
-					break;
-				case "search":
-					sendMessage(srvmt.SearchEngine(message));
-					break;
-				case "removeaccount":
-					sendMessage(srvmt.remove(message));
-					break;
-				default:
-					sendMessage(message);
-					break;
-				}
-			}
-		} catch (IOException ioException) {
-			ioException.printStackTrace();
-		} catch (ParseException e) {
+				System.out.println(connection.getInetAddress().getHostName() 
+						+ "> "  + connection.getPort() + "> "   + message);		
+				message2 = parser.parseMessage(message);
+				System.out.println(message2);
+				sendMessage(filter.filterMessage(message2, message));
+			}    
+        }
+        catch(IOException ioException){
+            ioException.printStackTrace();
+        }
+        finally{
+            //4: Closing connection
+            try{
+                in.close();
+                out.close();
+                connection.close();
+            }
+            catch(IOException ioException){
+                ioException.printStackTrace();
+            }
+        }
+    }
+    
+   /* public String parseMessage(String message){
+    	String action = null;
+    	try{
+    		System.out.println(connection.getInetAddress().getHostName() 
+					+ "> "  + connection.getPort() + "> "   + message);			
+			JSONParser parser = new JSONParser();
+			JSONObject json = (JSONObject) parser.parse(message);
+			action = (String) json.get("action");
+    	} catch (ParseException e) {
 			e.printStackTrace();
-		} finally {
-			// 4: Closing connection
-			try {
-				in.close();
-				out.close();
-				connection.close();
-			} catch (IOException ioException) {
-				ioException.printStackTrace();
-			}
 		}
-	}
-
-	/**
-	 * Sends a message to the client
-	 * 
-	 * @param msg
-	 */
-	public void sendMessage(String msg) {
-		out.println(msg);
+    	return action;
+    } */
+    
+    
+    /**
+     * Sends a message to the client
+     * @param msg
+     */
+    public void sendMessage(String msg)
+    {
+        out.println(msg);
 		out.flush();
 	}
 }

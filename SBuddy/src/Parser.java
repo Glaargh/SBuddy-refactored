@@ -202,5 +202,15 @@ public class Parser {
 		}
 
 	}
-
+	
+	 public String parseMessage(String message){
+	    	String action = null;
+	    	try{
+				JSONObject json = (JSONObject) parser.parse(message);
+				action = (String) json.get("action");
+	    	} catch (ParseException e) {
+				e.printStackTrace();
+			}
+	    	return action;
+	    }
 }

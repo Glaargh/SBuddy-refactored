@@ -207,7 +207,7 @@
         "CurrentStudy": "Computer Science",
         "Piclink": "http://www.sandiego.edu/business/images/michael-tran.jpg",
         "Email": "michael@gmail.com",
-        "Description": "I love my study and working with others:)!",
+        "Description": "I like this study and working with others",
         "Placepic": "http://i67.tinypic.com/15fje5g.jpg",
         "Lastname": "Tran",
         "StudyPeriod": "2015-2018",
@@ -215,6 +215,7 @@
         "Firstname": "Michael",
         "Phone": "0649784653",
         "Course list": {
+          "Computer Graphics": "Need lots of help!",
           "Artificial Intelligence": "Really good at it",
           "Calculus": "Looking to improve ,so please help me!",
           "Web en Database": "I understand databases, but really struggling at web, can you help me?"

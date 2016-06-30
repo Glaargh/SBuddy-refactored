@@ -17,6 +17,14 @@ public class ServerMethods {
 private  String pathdatabase = "database.json";
 private  User User;
 	
+	public void setDatabase(String input){
+		pathdatabase = input;
+	}
+	
+	public String getDatabase(){
+		return pathdatabase;
+	}
+
 	public  JSONArray read(String path)
 	{
 		JSONParser parser = new JSONParser();
@@ -230,10 +238,11 @@ private  User User;
 	
 	
 	
-    private  boolean StringExist(JSONArray jsonArray, String usernameToFind) 
+    public  boolean StringExist(JSONArray jsonArray, String usernameToFind) 
     {//method to find out if the inserted string (email) already exist in the system.
         return jsonArray.toString().contains(usernameToFind);
     }
+ 
     public  String remove(String removecommand)
     {//INCOMING-REMOVE¿jUnittest@gmail.com
     	JSONArray Database = read(pathdatabase);
@@ -268,10 +277,6 @@ private  User User;
     
     public  boolean SearchEngineTRUEFALSE1(String username, String key, String tosearch)
     {
-    	JSONArray databaseupdated = read(pathdatabase);
-    	JSONObject mainobj = new JSONObject();
-    	JSONArray userinfo = new JSONArray();
-    	JSONObject obj = new JSONObject();
     	boolean response = false;
     	User usertosearch = new User(username);
     	
@@ -315,10 +320,6 @@ private  User User;
     
     public  boolean SearchEngineTRUEFALSE(String username, String tosearch)
     {
-    	JSONArray databaseupdated = read(pathdatabase);
-    	JSONObject mainobj = new JSONObject();
-    	JSONArray userinfo = new JSONArray();
-    	JSONObject obj = new JSONObject();
     	boolean response = false;
     	User usertosearch = new User(username);
     	
