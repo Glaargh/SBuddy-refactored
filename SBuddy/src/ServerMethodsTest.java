@@ -520,7 +520,7 @@ public class ServerMethodsTest extends ServerMethods {
 	{
 		
 		String command = "{\"uni\":\"dcne\",\"study\":\"wkmck\",\"city\":\"Amsterdam\"}";
-		assertEquals(MatchEngine(command), "[Steveemail@gmail.com, lufther@gmail.com, josie@gmal.com]");
+		assertEquals(MatchEngine(command), "[Steveemail@gmail.com, lufther@gmail.com, josie@gmal.com, fatima@gmail.com]");
 		
 	}
 	
